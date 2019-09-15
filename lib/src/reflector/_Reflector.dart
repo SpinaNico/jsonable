@@ -24,10 +24,11 @@ class _ReflectVariable
       if (val.reflectee is JsonNote) this.setJsonNote(val.reflectee);
     }
   }
-  Symbol get name => this.keyName == null ? this._name : this.keyName;
+  Symbol get name => this._name;
   get value => this._instanceMirror.reflectee;
   Type get type => this._instanceMirror.reflectee.runtimeType;
-  String get stringName => MirrorSystem.getName(this.name);
+  String get stringName =>
+      this.keyName == null ? MirrorSystem.getName(this.name) : this.keyName;
 }
 
 class _ReflectGetter
@@ -44,14 +45,15 @@ class _ReflectGetter
       if (val.reflectee is JsonNote) this.setJsonNote(val.reflectee);
     }
   }
-  Symbol get name => this.keyName == null ? this._name : this.keyName;
+  Symbol get name => this._name;
   @override
   invoke() {
     return this._function();
   }
 
   Type get type => Function;
-  String get stringName => MirrorSystem.getName(this.name);
+  String get stringName =>
+      this.keyName == null ? MirrorSystem.getName(this.name) : this.keyName;
 }
 
 class _ReflectSetter implements ReflectSetter {
@@ -69,6 +71,7 @@ class _ReflectSetter implements ReflectSetter {
 
   Type get type => Function;
   String get stringName => MirrorSystem.getName(this.name);
+  bool get exclude => false;
 }
 
 class _ReflectInstance
@@ -112,9 +115,9 @@ class _ReflectInstance
   List<ReflectGetter> get methods => this._getter;
   List<ReflectSetter> get setters => this._setters;
 
-  Symbol get name => this.keyName == null ? this._name : this.keyName;
+  Symbol get name => this._name;
   Type get type => this._instance.type.reflectedType;
   InstanceMirror get instance => this._instance;
-
-  String get stringName => MirrorSystem.getName(this.name);
+  String get stringName =>
+      this.keyName == null ? MirrorSystem.getName(this.name) : this.keyName;
 }

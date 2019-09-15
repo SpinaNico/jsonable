@@ -14,6 +14,23 @@ mixin mixinMap {
   }
 }
 
+Map<String, dynamic> _makeMap(String name, dynamic value) {
+  Map<String, dynamic> result = {};
+  if (value is List<Jsonable>) {
+    result.addAll({name: value.map((v) => mapable(v)).toList()});
+  } else if (value is List<Mapable>) {
+    result.addAll({name: value.map((v) => v.toMap()).toList()});
+  } else if (value is Jsonable) {
+    result.addAll({name: mapable(value)});
+  } else if (value is Mapable) {
+    result.addAll({name: value.toMap()});
+  } else {
+    result.addAll({name: value});
+  }
+
+  return result;
+}
+
 dynamic mapable(Object o) {
   if (o is List) {
     return o.map((val) => mapable(val)).toList();
@@ -25,20 +42,10 @@ dynamic mapable(Object o) {
   var r = reflection(o);
   Map<String, dynamic> result = {};
   for (var variable in r.variables) {
+    if (variable.exclude == true) continue;
     var value = variable.value;
     var name = MirrorSystem.getName(variable.name);
-
-    if (value is List<Jsonable>) {
-      result.addAll({name: value.map((v) => mapable(v)).toList()});
-    } else if (value is List<Mapable>) {
-      result.addAll({name: value.map((v) => v.toMap()).toList()});
-    } else if (value is Jsonable) {
-      result.addAll({name: mapable(value)});
-    } else if (value is Mapable) {
-      result.addAll({name: value.toMap()});
-    } else {
-      result.addAll({name: value});
-    }
+    result.addAll(_makeMap(name, value));
   }
   return result;
 }
@@ -48,6 +55,7 @@ dynamic rawfromMap(dynamic o, Map<String, dynamic> data) {
   var t = reflection(o);
 
   for (var variable in t.variables) {
+    if (variable.exclude == true) continue;
     if (data.containsKey(variable.stringName)) {
       if (variable.value is Mapable) {
         variable.value.fromMap(data[variable.stringName]);

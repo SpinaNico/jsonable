@@ -12,6 +12,6 @@ mixin mixinJsonNote {
     this._jsonNotes = note;
   }
 
-  String get keyNamse => this._jsonNotes.keyName;
-  bool get exclude => this._jsonNotes.exclude;
+  String get keyName => this._jsonNotes?.keyName;
+  bool get exclude => this._jsonNotes == null ? false : this._jsonNotes.exclude;
 }

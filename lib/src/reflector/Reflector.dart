@@ -10,6 +10,7 @@ abstract class Reflect {
   Type get type;
   Symbol get name;
   String get stringName => MirrorSystem.getName(this.name);
+  bool get exclude;
 }
 
 abstract class ReflectGetter extends Reflect {
