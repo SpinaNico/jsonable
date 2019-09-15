@@ -1,7 +1,7 @@
 import "dart:mirrors";
 import "../jsonable.dart";
 
-mixin mapMixin {
+mixin mixinMap {
   fromMap(Map<String, dynamic> values) {
     rawfromMap(this, values);
   }
