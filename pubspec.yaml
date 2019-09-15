@@ -1,6 +1,8 @@
 name: jsonable
 description: Simple package for converting Dart class to Json
+author: Spina Nico
 version: 0.0.1
+repository: https://github.com/SpinaNico/jsonable
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
