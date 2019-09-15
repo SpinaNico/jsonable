@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import "./reflector/Reflector.dart";
-import "dart:mirrors";
 import "../jsonable.dart";
 
 mixin mixinMap {
@@ -80,4 +78,8 @@ dynamic rawfromMap(dynamic o, Map<String, dynamic> data) {
     }
   }
   return o;
+}
+
+List<E> mapableList<E>(List<Map<dynamic, dynamic>> values) {
+  throw "not implemented";
 }

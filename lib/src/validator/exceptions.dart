@@ -1,12 +1,20 @@
+import 'package:jsonable/jsonable.dart';
+
+enum JsonableError { length, min, max, required, nullable }
+
 class JsonableException implements Exception {
   String message;
   JsonableException({this.message});
+  @override
+  String toString() => this.message;
 }
 
-// class JsonableVariableException extends JsonableException {
-//   JsonableVariableException({String message}) : super(message: message);
-// }
+class JsonableReportError extends JsonableMapable {
+  JsonableReportError();
+  List<JsonableException> errors = [];
+  bool error = false;
 
-// class JsonableGetterException extends JsonableException {
-//   JsonableGetterException({String message}) : super(message: message);
-// }
+  toString() {
+    return this.toJson();
+  }
+}

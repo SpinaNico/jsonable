@@ -16,3 +16,7 @@ mixin mixinJson {
 String jsonable(Object o) {
   return jsonEncode(mapable(o));
 }
+
+List<E> jsonableList<E>(String json) {
+  throw "Not implemented";
+}

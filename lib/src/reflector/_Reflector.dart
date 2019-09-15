@@ -71,6 +71,8 @@ class _ReflectSetter implements ReflectSetter {
   Type get type => Function;
   String get stringName => MirrorSystem.getName(this.name);
   bool get exclude => false;
+
+  validate(String name, value) => null;
 }
 
 class _ReflectInstance

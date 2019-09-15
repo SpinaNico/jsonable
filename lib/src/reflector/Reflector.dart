@@ -5,10 +5,10 @@ import 'dart:mirrors';
 import 'package:jsonable/src/validator/exceptions.dart';
 
 abstract class ReflectValidator {
-  Map<String, JsonableException> validate(String name, dynamic value);
+  List<JsonableException> validate(String name, dynamic value);
 }
 
-abstract class Reflect {
+abstract class Reflect extends ReflectValidator {
   Type get type;
   Symbol get name;
   String get stringName => MirrorSystem.getName(this.name);
