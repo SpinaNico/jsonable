@@ -7,12 +7,14 @@ mixin mixinJson {
   }
 
   fromJson(String json) {
-    Map<String, dynamic> c = jsonDecode(json);
+    dynamic c = jsonDecode(json);
     rawfromMap(this, c);
   }
 }
 
 ///This function receives an object and returns the json string of its fields
 String jsonable(Object o) {
-  return jsonEncode(mapable(o));
+  return jsonEncode(
+    mapable(o),
+  );
 }

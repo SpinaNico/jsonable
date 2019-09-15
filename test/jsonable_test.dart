@@ -3,8 +3,6 @@ import 'dart:convert';
 import "package:test/test.dart";
 import "package:jsonable/jsonable.dart";
 
-import 'simple_annotation_test.dart';
-
 class Person extends Jsonable {
   final String name;
   final String surname;
@@ -24,14 +22,25 @@ class myTestWithListOfJsonable extends Jsonable {
   ];
 }
 
+List<Jsonable> persons = [
+  Person(name: "Mario", surname: "Bross"),
+  Person(name: "Mark", surname: "Zuckerberg"),
+  Person(name: "Elon", surname: "Musk")
+];
+
+class Composed extends Jsonable {
+  var person = Person(name: "Mario", surname: "Rossi");
+}
+
 main() {
-  group("jsonable test", () {
-    var c = Person();
-    var withList = MyTestWithNormalList();
-    var jsonableList = myTestWithListOfJsonable();
+  var person = Person();
+  var withList = MyTestWithNormalList();
+  var jsonableList = myTestWithListOfJsonable();
+  var composed = Composed();
+  group("jsonable class test", () {
     test("toJson it work?", () {
       var s = jsonEncode({"name": "ugo", "surname": "rossi"});
-      expect(c.toJson(), s);
+      expect(person.toJson(), s);
     });
 
     test("json with normal list", () {
@@ -50,6 +59,42 @@ main() {
         ]
       });
       expect(jsonableList.toJson(), s);
+    });
+
+    test("jsonable composed class", () {
+      var s = jsonEncode({
+        "person": {"name": "Mario", "surname": "Rossi"},
+      });
+      expect(composed.toJson(), s);
+    });
+  });
+
+  group("function jsonable()", () {
+    test("basilar class ", () {
+      var s = jsonEncode({"name": "ugo", "surname": "rossi"});
+      expect(jsonable(person), s);
+    });
+
+    test(" list of Jsonable", () {
+      var s = jsonEncode([
+        {"name": "Mario", "surname": "Bross"},
+        {"name": "Mark", "surname": "Zuckerberg"},
+        {"name": "Elon", "surname": "Musk"},
+      ]);
+      expect(jsonable(persons), s);
+    });
+
+    test("jsonable Map of Jsonable", () {
+      var s = jsonEncode({
+        "mario": {"name": "Mario", "surname": "Bross"},
+        "mark": {"name": "Mark", "surname": "Zuckerberg"}
+      });
+      expect(
+          jsonable({
+            "mario": Person(name: "Mario", surname: "Bross"),
+            "mark": Person(name: "Mark", surname: "Zuckerberg")
+          }),
+          s);
     });
   });
 }
