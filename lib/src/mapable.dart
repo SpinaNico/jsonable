@@ -12,14 +12,28 @@ mixin mixinMap {
 }
 
 ///This function receives an object and returns the Map of its fields
-Map<String, dynamic> mapable(Object o) {
+dynamic mapable(Object o) {
+  if (o is List) {
+    return o.map((element) => mapable(element)).toList();
+  }
+
+  if (o is Map) {
+    return o.map((k, v) => MapEntry(k, mapable(v)));
+  }
   Map<String, dynamic> result = {};
   var t = reflect(o);
   for (var v in t.type.declarations.values) {
     var name = MirrorSystem.getName(v.simpleName);
     if (v is VariableMirror && v.isPrivate == false) {
       var value = t.getField(v.simpleName).reflectee;
-      if (value is Mapable) {
+
+      if (value is List<Jsonable>) {
+        result.addAll({"$name": value.map((v) => mapable(v)).toList()});
+      } else if (value is List<Mapable>) {
+        result.addAll({"$name": value.map((v) => v.toMap()).toList()});
+      } else if (value is Jsonable) {
+        result.addAll({"$name": mapable(value)});
+      } else if (value is Mapable) {
         result.addAll({"$name": value.toMap()});
       } else {
         result.addAll({"$name": value});

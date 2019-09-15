@@ -1,25 +1,55 @@
+import 'dart:convert';
+
 import "package:test/test.dart";
 import "package:jsonable/jsonable.dart";
 
-class MyTestClass extends Jsonable {
-  String name = "ugo";
-  String surname = "rossi";
+import 'simple_annotation_test.dart';
+
+class Person extends Jsonable {
+  final String name;
+  final String surname;
+  Person({this.name: "ugo", this.surname: "rossi"});
+  toString() => "null";
 }
 
-class myTestClassWithList extends Jsonable {
+class MyTestWithNormalList extends Jsonable {
   List<String> l = ["hello", "world"];
+}
+
+class myTestWithListOfJsonable extends Jsonable {
+  List<Person> contacts = [
+    Person(name: "Mario", surname: "Bross"),
+    Person(name: "Mark", surname: "Zuckerberg"),
+    Person(name: "Elon", surname: "Musk")
+  ];
 }
 
 main() {
   group("jsonable test", () {
-    var c = MyTestClass();
-    var withList = myTestClassWithList();
+    var c = Person();
+    var withList = MyTestWithNormalList();
+    var jsonableList = myTestWithListOfJsonable();
     test("toJson it work?", () {
-      expect(c.toJson(), """{"name":"ugo","surname":"rossi"}""");
+      var s = jsonEncode({"name": "ugo", "surname": "rossi"});
+      expect(c.toJson(), s);
     });
 
-    test("json with list", () {
-      expect(withList.toJson(), """{"l":["hello","world"]}""");
+    test("json with normal list", () {
+      var s = jsonEncode({
+        "l": ["hello", "world"]
+      });
+      expect(withList.toJson(), s);
+    });
+
+    test("json with jsonable list", () {
+      var s = jsonEncode({
+        "contacts": [
+          {"name": "Mario", "surname": "Bross"},
+          {"name": "Mark", "surname": "Zuckerberg"},
+          {"name": "Elon", "surname": "Musk"},
+        ]
+      });
+      expect(jsonableList.toJson(), s);
     });
   });
 }
