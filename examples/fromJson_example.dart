@@ -1,0 +1,13 @@
+import "package:jsonable/jsonable.dart";
+
+class Person extends Jsonable {
+  String name;
+  String surname;
+  String date;
+}
+
+main() {
+  var p = Person();
+  p.fromJson("""{"name": "Nico", "surname": "Spina"}""");
+  print([p.name, p.surname, p.date]);
+}
