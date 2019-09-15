@@ -16,12 +16,13 @@ class _ReflectVariable
   Symbol _name;
   InstanceMirror _instanceMirror;
 
-  _ReflectVariable(VariableMirror instance, InstanceMirror value) {
+  _ReflectVariable(VariableMirror instance, InstanceMirror value,
+      {List<InstanceMirror> metadata}) {
     this._name = instance.simpleName;
     this._instanceMirror = value;
-    for (var val in value.type.metadata) {
-      if (val.reflectee is JsonValidator) this.setValidator(val.reflectee);
-      if (val.reflectee is JsonNote) this.setJsonNote(val.reflectee);
+    for (var meta in metadata) {
+      if (meta.reflectee is JsonValidator) this.setValidator(meta.reflectee);
+      if (meta.reflectee is JsonNote) this.setJsonNote(meta.reflectee);
     }
   }
   Symbol get name => this._name;
@@ -35,10 +36,10 @@ class _ReflectGetter
     with mixinJsonNote, mixinValidator
     implements ReflectGetter, ReflectValidator {
   Symbol _name;
-  Function _function;
-  _ReflectGetter(Symbol name, Function value, {List<InstanceMirror> metadata}) {
+  dynamic _value;
+  _ReflectGetter(Symbol name, dynamic value, {List<InstanceMirror> metadata}) {
     this._name = name;
-    this._function = value;
+    this._value = value;
     // annotation cyvle
     for (var val in metadata) {
       if (val.reflectee is JsonValidator) this.setValidator(val.reflectee);
@@ -47,9 +48,7 @@ class _ReflectGetter
   }
   Symbol get name => this._name;
   @override
-  invoke() {
-    return this._function();
-  }
+  dynamic get value => this._value;
 
   Type get type => Function;
   String get stringName =>
@@ -94,25 +93,25 @@ class _ReflectInstance
     }
     for (var v in this._instance.type.declarations.values) {
       if (v is VariableMirror) {
-        this
-            ._variables
-            .add(_ReflectVariable(v, this._instance.getField(v.simpleName)));
+        this._variables.add(_ReflectVariable(
+            v, this._instance.getField(v.simpleName),
+            metadata: v.metadata));
       }
       if (v is MethodMirror) {
         if (v.isGetter) {
           this._getter.add(_ReflectGetter(
-              v.simpleName, () => this._instance.invoke(v.simpleName, [], {}),
+              v.simpleName, this._instance.getField(v.simpleName).reflectee,
               metadata: v.metadata));
         } else if (v.isSetter) {
-          this._setters.add(_ReflectSetter(v.simpleName,
-              (value) => this._instance.invoke(v.simpleName, [value])));
+          this._setters.add(_ReflectSetter(
+              v.simpleName, (value) => this._instance.getField(v.simpleName)));
         }
       }
     }
   }
   List<ReflectVariable> get variables => this._variables;
 
-  List<ReflectGetter> get methods => this._getter;
+  List<ReflectGetter> get getters => this._getter;
   List<ReflectSetter> get setters => this._setters;
 
   Symbol get name => this._name;

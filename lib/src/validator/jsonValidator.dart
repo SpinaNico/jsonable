@@ -4,6 +4,6 @@ Error validateJsonable(Jsonable instance) {
   return null;
 }
 
-Error validateMapable(Jsonable instance) {
+Error validateMapable(Mapable instance) {
   return null;
 }

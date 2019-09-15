@@ -1,17 +1,22 @@
-// import "package:test/test.dart";
-// import "package:jsonable/jsonable.dart";
+import "package:test/test.dart";
+import "package:jsonable/jsonable.dart";
+import "dart:convert";
 
-// class Person {
-//   String nome = "Giulia";
+@JsonNote(keyName: "hello")
+class Person {
+  String name = "Giulia";
 
-//   @JsonableNote(keyName: "surName")
-//   String surname = "Green";
+  @JsonNote(keyName: "surName")
+  String surname = "Green";
+  int get years => 2 + 2;
+}
 
-//   @JsonableNote(keyName: "years", notNull: true, isMethod: true)
-//   int get years => 2 + 2;
-// }
-
-// main() {
-//   print(jsonable(Person()));
-// }
-main() {}
+main() {
+  group("jsoable function test", () {
+    var p = Person();
+    var s = jsonEncode({"name": "Giulia", "surName": "Green", "years": 4});
+    test("testing keyName jsonNote", () {
+      expect(jsonable(p), s);
+    });
+  });
+}

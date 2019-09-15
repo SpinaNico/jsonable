@@ -2,8 +2,10 @@ export "./_Reflector.dart";
 
 import 'dart:mirrors';
 
+import 'package:jsonable/src/validator/exceptions.dart';
+
 abstract class ReflectValidator {
-  Map<String, Error> validate();
+  Map<String, JsonableException> validate(String name, dynamic value);
 }
 
 abstract class Reflect {
@@ -14,7 +16,7 @@ abstract class Reflect {
 }
 
 abstract class ReflectGetter extends Reflect {
-  dynamic invoke();
+  dynamic get value;
 }
 
 abstract class ReflectSetter extends Reflect {
@@ -29,5 +31,5 @@ abstract class ReflectInstance extends Reflect {
   List<ReflectVariable> get variables;
   InstanceMirror get instance;
   List<ReflectSetter> get setters;
-  List<ReflectGetter> get methods;
+  List<ReflectGetter> get getters;
 }

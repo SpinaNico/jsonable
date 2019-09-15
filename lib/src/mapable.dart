@@ -44,8 +44,12 @@ dynamic mapable(Object o) {
   for (var variable in r.variables) {
     if (variable.exclude == true) continue;
     var value = variable.value;
-    var name = MirrorSystem.getName(variable.name);
-    result.addAll(_makeMap(name, value));
+    result.addAll(_makeMap(variable.stringName, value));
+  }
+  for (var getter in r.getters) {
+    if (getter.exclude == true) continue;
+    var value = getter.value;
+    result.addAll(_makeMap(getter.stringName, value));
   }
   return result;
 }

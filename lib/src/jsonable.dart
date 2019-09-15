@@ -14,7 +14,5 @@ mixin mixinJson {
 
 ///This function receives an object and returns the json string of its fields
 String jsonable(Object o) {
-  return jsonEncode(
-    mapable(o),
-  );
+  return jsonEncode(mapable(o));
 }
