@@ -2,9 +2,8 @@ export "./_Reflector.dart";
 
 import 'dart:mirrors';
 
-enum ReflectType {
-  Method,
-  Variable,
+abstract class ReflectValidator {
+  Map<String, Error> validate();
 }
 
 abstract class Reflect {
