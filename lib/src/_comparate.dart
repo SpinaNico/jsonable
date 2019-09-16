@@ -1,6 +1,6 @@
 import 'package:jsonable/jsonable.dart';
 
-bool comparateToDartType(JsonType jsonType, Type type) {
+bool comparateToDartType(JsonType jsonType, dynamic type) {
   if (jsonType is Jstring && type is String) return true;
   if (jsonType is Jnum && (type is num || type is int || type is double))
     return true;

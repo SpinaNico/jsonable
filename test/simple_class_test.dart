@@ -10,7 +10,16 @@ class Person with mixinJsonable {
 }
 
 main() {
+  String json = """
+     {
+       "name": "Nico",
+       "surname": "Surname"
+     }
+  """;
   var p = Person(name: "nico", surname: "spina");
-  var result = p.toMap();
-  print(result);
+
+  print(p.toMap());
+
+  p.fromJson(json);
+  print(p.toMap());
 }
