@@ -2,7 +2,7 @@ export "./_Reflector.dart";
 
 import 'dart:mirrors';
 
-import 'package:jsonable/src/validator/exceptions.dart';
+import 'package:jsonable/withReflect/validator/exceptions.dart';
 
 abstract class ReflectValidator {
   List<JsonableException> validate(String name, dynamic value);

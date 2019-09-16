@@ -1,6 +1,6 @@
 import 'dart:convert';
 import "./reflector/Reflector.dart";
-import "../jsonable.dart";
+import "package:jsonable/jsonable_reflect.dart";
 
 mixin mixinMap {
   fromMap(Map<String, dynamic> values) {

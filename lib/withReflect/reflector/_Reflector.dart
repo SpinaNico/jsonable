@@ -1,6 +1,7 @@
-import 'package:jsonable/jsonable.dart';
-import 'package:jsonable/src/reflector/_mixinJsonNote.dart';
-import 'package:jsonable/src/validator/_validator.dart';
+import "package:jsonable/jsonable_reflect.dart";
+
+import 'package:jsonable/withReflect/reflector/_mixinJsonNote.dart';
+import 'package:jsonable/withReflect/validator/_validator.dart';
 
 import "./Reflector.dart";
 import "dart:mirrors";

@@ -1,5 +1,5 @@
-import 'package:jsonable/jsonable.dart';
-import 'package:jsonable/src/reflector/Reflector.dart';
+import "package:jsonable/jsonable_reflect.dart";
+import 'package:jsonable/withReflect/reflector/Reflector.dart';
 
 JsonableReportError validate(Object o, {JsonableReportError report}) {
   if (report == null) report = JsonableReportError();

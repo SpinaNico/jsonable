@@ -1,4 +1,4 @@
-import "package:jsonable/jsonable.dart";
+import "package:jsonable/jsonable_reflect.dart";
 
 mixin mixinValidator {
   JsonValidator _jsonValidators;

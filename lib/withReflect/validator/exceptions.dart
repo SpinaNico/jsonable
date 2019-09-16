@@ -1,4 +1,4 @@
-import 'package:jsonable/jsonable.dart';
+import "package:jsonable/jsonable_reflect.dart";
 
 enum JsonableError { length, min, max, required, nullable }
 
