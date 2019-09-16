@@ -1,4 +1,4 @@
-import "package:jsonable/jsonable_reflect.dart";
+import "package:jsonable/withReflect/jsonable_reflect.dart";
 
 class Person extends Mapable {
   String name;

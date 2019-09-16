@@ -1,4 +1,4 @@
-import "package:jsonable/jsonable_reflect.dart";
+import "package:jsonable/withReflect/jsonable_reflect.dart";
 
 class Contact extends Jsonable {
   String name;

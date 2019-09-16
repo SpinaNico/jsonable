@@ -1,4 +1,4 @@
-import "package:jsonable/jsonable_reflect.dart";
+import "../jsonable_reflect.dart";
 
 import 'package:jsonable/withReflect/reflector/_mixinJsonNote.dart';
 import 'package:jsonable/withReflect/validator/_validator.dart';

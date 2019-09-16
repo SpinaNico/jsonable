@@ -1,4 +1,4 @@
-import "package:jsonable/jsonable_reflect.dart";
+import "../jsonable_reflect.dart";
 import 'package:jsonable/withReflect/reflector/Reflector.dart';
 
 JsonableReportError validate(Object o, {JsonableReportError report}) {

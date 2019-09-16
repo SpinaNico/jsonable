@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import "package:test/test.dart";
-import "package:jsonable/jsonable_reflect.dart";
+import "package:jsonable/withReflect/jsonable_reflect.dart";
 
 class Person extends Jsonable {
   final String name;
