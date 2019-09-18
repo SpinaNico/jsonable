@@ -9,10 +9,12 @@ import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/typing/CJclass.dart';
 import "./typing/_Typezer.dart";
 import "./typing/CJstring.dart";
+import "dart:convert";
 
-mixin Jsonable implements JsonableObject {
+mixin Jsonable {
   Typer _typer = Typer();
-
+  String toJson() => jsonEncode(this.toMap());
+  fromJson(String source) => this.fromMap(jsonDecode(source));
   Map toMap() {
     return encodeJsonSchema(this._typer.schema);
   }
@@ -27,15 +29,16 @@ mixin Jsonable implements JsonableObject {
     return t;
   }
 
-  Jlist jList<E>(dynamic keyname,
+  Jlist<E> jList<E>(dynamic keyname,
       {List<E> initialValue, JsonableConstructor constructor}) {
     if (initialValue != null) {
       if (initialValue is List<Jsonable> && constructor == null) {
         throw noConstructorError;
       }
     }
-    Jlist v = CJlist(initialValue: initialValue, constructor: constructor);
-    var t = this._typer.registerType<Jlist>(keyname, v);
+    Jlist<E> v =
+        CJlist<E>(initialValue: initialValue, constructor: constructor);
+    var t = this._typer.registerType<Jlist<E>>(keyname, v);
     return t;
   }
 

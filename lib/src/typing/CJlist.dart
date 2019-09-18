@@ -1,13 +1,29 @@
 import 'dart:math';
 
 import "package:jsonable/jsonable.dart";
+import 'package:jsonable/src/errors.dart';
 
 class CJlist<E> extends Jlist<E> {
   JsonableConstructor get constructor => this._constructor;
   JsonableConstructor _constructor;
   List<E> get _elements => this.value;
+
+  createElements(List values) {
+    if (constructor == null) throw noConstructorError;
+    values.forEach((value) {
+      if (value is Map) {
+        dynamic _instance = constructor();
+        _instance.fromMap(value);
+        this._elements.add(_instance);
+      }
+    });
+  }
+
   CJlist({List<E> initialValue, JsonableConstructor constructor})
       : super(initialValue: initialValue) {
+    if (initialValue == null) {
+      this.value = <E>[];
+    }
     this._constructor = constructor;
   }
 

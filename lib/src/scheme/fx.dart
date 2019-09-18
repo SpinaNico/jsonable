@@ -66,7 +66,7 @@ _combinerJsonTypeNormalType(JsonType jsonType, dynamic value) {
     if (jsonType is CJlist<Jsonable> ||
         jsonType is CJlist<CJclass> ||
         jsonType is CJlist<Jclass>) {
-      jsonType.value = _constructJsonable(value, jsonType.constructor);
+      jsonType.createElements(value);
     }
   }
   if (jsonType is CJclass && value is Map) {
@@ -74,12 +74,13 @@ _combinerJsonTypeNormalType(JsonType jsonType, dynamic value) {
   }
 }
 
-List<Jsonable> _constructJsonable(List list, JsonableConstructor constructor) {
+List<E> _constructJsonable<E>(
+    List<dynamic> list, JsonableConstructor constructor) {
   if (constructor == null) {
     throw noConstructorError;
   }
-  List<Jsonable> result = [];
-  list.forEach((value) =>
-      value is Map ? result.add(constructor()..fromMap(value)) : null);
-  return result;
+  return list
+      .map<E>((value) => value is Map ? (constructor()).fromMap(value) : null)
+      .where((e) => e != null ? true : false)
+      .toList();
 }

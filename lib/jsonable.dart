@@ -1,17 +1,12 @@
 export "./src/jsonable.dart" show Jsonable;
-
 import 'package:jsonable/src/jsonable.dart';
 
-typedef JsonableConstructor = JsonableObject Function();
+typedef JsonableConstructor = Jsonable Function();
 
-abstract class JsonableObject {
-  Map toMap();
-  fromMap(Map map);
-  // List<dynamic> fromJsonList(String listJson, JsonableConstructor contructor);
-  // String toJson();
-  // dynamic validate();
-  //List<Jsonable> fromMapList(List<Map> map, JsonableConstructor constructor);
-}
+// abstract class JsonableObject {
+//   Map toMap();
+//   fromMap(Map map);
+// }
 
 abstract class JsonType<E> {
   JsonType({E value}) {
