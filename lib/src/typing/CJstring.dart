@@ -3,6 +3,15 @@ import "package:jsonable/jsonable.dart";
 class CJstring extends Jstring {
   CJstring({String initialValue}) : super(initialValue: initialValue);
 
+  operator ==(other) {
+    if (other is CJstring)
+      return this.value == other.value;
+    else if (other is String)
+      return this.value == other;
+    else
+      return this.value == other;
+  }
+
   @override
   int compareTo(String other) {
     return this.value.compareTo(other);

@@ -8,14 +8,23 @@ class CJnum extends Jnum {
   }
 
   operator ==(Object other) {
-    return this.value == other;
+    if (other is CJnum)
+      return this.value == other.value;
+    else
+      return this.value == other;
   }
 
   operator >=(Object other) {
-    return this.value >= other;
+    if (other is CJnum)
+      return this.value == other.value;
+    else
+      return this.value == other;
   }
 
   operator <=(Object other) {
-    return this.value <= other;
+    if (other is CJnum)
+      return this.value == other.value;
+    else
+      return this.value == other;
   }
 }

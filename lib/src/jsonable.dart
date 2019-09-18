@@ -49,7 +49,7 @@ mixin Jsonable {
 
   /// DOCS
   Jstring jString(dynamic keyname, {String initialValue}) {
-    Jstring value = CJstring(initialValue: initialValue);
+    Jstring value = new CJstring(initialValue: initialValue);
     var t = this._typer.registerType<Jstring>(keyname, value);
     return t;
   }
