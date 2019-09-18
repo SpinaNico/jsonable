@@ -69,7 +69,30 @@ _combinerJsonTypeNormalType(JsonType jsonType, dynamic value) {
     return;
   }
   if (jsonType is CJlist && value is List) {
-    jsonType.value = value;
+    if (jsonType is Jlist<String> && value is List) {
+      jsonType.value = value.cast<String>();
+      return;
+    }
+    if (jsonType is Jlist<bool> && value is List) {
+      jsonType.value = value.cast<bool>();
+      return;
+    }
+    if (jsonType is Jlist<num> && value is List) {
+      jsonType.value = value.cast<num>();
+      return;
+    }
+    if (jsonType is Jlist<int> && value is List) {
+      jsonType.value = value.cast<int>();
+      return;
+    }
+    if (jsonType is Jlist<double> && value is List) {
+      jsonType.value = value.cast<double>();
+      return;
+    }
+    if (jsonType is Jlist<Map> && value is List) {
+      jsonType.value = value.cast<Map>();
+      return;
+    }
     return;
   }
 }

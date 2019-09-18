@@ -52,14 +52,10 @@ mixin Jsonable {
     if (E is Jsonable && constructor == null) {
       throw noConstructorError;
     }
-    if (E is JsonType && !(E is Jsonable))
-      throw """
-    You cannot use a Generic that is not jsonable.
-    In Json coding it will have a dynamic list, 
-    the Jlist can only accept dynamic | Jsonable as Generic
-    """;
+
     Jlist<E> v =
         CJlist<E>(initialValue: initialValue, constructor: constructor);
+
     var t = this._typer.registerType<Jlist<E>>(keyname, v);
     return t;
   }

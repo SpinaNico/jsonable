@@ -10,7 +10,7 @@ class Person with Jsonable {
   Person() {
     this.name = this.jString("name");
     this.surname = this.jString("surname");
-    this.tags = this.jList("tags");
+    this.tags = this.jList<String>("tags");
     this.permissions =
         this.jClass<Permisions>("permisions", () => Permisions());
   }
