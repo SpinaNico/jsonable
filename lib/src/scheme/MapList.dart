@@ -1,5 +1,3 @@
-import 'package:jsonable/src/scheme/JsonSchema.dart';
-
 ///This is a class that allows me to manage lists and maps as
 ///if they were a single object with a single add method,
 ///so that the upper level does not know if it is endodando a list or a map
@@ -13,11 +11,11 @@ class MapList<E> {
     }
   }
 
-  add(JsonEntry element) {
-    if (element.keyname == null) {
-      value.add(element.value.value);
+  add(key, val) {
+    if (key == null) {
+      value.add(val);
     } else {
-      value.addEntries([MapEntry(element.keyname, element.value.value)]);
+      value.addEntries([MapEntry(key, val)]);
     }
   }
 }

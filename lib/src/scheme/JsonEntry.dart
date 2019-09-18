@@ -1,6 +1,4 @@
-import 'package:jsonable/src/scheme/JsonNode.dart';
-
-class JsonEntry<E, JsonType> implements JsonNode {
+class JsonEntry<E, JsonType> {
   E keyname;
   JsonType value;
   JsonEntry(this.keyname, this.value);

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:jsonable/jsonable.dart';
 import "package:test/test.dart";
 
@@ -5,9 +6,11 @@ class Person with Jsonable {
   Jstring name;
   Jstring surname;
   Jclass<Permisions> permissions;
+  Jlist tags;
   Person() {
     this.name = this.jString("name");
     this.surname = this.jString("surname");
+    this.tags = this.jList("tags");
     this.permissions =
         this.jClass<Permisions>("permisions", () => Permisions());
   }
@@ -38,6 +41,7 @@ main() {
     {
       "name": "Nico",
       "surname": "Spina",
+      "tags": ["ciao", "mondo"],
       "permisions":{
         "role": "CTO",
         "permisions": [
@@ -67,6 +71,12 @@ main() {
     test("test permision description ", () {
       expect(p.permissions.value.permisions.value[0].description.value,
           "complete controll");
+    });
+
+    test("To json Test", () {
+      var m = jsonEncode(jsonDecode(source));
+
+      expect(p.toJson(), m);
     });
   });
 }

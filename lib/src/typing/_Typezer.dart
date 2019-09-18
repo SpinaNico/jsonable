@@ -5,7 +5,11 @@ class Typer {
   JsonSchema schema = JsonSchema.newScheme([]);
 
   E registerType<E extends JsonType>(String keyname, JsonType value) {
-    this.schema.add(new JsonEntry(keyname, value));
+    if (value is Jclass) {
+      this.schema.add(new JsonEntry(keyname, value.value.value));
+    } else {
+      this.schema.add(new JsonEntry(keyname, value));
+    }
     return value;
   }
 }

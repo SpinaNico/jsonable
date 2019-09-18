@@ -27,6 +27,10 @@ class CJlist<E> extends Jlist<E> {
     this._constructor = constructor;
   }
 
+  newFrom(List list) {
+    this.value = list;
+  }
+
   /// List proxy
   @override
   bool any(bool Function(E element) test) {
@@ -59,7 +63,10 @@ class CJlist<E> extends Jlist<E> {
       this._elements.lastWhere(test, orElse: orElse);
 
   int get length => this._elements.length;
-  Iterable<T> map<T>(T Function(E e) f) => this._elements.map(f);
+  Iterable<T> map<T>(T Function(E e) f) {
+    print("cidbwifb ${this._elements.map(f)}");
+    return this._elements.map<T>(f);
+  }
 
   @override
   reduce(Function(E value, E element) combine) =>

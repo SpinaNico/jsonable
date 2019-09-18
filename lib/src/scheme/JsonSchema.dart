@@ -1,11 +1,8 @@
 import 'dart:math';
-import 'package:jsonable/jsonable.dart';
-import 'package:jsonable/src/scheme/JsonNode.dart';
 export "./JsonEntry.dart";
 import "./JsonEntry.dart";
 
-abstract class JsonSchema
-    implements List<JsonEntry>, JsonNode, JsonType<JsonSchema> {
+abstract class JsonSchema implements List<JsonEntry> {
   static JsonSchema newScheme(List<JsonEntry> values) {
     return _CJsonSchema(values);
   }

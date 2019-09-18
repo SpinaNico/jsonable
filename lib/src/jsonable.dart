@@ -1,5 +1,6 @@
 import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/errors.dart';
+import 'package:jsonable/src/scheme/JsonSchema.dart';
 import 'package:jsonable/src/scheme/fx.dart';
 import 'package:jsonable/src/typing/CJbool.dart';
 import 'package:jsonable/src/typing/CJdynamic.dart';
@@ -11,8 +12,15 @@ import "./typing/_Typezer.dart";
 import "./typing/CJstring.dart";
 import "dart:convert";
 
+class Json {}
+
 mixin Jsonable {
   Typer _typer = Typer();
+  set value(value) => throw "you cannot set a scheme already created";
+
+  /// Get Scheme
+  JsonSchema get value => this._typer.schema;
+
   String toJson() => jsonEncode(this.toMap());
   fromJson(String source) => this.fromMap(jsonDecode(source));
   Map toMap() {
@@ -41,6 +49,15 @@ mixin Jsonable {
         throw noConstructorError;
       }
     }
+    if (E is Jsonable && constructor == null) {
+      throw noConstructorError;
+    }
+    if (E is JsonType && !(E is Jsonable))
+      throw """
+    You cannot use a Generic that is not jsonable.
+    In Json coding it will have a dynamic list, 
+    the Jlist can only accept dynamic | Jsonable as Generic
+    """;
     Jlist<E> v =
         CJlist<E>(initialValue: initialValue, constructor: constructor);
     var t = this._typer.registerType<Jlist<E>>(keyname, v);
