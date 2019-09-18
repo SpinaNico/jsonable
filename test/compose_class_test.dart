@@ -37,6 +37,6 @@ main() {
   """;
 
   var p = Person();
-  p.fromJson(fakeJson);
+  //p.fromJson(fakeJson);
   print(p.toMap());
 }

@@ -5,7 +5,8 @@ import 'package:jsonable/src/scheme/JsonNode.dart';
 export "./JsonEntry.dart";
 import "./JsonEntry.dart";
 
-abstract class JsonSchema implements List<JsonEntry>, JsonNode {
+abstract class JsonSchema
+    implements List<JsonEntry>, JsonNode, JsonType<JsonSchema> {
   static JsonSchema newScheme(List<JsonEntry> values) {
     return _CJsonSchema(values);
   }
@@ -16,6 +17,8 @@ class _CJsonSchema implements JsonSchema {
   _CJsonSchema([List<JsonEntry> value]) {
     if (value != null) this._elements = value;
   }
+  JsonSchema get value => this;
+  set value(JsonSchema value) => throw "You can't set a json Schema";
 
   @override
   bool any(bool Function(JsonEntry element) test) {

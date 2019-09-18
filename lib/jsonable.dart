@@ -1,13 +1,8 @@
-export "./src/jsonable.dart" show mixinJsonable;
+export "./src/jsonable.dart" show Jsonable;
 
-typedef JsonableConstructor = Jsonable Function();
+typedef JsonableConstructor = JsonableObject Function();
 
-abstract class Jsonable {
-  // Jstring jString(String keyname, {validation, String initialValue});
-  // Jbool jBool(String keyname, {validation});
-  // Jnum jNum(String keyname, {validation});
-  // Jobject jObject(String keyname, JsonableConstructor constructor);
-  //fromJson(String json);
+abstract class JsonableObject {
   Map toMap();
   fromMap(Map map);
   // List<dynamic> fromJsonList(String listJson, JsonableConstructor contructor);
@@ -44,6 +39,6 @@ abstract class Jlist<E> extends JsonType<List<E>> implements List<E> {
   Jlist({List<E> initialValue}) : super(value: initialValue);
 }
 
-abstract class Jobject extends JsonType<Jsonable> {
-  Jobject({Jsonable initialValue}) : super(value: initialValue);
+abstract class Jobject extends JsonType<JsonableObject> {
+  Jobject({JsonableObject initialValue}) : super(value: initialValue);
 }

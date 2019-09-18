@@ -3,7 +3,7 @@ import 'package:jsonable/src/scheme/fx.dart';
 import "./typing/_Typezer.dart";
 import "./typing/CJstring.dart";
 
-mixin mixinJsonable implements Jsonable {
+mixin Jsonable implements JsonableObject {
   Typer _typer = Typer();
 
   Map toMap() {
@@ -13,7 +13,7 @@ mixin mixinJsonable implements Jsonable {
 
   fromMap(Map m) {}
 
-  Jsonable jObject(dynamic keyname, JsonableConstructor construct,
+  JsonableObject jObject(dynamic keyname, JsonableConstructor construct,
       {List positionalParam, Map nominalParam}) {}
 
   List<E> jList<E>(dynamic kyname, {List<E> initialValue}) {
