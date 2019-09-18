@@ -23,14 +23,19 @@ mixin Jsonable {
     return decodeJsonSchema(m, this._typer.schema);
   }
 
-  Jclass jClass(dynamic keyname, {Jsonable initialValue}) {
-    CJclass v = CJclass(initialValue: initialValue);
+  Jclass<E> jClass<E extends Jsonable>(
+    dynamic keyname,
+    E Function() constructor, {
+    E initialValue,
+  }) {
+    CJclass v =
+        CJclass<E>(initialValue: initialValue, constructor: constructor);
     var t = this._typer.registerType<Jclass>(keyname, v);
     return t;
   }
 
   Jlist<E> jList<E>(dynamic keyname,
-      {List<E> initialValue, JsonableConstructor constructor}) {
+      {List<E> initialValue, E Function() constructor}) {
     if (initialValue != null) {
       if (initialValue is List<Jsonable> && constructor == null) {
         throw noConstructorError;

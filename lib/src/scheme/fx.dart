@@ -1,5 +1,4 @@
 import 'package:jsonable/jsonable.dart';
-import 'package:jsonable/src/errors.dart';
 import 'package:jsonable/src/scheme/JsonNode.dart';
 import 'package:jsonable/src/scheme/JsonSchema.dart';
 import 'package:jsonable/src/scheme/MapList.dart';
@@ -72,15 +71,4 @@ _combinerJsonTypeNormalType(JsonType jsonType, dynamic value) {
   if (jsonType is CJclass && value is Map) {
     jsonType.value.fromMap(value);
   }
-}
-
-List<E> _constructJsonable<E>(
-    List<dynamic> list, JsonableConstructor constructor) {
-  if (constructor == null) {
-    throw noConstructorError;
-  }
-  return list
-      .map<E>((value) => value is Map ? (constructor()).fromMap(value) : null)
-      .where((e) => e != null ? true : false)
-      .toList();
 }

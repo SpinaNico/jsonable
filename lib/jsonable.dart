@@ -1,13 +1,6 @@
 export "./src/jsonable.dart" show Jsonable;
 import 'package:jsonable/src/jsonable.dart';
 
-typedef JsonableConstructor = Jsonable Function();
-
-// abstract class JsonableObject {
-//   Map toMap();
-//   fromMap(Map map);
-// }
-
 abstract class JsonType<E> {
   JsonType({E value}) {
     if (value != null) {
@@ -36,7 +29,7 @@ abstract class Jlist<E> extends JsonType<List<E>> implements List<E> {
   Jlist({List<E> initialValue}) : super(value: initialValue);
 }
 
-abstract class Jclass extends JsonType<Jsonable> {
+abstract class Jclass<E extends Jsonable> extends JsonType<E> {
   Jclass({Jsonable initialValue}) : super(value: initialValue);
 }
 

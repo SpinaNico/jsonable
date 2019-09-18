@@ -1,9 +1,16 @@
 import 'package:jsonable/jsonable.dart';
+import 'package:jsonable/src/errors.dart';
 
-class CJclass extends Jclass {
-  JsonableConstructor _constructor;
-  Jsonable get constructor => this._constructor();
-  CJclass({Jsonable initialValue}) : super(initialValue: initialValue) {
-    if (initialValue == null) {}
+class CJclass<E extends Jsonable> extends Jclass<E> {
+  E Function() _constructor;
+  E get newInstance => this._constructor();
+  CJclass({E initialValue, E Function() constructor})
+      : super(initialValue: initialValue) {
+    if (initialValue == null) {
+      if (constructor == null) {
+        throw noConstructorError;
+      }
+      this.value = constructor();
+    }
   }
 }

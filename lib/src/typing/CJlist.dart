@@ -4,8 +4,8 @@ import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/errors.dart';
 
 class CJlist<E> extends Jlist<E> {
-  JsonableConstructor get constructor => this._constructor;
-  JsonableConstructor _constructor;
+  E Function() get constructor => this._constructor;
+  E Function() _constructor;
   List<E> get _elements => this.value;
 
   createElements(List values) {
@@ -19,7 +19,7 @@ class CJlist<E> extends Jlist<E> {
     });
   }
 
-  CJlist({List<E> initialValue, JsonableConstructor constructor})
+  CJlist({List<E> initialValue, E Function() constructor})
       : super(initialValue: initialValue) {
     if (initialValue == null) {
       this.value = <E>[];

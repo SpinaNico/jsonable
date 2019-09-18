@@ -1,51 +1,72 @@
-import "package:jsonable/jsonable.dart";
+import 'package:jsonable/jsonable.dart';
 import "package:test/test.dart";
 
 class Person with Jsonable {
   Jstring name;
   Jstring surname;
-  Jlist<Contact> contact;
-  Jlist tags;
+  Jclass<Permisions> permissions;
   Person() {
     this.name = this.jString("name");
     this.surname = this.jString("surname");
-    this.tags = this.jList<String>("tags");
-    this.contact =
-        this.jList<Contact>("contacts", constructor: () => Contact());
+    this.permissions =
+        this.jClass<Permisions>("permisions", () => Permisions());
   }
 }
 
-class Contact with Jsonable {
-  Jstring name;
-  Jstring surname;
-  Contact({String name, String surname}) {
-    this.name = this.jString("name", initialValue: name);
-    this.surname = this.jString("surname", initialValue: surname);
+class Permisions with Jsonable {
+  Jstring role;
+  Jlist<Permision> permisions;
+
+  Permisions() {
+    this.role = this.jString("role");
+    this.permisions =
+        this.jList<Permision>("permisions", constructor: () => Permision());
+  }
+}
+
+class Permision with Jsonable {
+  Jstring type;
+  Jstring description;
+  Permision() {
+    this.type = this.jString("type");
+    this.description = this.jString("description");
   }
 }
 
 main() {
-  var fakeJson = """
+  String source = """
     {
-      "name": "Mark",
-      "surname": "Zuckerberg",
-      "tags":["hello","world"],
-      "contacts":[
-        {"name": "Elon", "surname": "Musk"}
+      "name": "Nico",
+      "surname": "Spina",
+      "permisions":{
+        "role": "CTO",
+        "permisions": [
+         { "type": "admin",
+          "description": "complete controll"}
         ]
+      }
     }
   """;
-  var p = Person();
-  p.fromJson(fakeJson);
-  group("controll compose class with contact Jlist<Contact>", () {
-    test("list contact is 1?", () {
-      expect(p.contact.length, 1);
+  group("test fromJson", () {
+    var p = Person();
+    p.fromJson(source);
+    test("test name", () => expect(p.name.value, "Nico"));
+    test("test surname", () => expect(p.surname.value, "Spina"));
+    test(
+        "test permisions",
+        () =>
+            expect(p.permissions.value.runtimeType, Permisions().runtimeType));
+    test("test permisions role",
+        () => expect(p.permissions.value.role.value, "CTO"));
+    test("test permision length", () {
+      expect(p.permissions.value.permisions.value.length, 1);
     });
-    test("list contain Elon Musk?", () {
-      if (p.contact.length > 0) {
-        expect(p.contact[0].name.value, "Elon");
-        expect(p.contact[0].surname.value, "Musk");
-      }
+    test("test permision type is admin", () {
+      expect(p.permissions.value.permisions.value[0].type.value, "admin");
+    });
+    test("test permision description ", () {
+      expect(p.permissions.value.permisions.value[0].description.value,
+          "complete controll");
     });
   });
 }
