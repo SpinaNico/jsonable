@@ -3,13 +3,13 @@ import 'dart:math';
 import "package:jsonable/jsonable.dart";
 
 class CJlist<E> extends Jlist<E> {
+  JsonableConstructor get constructor => this._constructor;
+  JsonableConstructor _constructor;
   List<E> get _elements => this.value;
   CJlist({List<E> initialValue, JsonableConstructor constructor})
-      : super(initialValue: initialValue) {}
-  // JsonableConstructor _constructor;
-  // JsonableConstructor get constructor {
-  //   return this._constructor;
-  // }
+      : super(initialValue: initialValue) {
+    this._constructor = constructor;
+  }
 
   /// List proxy
   @override

@@ -1,6 +1,6 @@
 import "package:jsonable/withReflect/jsonable_reflect.dart";
 
-class Person extends Jsonable {
+class Person extends JsonableReflect {
   @JsonValidator(min: 3, max: 10, required: true)
   String name;
   @JsonValidator(min: 4, max: 20, required: true)

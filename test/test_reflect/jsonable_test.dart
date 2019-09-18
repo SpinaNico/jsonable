@@ -3,18 +3,18 @@ import 'dart:convert';
 import "package:test/test.dart";
 import "package:jsonable/withReflect/jsonable_reflect.dart";
 
-class Person extends Jsonable {
+class Person extends JsonableReflect {
   final String name;
   final String surname;
   Person({this.name: "ugo", this.surname: "rossi"});
   toString() => "null";
 }
 
-class MyTestWithNormalList extends Jsonable {
+class MyTestWithNormalList extends JsonableReflect {
   List<String> l = ["hello", "world"];
 }
 
-class myTestWithListOfJsonable extends Jsonable {
+class myTestWithListOfJsonable extends JsonableReflect {
   List<Person> contacts = [
     Person(name: "Mario", surname: "Bross"),
     Person(name: "Mark", surname: "Zuckerberg"),
@@ -22,13 +22,13 @@ class myTestWithListOfJsonable extends Jsonable {
   ];
 }
 
-List<Jsonable> persons = [
+List<JsonableReflect> persons = [
   Person(name: "Mario", surname: "Bross"),
   Person(name: "Mark", surname: "Zuckerberg"),
   Person(name: "Elon", surname: "Musk")
 ];
 
-class Composed extends Jsonable {
+class Composed extends JsonableReflect {
   var person = Person(name: "Mario", surname: "Rossi");
 }
 

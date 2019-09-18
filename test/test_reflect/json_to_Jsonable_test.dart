@@ -2,12 +2,12 @@ import 'dart:convert';
 import "package:jsonable/withReflect/jsonable_reflect.dart";
 import "package:test/test.dart";
 
-class Person extends Jsonable {
+class Person extends JsonableReflect {
   String name;
   String surname;
 }
 
-class Composed extends Jsonable {
+class Composed extends JsonableReflect {
   Person contact = Person();
 }
 

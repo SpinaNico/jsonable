@@ -6,7 +6,7 @@ JsonableReportError validate(Object o, {JsonableReportError report}) {
 
   var reflect = reflection(o);
   for (var variable in reflect.variables) {
-    if (variable.type is Mapable || variable.value is Jsonable) {
+    if (variable.type is MapableReflect || variable.value is JsonableReflect) {
       validate(variable.value, report: report);
     } else {
       report.errors
@@ -14,7 +14,7 @@ JsonableReportError validate(Object o, {JsonableReportError report}) {
     }
   }
   for (var getter in reflect.getters) {
-    if (getter.type is Mapable || getter.value is Jsonable) {
+    if (getter.type is MapableReflect || getter.value is JsonableReflect) {
       validate(getter.value, report: report);
     } else {
       report.errors.addAll(getter.validate(getter.stringName, getter.value));

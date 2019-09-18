@@ -1,6 +1,6 @@
 import "package:jsonable/withReflect/jsonable_reflect.dart";
 
-class Person extends Jsonable {
+class Person extends JsonableReflect {
   String name;
   String surname;
   String date;

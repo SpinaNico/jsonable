@@ -1,5 +1,4 @@
 import 'dart:math';
-import "dart:convert";
 import 'package:jsonable/jsonable.dart';
 import 'package:jsonable/src/scheme/JsonNode.dart';
 export "./JsonEntry.dart";

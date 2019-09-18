@@ -1,12 +1,12 @@
 import "package:jsonable/withReflect/jsonable_reflect.dart";
 
-class Contact extends Jsonable {
+class Contact extends JsonableReflect {
   String name;
   String surname;
   Contact({this.name, this.surname});
 }
 
-class Person extends Jsonable {
+class Person extends JsonableReflect {
   String name = "Mark";
   String surname = "Zuckerberg";
   List<Contact> contacts = [

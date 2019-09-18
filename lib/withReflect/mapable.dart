@@ -14,13 +14,13 @@ mixin mixinMap {
 
 Map<String, dynamic> _makeMap(String name, dynamic value) {
   Map<String, dynamic> result = {};
-  if (value is List<Jsonable>) {
+  if (value is List<JsonableReflect>) {
     result.addAll({name: value.map((v) => mapable(v)).toList()});
-  } else if (value is List<Mapable>) {
+  } else if (value is List<MapableReflect>) {
     result.addAll({name: value.map((v) => v.toMap()).toList()});
-  } else if (value is Jsonable) {
+  } else if (value is JsonableReflect) {
     result.addAll({name: mapable(value)});
-  } else if (value is Mapable) {
+  } else if (value is MapableReflect) {
     result.addAll({name: value.toMap()});
   } else {
     result.addAll({name: value});
@@ -59,9 +59,9 @@ dynamic rawfromMap(dynamic o, Map<String, dynamic> data) {
   for (var variable in t.variables) {
     if (variable.exclude == true) continue;
     if (data.containsKey(variable.stringName)) {
-      if (variable.value is Mapable) {
+      if (variable.value is MapableReflect) {
         variable.value.fromMap(data[variable.stringName]);
-      } else if (variable.value is Jsonable) {
+      } else if (variable.value is JsonableReflect) {
         // Here I am checking if the value is a map so as not to generate errors due to non-comparison.
         if (data[variable.stringName] is Map) {
           String j = jsonEncode(data[variable.stringName]);

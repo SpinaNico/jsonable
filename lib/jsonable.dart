@@ -1,5 +1,7 @@
 export "./src/jsonable.dart" show Jsonable;
 
+import 'package:jsonable/src/jsonable.dart';
+
 typedef JsonableConstructor = JsonableObject Function();
 
 abstract class JsonableObject {
@@ -39,6 +41,14 @@ abstract class Jlist<E> extends JsonType<List<E>> implements List<E> {
   Jlist({List<E> initialValue}) : super(value: initialValue);
 }
 
-abstract class Jobject extends JsonType<JsonableObject> {
-  Jobject({JsonableObject initialValue}) : super(value: initialValue);
+abstract class Jclass extends JsonType<Jsonable> {
+  Jclass({Jsonable initialValue}) : super(value: initialValue);
+}
+
+abstract class Jmap extends JsonType<Map> {
+  Jmap({Map initialValue}) : super(value: initialValue);
+}
+
+abstract class Jdynamic extends JsonType<dynamic> {
+  Jdynamic({dynamic initialValue}) : super(value: initialValue);
 }

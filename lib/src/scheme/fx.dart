@@ -1,7 +1,13 @@
 import 'package:jsonable/jsonable.dart';
+import 'package:jsonable/src/errors.dart';
 import 'package:jsonable/src/scheme/JsonNode.dart';
 import 'package:jsonable/src/scheme/JsonSchema.dart';
 import 'package:jsonable/src/scheme/MapList.dart';
+import 'package:jsonable/src/typing/CJbool.dart';
+import 'package:jsonable/src/typing/CJclass.dart';
+import 'package:jsonable/src/typing/CJlist.dart';
+import 'package:jsonable/src/typing/CJnum.dart';
+import 'package:jsonable/src/typing/CJstring.dart';
 
 dynamic encodeJsonSchema(JsonSchema root) {
   MapList result;
@@ -15,13 +21,65 @@ dynamic encodeJsonSchema(JsonSchema root) {
       else
         result.add(JsonEntry(entry.keyname, encodeJsonSchema(entry.value)));
     } else {
-      throw "FatalError SchemaError: Value in JsonEntry.value don't accept ${entry.value.runtimeType}";
+      throw "(encode) FatalError SchemaError: Value in JsonEntry.value don't accept ${entry.value.runtimeType}";
     }
   }
 
-  if (result != null)
+  if (result != null) {
+    /// Here they return either the list or the map
     return result.value;
-  else {
+  } else
     return {};
+}
+
+decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
+  for (JsonEntry entry in scheme) {
+    if (raw.containsKey(entry.keyname)) {
+      if (entry.value is JsonType) {
+        _combinerJsonTypeNormalType(entry.value, raw[entry.keyname]);
+      } else if (entry.value is JsonSchema) {
+        decodeJsonSchema(raw[entry.keyname], entry.value);
+      }
+    }
   }
+}
+
+_combinerJsonTypeNormalType(JsonType jsonType, dynamic value) {
+  if (value == null) return;
+
+  if (jsonType is CJstring && value is String) {
+    jsonType.value = value;
+    return;
+  }
+
+  if (jsonType is CJnum && (value is num || value is int || value is double)) {
+    jsonType.value = value;
+    return;
+  }
+
+  if (jsonType is CJbool && value is bool) {
+    jsonType.value = value;
+    return;
+  }
+
+  if (jsonType is CJlist && value is List) {
+    if (jsonType is CJlist<Jsonable> ||
+        jsonType is CJlist<CJclass> ||
+        jsonType is CJlist<Jclass>) {
+      jsonType.value = _constructJsonable(value, jsonType.constructor);
+    }
+  }
+  if (jsonType is CJclass && value is Map) {
+    jsonType.value.fromMap(value);
+  }
+}
+
+List<Jsonable> _constructJsonable(List list, JsonableConstructor constructor) {
+  if (constructor == null) {
+    throw noConstructorError;
+  }
+  List<Jsonable> result = [];
+  list.forEach((value) =>
+      value is Map ? result.add(constructor()..fromMap(value)) : null);
+  return result;
 }
