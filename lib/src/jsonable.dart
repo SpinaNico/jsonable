@@ -68,25 +68,39 @@ mixin Jsonable {
     return t;
   }
 
-  /// DOCS
+  /// Return a `JType <String>` then manage a `String` type in the schema
+  /// with `fromJson` will assign the value only if it is a `String`,
+  /// in `toJson` it will assign a `String`, you can assign only `String` ù
+  /// values via ".value"
   Jstring jString(dynamic keyname, {String initialValue}) {
     Jstring value = new CJstring(initialValue: initialValue);
     var t = this._typer.registerType<Jstring>(keyname, value);
     return t;
   }
 
+  /// Return a `JType <bool>` then manage a `bool` type in the schema with
+  /// `fromJson` will assign the value only if it is a `bool`, in
+  /// `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
   Jbool jBool(dynamic keyname, {bool initialValue}) {
     Jbool v = CJbool(initialValue: initialValue);
     var t = this._typer.registerType<Jbool>(keyname, v);
     return t;
   }
 
+  ///Return a `JType <num>` then manage a `num` type in
+  /// the schema with `fromJson` will assign the value
+  /// only if it is a `num`, in `toJson` it will assign a
+  ///  `num`, you can assign only `num` values via ".value"
   Jnum jNum(dynamic keyname, {num initialValue}) {
     Jnum v = CJnum(initialValue: initialValue);
     var t = this._typer.registerType<Jnum>(keyname, v);
     return t;
   }
 
+  ///Return a `JType <Map<E,R>>` then manage a `Map<E,R>` type in the schema with
+  ///`fromJson` will assign the value  only if it is a `Map<E,R>`, in `toJson`
+  ///it will assign a
+  ///`Map<E,R>`, you can assign only `Map<E,R>` values via ".value"
   Jmap<E, R> jMap<E, R>(dynamic keyname, {Map<E, R> initialValue}) {
     Jmap<E, R> v = CJmap<E, R>(initialValue: initialValue);
     var t = this._typer.registerType<Jmap<E, R>>(keyname, v);

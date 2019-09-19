@@ -51,8 +51,8 @@ Jsonable implements different types to represent the whole Json structure:
 * `Jbool`
 * `Jclass<E extends Jsonable>`
 * `Jlist<E>`
-* `Jdynamic` **Still not implemented in testing**
-* `Jmap` **Still not implemented in testing**
+* `Jdynamic` 
+* `Jmap` 
 
 Jsonable records these types and serializes and deserializes the structure based on these types
 
@@ -60,7 +60,7 @@ The functions provided by `Jsonable`:
 
 * `Jclass<E> jClass<E extends Jsonable>(keyname, JsonableConstructor constructor, {E initialValue}) `
 
-  > It returns a Jclass in the generic of this type, extends Jsonable, moreover it requires the constructor a simple function that returns an instance of that type.
+  > It returns a Jclass is `JType<Jsonable>` in the generic of this type, extends Jsonable, moreover it requires the constructor a simple function that returns an instance of that type.
   > Note: it will be instantiated immediately to the declaration if InitialValue is null
 
 *  `Jlist<E> jList<E>(dynamic keyname, {List<E> initialValue, JsonableConstructor constructor})`
@@ -69,13 +69,23 @@ The functions provided by `Jsonable`:
 
 * `Jstring jString(dynamic keyname, {String initialValue})` 
 
+  > Return a `JType <String>` then manage a `String` type in the schema with `fromJson` will assign the value only if it is a `String`, in `toJson` it will assign a `String`, you can assign only `String` values via ".value"
+
 * `Jbool jBool(dynamic keyname, {bool initialValue})`
+
+  > Return a `JType <bool>` then manage a `bool` type in the schema with `fromJson` will assign the value only if it is a `bool`, in `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
 
 * `Jnum jNum(dynamic keyname, {num initialValue})`
 
+  > Return a `JType <num>` then manage a `num` type in the schema with `fromJson` will assign the value only if it is a `num`, in `toJson` it will assign a  `num`, you can assign only `num` values via ".value"
+
 * `Jmap jMap(dynamic keyname, {Map initialValue})`
 
+  > Return a `JType <Map<E,R>>` then manage a `Map<E,R>` type in the schema with `fromJson` will assign the value  only if it is a `Map<E,R>`, in `toJson` it will assign a `Map<E,R>`, you can assign only `Map<E,R>` values via ".value"
+
 * `Jdynamic jDynamic(dynamic keyname, {dynamic initialValue})`
+
+  > Return a `JType <dynamic>` then manage a `dynamic` type in the schema with `fromJson` will assign the value  only if it is a `dynamic`, in `toJson` it will assign a `dynamic`, you can assign only `dynamic` values via ".value"
 
 ## Performance
 
