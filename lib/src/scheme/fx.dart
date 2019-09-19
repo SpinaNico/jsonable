@@ -8,28 +8,27 @@ import 'package:jsonable/src/typing/CJstring.dart';
 
 dynamic encodeJsonSchema(JsonSchema root) {
   Map result = {};
-  for (MapEntry entry in root.entries) {
-    if (entry.value is Jclass) {
-      result[entry.key] = entry.value.value.toMap();
-    } else if (entry.value is Jlist<Jsonable>) {
-      result[entry.key] = entry.value
-          .map((Jsonable val) => val.toMap()); //[encodeJsonSchema(r.value)]);
+  for (var key in root.keys) {
+    if (root[key] is Jclass) {
+      result[key] = root[key].value.toMap();
+    } else if (root[key] is Jlist<Jsonable>) {
+      result[key] = root[key]
+          .value
+          .map((Jsonable val) => val.toMap())
+          .toList(); //[encodeJsonSchema(r.value)]);
     } else
-      result[entry.key] = entry.value.value;
+      result[key] = root[key].value;
   }
 
-  if (result != null) {
-    return result;
-  } else
-    return {};
+  return result != null ? result : {};
 }
 
 decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
   for (MapEntry entry in scheme.entries) {
     if (raw.containsKey(entry.key)) {
       if (entry.value is CJclass) {
-        decodeJsonSchema(raw[entry.key], entry.value.value.value.value);
-      } else if (entry.value is JsonSchema) {
+        entry.value.value.fromMap(raw[entry.key]);
+      } else if (entry.value is JsonType) {
         _combinerJsonTypeNormalType(entry.value, raw[entry.key]);
       }
     }
