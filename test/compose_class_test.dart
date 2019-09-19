@@ -1,40 +1,6 @@
 import 'dart:convert';
-import 'package:jsonable/jsonable.dart';
+import '../example/composeClasseWithList.dart';
 import "package:test/test.dart";
-
-class Person with Jsonable {
-  Jstring name;
-  Jstring surname;
-  Jclass<Permisions> permissions;
-  Jlist tags;
-  Person() {
-    this.name = this.jString("name");
-    this.surname = this.jString("surname");
-    this.tags = this.jList<String>("tags");
-    this.permissions =
-        this.jClass<Permisions>("permisions", () => Permisions());
-  }
-}
-
-class Permisions with Jsonable {
-  Jstring role;
-  Jlist<Permision> permisions;
-
-  Permisions() {
-    this.role = this.jString("role");
-    this.permisions =
-        this.jList<Permision>("permisions", constructor: () => Permision());
-  }
-}
-
-class Permision with Jsonable {
-  Jstring type;
-  Jstring description;
-  Permision() {
-    this.type = this.jString("type");
-    this.description = this.jString("description");
-  }
-}
 
 main() {
   String source = """

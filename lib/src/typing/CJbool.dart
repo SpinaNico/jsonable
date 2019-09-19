@@ -1,6 +1,6 @@
 import "package:jsonable/jsonable.dart";
 
-class CJbool extends Jbool {
+class CJbool extends JBool {
   CJbool({bool initialValue}) : super(initialValue: initialValue);
   operator ==(other) {
     if (other is CJbool)

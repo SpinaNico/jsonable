@@ -1,28 +1,5 @@
-import "package:jsonable/jsonable.dart";
 import "package:test/test.dart";
-
-class Person with Jsonable {
-  Jstring name;
-  Jstring surname;
-  Jlist<Contact> contact;
-  Jlist tags;
-  Person() {
-    this.name = this.jString("name");
-    this.surname = this.jString("surname");
-    this.tags = this.jList("tags");
-    this.contact =
-        this.jList<Contact>("contacts", constructor: () => Contact());
-  }
-}
-
-class Contact with Jsonable {
-  Jstring name;
-  Jstring surname;
-  Contact({String name, String surname}) {
-    this.name = this.jString("name", initialValue: name);
-    this.surname = this.jString("surname", initialValue: surname);
-  }
-}
+import "../example/composedClass.dart";
 
 main() {
   var fakeJson = """
@@ -37,7 +14,7 @@ main() {
   """;
   var p = Person();
   p.fromJson(fakeJson);
-  group("controll compose class with contact Jlist<Contact>", () {
+  group("controll compose class with contactJList<Contact>", () {
     test("list contact is 1?", () {
       expect(p.contact.length, 1);
     });

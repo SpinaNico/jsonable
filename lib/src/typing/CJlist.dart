@@ -3,7 +3,7 @@ import 'dart:math';
 import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/errors.dart';
 
-class CJlist<E> extends Jlist<E> {
+class CJlist<E> extends JList<E> {
   get constructor => this._constructor;
   dynamic _constructor;
   List<E> get _elements => this.value;

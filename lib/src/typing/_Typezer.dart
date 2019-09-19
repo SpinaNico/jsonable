@@ -13,9 +13,9 @@ class Typer {
 }
 
 _rules(value) {
-  if (value is Jlist) {
+  if (value is JList) {
     if (value is CJlist<JType>) {
-      throw "you can't use JType inside a Jlist";
+      throw "you can't use JType inside aJList";
     }
   }
 }

@@ -1,6 +1,6 @@
 import "package:jsonable/jsonable.dart";
 
-class CJnum extends Jnum {
+class CJnum extends JNum {
   CJnum({num initialValue}) : super(initialValue: initialValue);
 
   int compareTo(num other) {

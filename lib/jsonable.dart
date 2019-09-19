@@ -14,31 +14,31 @@ abstract class JType<E> {
   set value(E value) => this._value = value;
 }
 
-abstract class Jstring extends JType<String>
+abstract class JString extends JType<String>
     implements Comparable<String>, Pattern {
-  Jstring({String initialValue}) : super(value: initialValue);
+  JString({String initialValue}) : super(value: initialValue);
 }
 
-abstract class Jnum extends JType<num> implements Comparable<num> {
-  Jnum({num initialValue}) : super(value: initialValue);
+abstract class JNum extends JType<num> implements Comparable<num> {
+  JNum({num initialValue}) : super(value: initialValue);
 }
 
-abstract class Jbool extends JType<bool> {
-  Jbool({bool initialValue}) : super(value: initialValue);
+abstract class JBool extends JType<bool> {
+  JBool({bool initialValue}) : super(value: initialValue);
 }
 
-abstract class Jlist<E> extends JType<List<E>> implements List<E> {
-  Jlist({List<E> initialValue}) : super(value: initialValue);
+abstract class JList<E> extends JType<List<E>> implements List<E> {
+  JList({List<E> initialValue}) : super(value: initialValue);
 }
 
-abstract class Jclass<E extends Jsonable> extends JType<E> {
-  Jclass({Jsonable initialValue}) : super(value: initialValue);
+abstract class JClass<E extends Jsonable> extends JType<E> {
+  JClass({Jsonable initialValue}) : super(value: initialValue);
 }
 
-abstract class Jmap<E, R> extends JType<Map> implements Map<E, R> {
-  Jmap({Map initialValue}) : super(value: initialValue);
+abstract class JMap<E, R> extends JType<Map> implements Map<E, R> {
+  JMap({Map initialValue}) : super(value: initialValue);
 }
 
-abstract class Jdynamic extends JType<dynamic> {
-  Jdynamic({dynamic initialValue}) : super(value: initialValue);
+abstract class JDynamic extends JType<dynamic> {
+  JDynamic({dynamic initialValue}) : super(value: initialValue);
 }

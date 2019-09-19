@@ -4,11 +4,11 @@ import 'package:jsonable/jsonable.dart';
 import "package:test/test.dart";
 
 class Person with Jsonable {
-  Jbool ok;
-  Jstring name;
-  Jstring surname;
-  Jnum years;
-  Jnum height;
+  JBool ok;
+  JString name;
+  JString surname;
+  JNum years;
+  JNum height;
 
   Person() {
     this.ok = this.jBool("ok");

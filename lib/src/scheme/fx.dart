@@ -1,17 +1,18 @@
 import 'package:jsonable/jsonable.dart';
 import 'package:jsonable/src/scheme/JsonSchema.dart';
-import 'package:jsonable/src/typing/CJDynamic.dart';
+import 'package:jsonable/src/typing/CJdynamic.dart';
 import 'package:jsonable/src/typing/CJbool.dart';
 import 'package:jsonable/src/typing/CJclass.dart';
 import 'package:jsonable/src/typing/CJlist.dart';
+import 'package:jsonable/src/typing/CJmap.dart';
 import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/typing/CJstring.dart';
 
 dynamic encodeJsonSchema(JsonSchema root) {
   Map result = root.map((key, type) {
-    if (type is Jclass) {
+    if (type is CJclass<Jsonable>) {
       return MapEntry(key, type.value.toMap());
-    } else if (type is Jlist<Jsonable>) {
+    } else if (type is CJlist<Jsonable>) {
       return MapEntry(
           key,
           type
@@ -35,53 +36,59 @@ decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
   });
 }
 
-_combinerJTypeNormalType(JType JType, dynamic value) {
+_combinerJTypeNormalType(JType jsonType, dynamic value) {
   if (value == null) return;
-  if (JType is CJdynamic) {
-    JType.value = value;
+  if (jsonType is CJdynamic) {
+    jsonType.value = value;
     return;
   }
-  if (JType is CJstring && value is String) {
-    JType.value = value;
-    return;
-  }
-
-  if (JType is CJnum && (value is num || value is int || value is double)) {
-    JType.value = value;
+  if (jsonType is CJstring && value is String) {
+    jsonType.value = value;
     return;
   }
 
-  if (JType is CJbool && value is bool) {
-    JType.value = value;
+  if (jsonType is CJnum && (value is num || value is int || value is double)) {
+    jsonType.value = value;
     return;
   }
-  if (JType is CJlist<Jsonable> && value is List) {
-    JType.createElements(value);
+
+  if (jsonType is CJbool && value is bool) {
+    jsonType.value = value;
     return;
   }
-  if (JType is CJlist && value is List) {
-    if (JType is Jlist<String> && value is List) {
-      JType.value = value.cast<String>();
+  if (jsonType is CJlist<Jsonable> && value is List) {
+    jsonType.createElements(value);
+    return;
+  }
+
+  if (jsonType is CJmap && value is Map) {
+    jsonType.value = value;
+    return;
+  }
+
+  if (jsonType is CJlist && value is List) {
+    if (jsonType is JList<String> && value is List) {
+      jsonType.value = value.cast<String>();
       return;
     }
-    if (JType is Jlist<bool> && value is List) {
-      JType.value = value.cast<bool>();
+    if (jsonType is CJlist<bool> && value is List) {
+      jsonType.value = value.cast<bool>();
       return;
     }
-    if (JType is Jlist<num> && value is List) {
-      JType.value = value.cast<num>();
+    if (jsonType is CJlist<num> && value is List) {
+      jsonType.value = value.cast<num>();
       return;
     }
-    if (JType is Jlist<int> && value is List) {
-      JType.value = value.cast<int>();
+    if (jsonType is CJlist<int> && value is List) {
+      jsonType.value = value.cast<int>();
       return;
     }
-    if (JType is Jlist<double> && value is List) {
-      JType.value = value.cast<double>();
+    if (jsonType is CJlist<double> && value is List) {
+      jsonType.value = value.cast<double>();
       return;
     }
-    if (JType is Jlist<Map> && value is List) {
-      JType.value = value.cast<Map>();
+    if (jsonType is CJlist<Map> && value is List) {
+      jsonType.value = value.cast<Map>();
       return;
     }
     return;

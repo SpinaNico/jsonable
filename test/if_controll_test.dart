@@ -1,18 +1,5 @@
-import 'package:jsonable/jsonable.dart';
+import "../example/simpleComparision.dart";
 import 'package:test/test.dart';
-
-class MyData with Jsonable {
-  Jnum num1;
-  Jnum num2;
-  Jstring string1;
-  Jstring string2;
-  MyData() {
-    this.num1 = this.jNum("num1", initialValue: 1);
-    this.num2 = this.jNum("num2", initialValue: 2);
-    this.string1 = this.jString("keyname", initialValue: "hello");
-    this.string2 = this.jString("keyname", initialValue: "ciao");
-  }
-}
 
 main() {
   group("test controll if expression num, string>", () {
@@ -46,6 +33,12 @@ main() {
       } else {
         expect("${n.string2}, ${n.string1}", true);
       }
+    });
+
+    group("test example", () {
+      test("comparateN1andN2", () => expect(n.comparateN1andN2(), false));
+      test("comparateN1andN2", () => expect(n.compareJNum1and2(), false));
+      test("comparateN1andN2", () => expect(n.compareJnum3and1(), true));
     });
   });
 }

@@ -1,16 +1,6 @@
 import 'dart:convert';
-
-import "package:jsonable/jsonable.dart";
+import "../example/simple_class.dart";
 import 'package:test/test.dart';
-
-class Person with Jsonable {
-  Jstring name;
-  Jstring surname;
-  Person({String name, String surname}) {
-    this.name = this.jString("name", initialValue: name);
-    this.surname = this.jString("surname", initialValue: surname);
-  }
-}
 
 main() {
   String json = """

@@ -21,36 +21,31 @@ mixin Jsonable {
 
   String toJson() => jsonEncode(this.toMap());
   fromJson(String source) => this.fromMap(jsonDecode(source));
-  Map toMap() {
-    return encodeJsonSchema(this._typer.schema);
-  }
 
-  fromMap(Map m) {
-    return decodeJsonSchema(m, this._typer.schema);
-  }
+  Map toMap() => encodeJsonSchema(this._typer.schema);
+  fromMap(Map m) => decodeJsonSchema(m, this._typer.schema);
 
-  /// It returns a Jclass in the generic of
+  /// It returns a `JClass` in the generic of
   /// this type, extends Jsonable, moreover it requires
   /// the constructor a simple function that returns an
   /// instance of that type.
   ///
   /// **Note:** *it will be instantiated immediately to the
   /// declaration if InitialValue is null*
-  Jclass<E> jClass<E extends Jsonable>(
-      dynamic keyname, JsonableConstructor constructor,
+  JClass<E> jClass<E extends Jsonable>(keyname, JsonableConstructor constructor,
       {E initialValue}) {
     CJclass v =
         CJclass<E>(initialValue: initialValue, constructor: constructor);
-    var t = this._typer.registerType<Jclass>(keyname, v);
+    var t = this._typer.registerType<JClass>(keyname, v);
     return t;
   }
 
-  /// Jlist represents a List that can contain any value, you can iterate
-  /// over Jlist and you don't need to access the value via ".value",
+  ///`JList` represents a List that can contain any value, you can iterate
+  /// over JList and you don't need to access the value via ".value",
   /// in this type the constructor parameter becomes mandatory
   /// if you are using a Jsonable as generic are not allowed types of data other
   /// **than: bool, string, num, int, double, map, list**
-  Jlist<E> jList<E>(dynamic keyname,
+  JList<E> jList<E>(keyname,
       {List<E> initialValue, JsonableConstructor constructor}) {
     if (initialValue != null) {
       if (initialValue is List<Jsonable> && constructor == null) {
@@ -61,10 +56,10 @@ mixin Jsonable {
       throw noConstructorError;
     }
 
-    Jlist<E> v =
+    JList<E> v =
         CJlist<E>(initialValue: initialValue, constructor: constructor);
 
-    var t = this._typer.registerType<Jlist<E>>(keyname, v);
+    var t = this._typer.registerType<JList<E>>(keyname, v);
     return t;
   }
 
@@ -72,18 +67,18 @@ mixin Jsonable {
   /// with `fromJson` will assign the value only if it is a `String`,
   /// in `toJson` it will assign a `String`, you can assign only `String` ù
   /// values via ".value"
-  Jstring jString(dynamic keyname, {String initialValue}) {
-    Jstring value = new CJstring(initialValue: initialValue);
-    var t = this._typer.registerType<Jstring>(keyname, value);
+  JString jString(keyname, {String initialValue}) {
+    JString value = new CJstring(initialValue: initialValue);
+    var t = this._typer.registerType<JString>(keyname, value);
     return t;
   }
 
   /// Return a `JType <bool>` then manage a `bool` type in the schema with
   /// `fromJson` will assign the value only if it is a `bool`, in
   /// `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
-  Jbool jBool(dynamic keyname, {bool initialValue}) {
-    Jbool v = CJbool(initialValue: initialValue);
-    var t = this._typer.registerType<Jbool>(keyname, v);
+  JBool jBool(keyname, {bool initialValue}) {
+    JBool v = CJbool(initialValue: initialValue);
+    var t = this._typer.registerType<JBool>(keyname, v);
     return t;
   }
 
@@ -91,25 +86,26 @@ mixin Jsonable {
   /// the schema with `fromJson` will assign the value
   /// only if it is a `num`, in `toJson` it will assign a
   ///  `num`, you can assign only `num` values via ".value"
-  Jnum jNum(dynamic keyname, {num initialValue}) {
-    Jnum v = CJnum(initialValue: initialValue);
-    var t = this._typer.registerType<Jnum>(keyname, v);
+  JNum jNum(keyname, {num initialValue}) {
+    JNum v = CJnum(initialValue: initialValue);
+    var t = this._typer.registerType<JNum>(keyname, v);
     return t;
   }
 
   ///Return a `JType <Map<E,R>>` then manage a `Map<E,R>` type in the schema with
   ///`fromJson` will assign the value  only if it is a `Map<E,R>`, in `toJson`
-  ///it will assign a
-  ///`Map<E,R>`, you can assign only `Map<E,R>` values via ".value"
-  Jmap<E, R> jMap<E, R>(dynamic keyname, {Map<E, R> initialValue}) {
-    Jmap<E, R> v = CJmap<E, R>(initialValue: initialValue);
-    var t = this._typer.registerType<Jmap<E, R>>(keyname, v);
+  ///it will assign a `Map<E,R>`, you can assign only `Map<E,R>` values via ".value"
+  JMap<E, R> jMap<E, R>(keyname, {Map<E, R> initialValue}) {
+    JMap<E, R> v = CJmap<E, R>(initialValue: initialValue);
+    var t = this._typer.registerType<JMap<E, R>>(keyname, v);
     return t;
   }
 
-  Jdynamic jDynamic<E>(dynamic keyname, {dynamic initialValue}) {
-    Jdynamic v = CJdynamic(initialValue: initialValue);
-    var t = this._typer.registerType<Jdynamic>(keyname, v);
+  JDynamic jDynamic<E>(keyname, {dynamic initialValue}) {
+    JDynamic v = CJdynamic(initialValue: initialValue);
+    var t = this._typer.registerType<JDynamic>(keyname, v);
     return t;
   }
+
+  //JType<E> jType<E>(keyname) {}
 }
