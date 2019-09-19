@@ -1,47 +1,36 @@
 import 'package:jsonable/jsonable.dart';
 import 'package:jsonable/src/scheme/JsonSchema.dart';
-import 'package:jsonable/src/scheme/MapList.dart';
 import 'package:jsonable/src/typing/CJbool.dart';
 import 'package:jsonable/src/typing/CJclass.dart';
 import 'package:jsonable/src/typing/CJlist.dart';
 import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/typing/CJstring.dart';
 
-dynamic encodeJsonSchema(root) {
-  MapList result;
-  for (JsonEntry entry in root) {
-    if (result == null)
-      entry.keyname == null ? result = MapList([]) : result = MapList({});
-
-    if (entry.value is JsonType || entry.value is JsonSchema) {
-      if (entry.value is JsonSchema) {
-        result.add(entry.keyname, encodeJsonSchema(entry.value));
-      } else if (entry.value is Jlist<Jsonable>) {
-        //print(" ${entry.value.length} ${entry.value.value.runtimeType}");
-        for (var r in entry.value) {
-          result.add(entry.keyname, [encodeJsonSchema(r.value)]);
-        }
-      } else
-        result.add(entry.keyname, entry.value.value);
-    } else {
-      throw "(encode) FatalError SchemaError: Value in JsonEntry.value don't accept ${entry.value.runtimeType}";
-    }
+dynamic encodeJsonSchema(JsonSchema root) {
+  Map result = {};
+  for (MapEntry entry in root.entries) {
+    if (entry.value is Jclass) {
+      result[entry.key] = entry.value.value.toMap();
+    } else if (entry.value is Jlist<Jsonable>) {
+      result[entry.key] = entry.value
+          .map((Jsonable val) => val.toMap()); //[encodeJsonSchema(r.value)]);
+    } else
+      result[entry.key] = entry.value.value;
   }
 
   if (result != null) {
-    /// Here they return either the list or the map
-    return result.value;
+    return result;
   } else
     return {};
 }
 
 decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
-  for (JsonEntry entry in scheme) {
-    if (raw.containsKey(entry.keyname)) {
-      if (entry.value is JsonType) {
-        _combinerJsonTypeNormalType(entry.value, raw[entry.keyname]);
+  for (MapEntry entry in scheme.entries) {
+    if (raw.containsKey(entry.key)) {
+      if (entry.value is CJclass) {
+        decodeJsonSchema(raw[entry.key], entry.value.value.value.value);
       } else if (entry.value is JsonSchema) {
-        decodeJsonSchema(raw[entry.keyname], entry.value);
+        _combinerJsonTypeNormalType(entry.value, raw[entry.key]);
       }
     }
   }

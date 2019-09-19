@@ -12,8 +12,6 @@ import "./typing/_Typezer.dart";
 import "./typing/CJstring.dart";
 import "dart:convert";
 
-class Json {}
-
 mixin Jsonable {
   Typer _typer = Typer();
   set value(value) => throw "you cannot set a scheme already created";

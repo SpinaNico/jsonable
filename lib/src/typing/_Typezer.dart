@@ -3,15 +3,11 @@ import 'package:jsonable/src/scheme/JsonSchema.dart';
 import "./CJlist.dart";
 
 class Typer {
-  JsonSchema schema = JsonSchema.newScheme([]);
+  JsonSchema schema = JsonSchema.newScheme({});
 
   E registerType<E extends JsonType>(String keyname, JsonType value) {
     _rules(value);
-    if (value is Jclass) {
-      this.schema.add(new JsonEntry(keyname, value.value.value));
-    } else {
-      this.schema.add(new JsonEntry(keyname, value));
-    }
+    this.schema[keyname] = value;
     return value;
   }
 }
