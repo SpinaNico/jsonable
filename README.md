@@ -50,9 +50,9 @@ Jsonable implements different types to represent the whole Json structure:
 * `JNum`
 * `JBool`
 * `JClass<E extends Jsonable>`
-* `JList<E>`
-* `JDynamic` 
-* `JMap` 
+* `JList<E>` 
+* `JDynamic` ***this is  in experimentation***
+* `JMap` ***this is  in experimentation***
 
 Jsonable records these types and serializes and deserializes the structure based on these types
 

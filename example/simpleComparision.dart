@@ -15,10 +15,10 @@ class MyData with Jsonable {
   }
 
   /// Result false
-  bool comparateN1andN2() => this.num2.value == this.num2.value;
+  bool comparateN1andN2() => this.num2.value == this.num1.value;
 
   /// result false
-  bool compareJNum1and2() => this.num2 == this.num2;
+  bool compareJNum1and2() => this.num2 == this.num1;
 
   /// result true
   bool compareJnum3and1() => this.num3 == this.num1;

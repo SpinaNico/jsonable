@@ -37,8 +37,8 @@ main() {
 
     group("test example", () {
       test("comparateN1andN2", () => expect(n.comparateN1andN2(), false));
-      test("comparateN1andN2", () => expect(n.compareJNum1and2(), false));
-      test("comparateN1andN2", () => expect(n.compareJnum3and1(), true));
+      test("compareJNum1and2", () => expect(n.compareJNum1and2(), false));
+      test("compareJnum3and1", () => expect(n.compareJnum3and1(), true));
     });
   });
 }
