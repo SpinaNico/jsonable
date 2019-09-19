@@ -1,6 +1,8 @@
 export "./src/jsonable.dart" show Jsonable;
 import 'package:jsonable/src/jsonable.dart';
 
+typedef JsonableConstructor = Jsonable Function();
+
 abstract class JsonType<E> {
   JsonType({E value}) {
     if (value != null) {

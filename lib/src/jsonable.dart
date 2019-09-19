@@ -41,7 +41,7 @@ mixin Jsonable {
   }
 
   Jlist<E> jList<E>(dynamic keyname,
-      {List<E> initialValue, E Function() constructor}) {
+      {List<E> initialValue, JsonableConstructor constructor}) {
     if (initialValue != null) {
       if (initialValue is List<Jsonable> && constructor == null) {
         throw noConstructorError;

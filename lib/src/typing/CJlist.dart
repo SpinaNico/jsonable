@@ -4,31 +4,24 @@ import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/errors.dart';
 
 class CJlist<E> extends Jlist<E> {
-  E Function() get constructor => this._constructor;
-  E Function() _constructor;
+  get constructor => this._constructor;
+  dynamic _constructor;
   List<E> get _elements => this.value;
 
   createElements(List values) {
     if (constructor == null) throw noConstructorError;
-    values.forEach((value) {
-      if (value is Map) {
-        dynamic _instance = constructor();
-        _instance.fromMap(value);
-        this._elements.add(_instance);
-      }
-    });
+    //constructor()..fromMap({});
+    this.value = (values.where((v) => v is Map ? true : false).map<E>((val) {
+      return constructor()..fromMap(val);
+    }).toList());
   }
 
-  CJlist({List<E> initialValue, E Function() constructor})
+  CJlist({List<E> initialValue, JsonableConstructor constructor})
       : super(initialValue: initialValue) {
     if (initialValue == null) {
       this.value = <E>[];
     }
     this._constructor = constructor;
-  }
-
-  newFrom(List list) {
-    this.value = list;
   }
 
   /// List proxy
@@ -64,7 +57,6 @@ class CJlist<E> extends Jlist<E> {
 
   int get length => this._elements.length;
   Iterable<T> map<T>(T Function(E e) f) {
-    print("cidbwifb ${this._elements.map(f)}");
     return this._elements.map<T>(f);
   }
 
