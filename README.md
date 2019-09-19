@@ -51,8 +51,8 @@ Jsonable implements different types to represent the whole Json structure:
 * `JBool`
 * `JClass<E extends Jsonable>`
 * `JList<E>` 
-* `JDynamic` ***this is  in experimentation***
-* `JMap` ***this is  in experimentation***
+* `JDynamic` ***experimental**
+* `JMap` ***experimental**
 
 Jsonable records these types and serializes and deserializes the structure based on these types
 
@@ -86,6 +86,19 @@ The functions provided by `Jsonable`:
 * `JDynamic jDynamic(dynamic keyname, {dynamic initialValue})`
 
   > Return a `JType <dynamic>` then manage a `dynamic` type in the schema with `fromJson` will assign the value  only if it is a `dynamic`, in `toJson` it will assign a `dynamic`, you can assign only `dynamic` values via ".value"
+  
+
+* `dynamic jOnce(keyname, Jsonable value)` ***experimental**
+
+  > `jOnce` Returns the same value that passes in the value, the value you pass:
+  >
+  > it is inserted inside the Json schema, in a `JClass` that is not instantiated, further.
+  >
+  > This function is very useful when you are in a context like Flutter,
+  >
+  > where objects are called only in the widget build.
+  >
+  > `Jonce` returns your widget, without compromising it as long as the widget uses `Jsonable`
 
 ## Performance
 
