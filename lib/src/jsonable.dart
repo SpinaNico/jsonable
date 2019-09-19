@@ -29,17 +29,27 @@ mixin Jsonable {
     return decodeJsonSchema(m, this._typer.schema);
   }
 
+  /// It returns a Jclass in the generic of
+  /// this type, extends Jsonable, moreover it requires
+  /// the constructor a simple function that returns an
+  /// instance of that type.
+  ///
+  /// **Note:** *it will be instantiated immediately to the
+  /// declaration if InitialValue is null*
   Jclass<E> jClass<E extends Jsonable>(
-    dynamic keyname,
-    E Function() constructor, {
-    E initialValue,
-  }) {
+      dynamic keyname, JsonableConstructor constructor,
+      {E initialValue}) {
     CJclass v =
         CJclass<E>(initialValue: initialValue, constructor: constructor);
     var t = this._typer.registerType<Jclass>(keyname, v);
     return t;
   }
 
+  /// Jlist represents a List that can contain any value, you can iterate
+  /// over Jlist and you don't need to access the value via ".value",
+  /// in this type the constructor parameter becomes mandatory
+  /// if you are using a Jsonable as generic are not allowed types of data other
+  /// **than: bool, string, num, int, double, map, list**
   Jlist<E> jList<E>(dynamic keyname,
       {List<E> initialValue, JsonableConstructor constructor}) {
     if (initialValue != null) {
@@ -77,13 +87,13 @@ mixin Jsonable {
     return t;
   }
 
-  Jmap jMap(dynamic keyname, {Map initialValue}) {
-    Jmap v = CJmap(initialValue: initialValue);
-    var t = this._typer.registerType<Jmap>(keyname, v);
+  Jmap<E, R> jMap<E, R>(dynamic keyname, {Map<E, R> initialValue}) {
+    Jmap<E, R> v = CJmap<E, R>(initialValue: initialValue);
+    var t = this._typer.registerType<Jmap<E, R>>(keyname, v);
     return t;
   }
 
-  Jdynamic jDynamic(dynamic keyname, {dynamic initialValue}) {
+  Jdynamic jDynamic<E>(dynamic keyname, {dynamic initialValue}) {
     Jdynamic v = CJdynamic(initialValue: initialValue);
     var t = this._typer.registerType<Jdynamic>(keyname, v);
     return t;

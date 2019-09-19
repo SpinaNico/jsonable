@@ -5,7 +5,7 @@ import "./CJlist.dart";
 class Typer {
   JsonSchema schema = JsonSchema.newScheme({});
 
-  E registerType<E extends JsonType>(String keyname, JsonType value) {
+  E registerType<E extends JType>(String keyname, JType value) {
     _rules(value);
     this.schema[keyname] = value;
     return value;
@@ -14,8 +14,8 @@ class Typer {
 
 _rules(value) {
   if (value is Jlist) {
-    if (value is CJlist<JsonType>) {
-      throw "you can't use JsonType inside a Jlist";
+    if (value is CJlist<JType>) {
+      throw "you can't use JType inside a Jlist";
     }
   }
 }

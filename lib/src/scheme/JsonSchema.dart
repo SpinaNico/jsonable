@@ -1,13 +1,12 @@
-abstract class JsonSchema<E, JsonType> implements Map<E, JsonType> {
-  static JsonSchema<E, JsonType> newScheme<E, JsonType>(
-      Map<E, JsonType> values) {
-    return _CJsonSchema<E, JsonType>(values);
+abstract class JsonSchema<E, JType> implements Map<E, JType> {
+  static JsonSchema<E, JType> newScheme<E, JType>(Map<E, JType> values) {
+    return _CJsonSchema<E, JType>(values);
   }
 }
 
-class _CJsonSchema<E, JsonType> implements JsonSchema<E, JsonType> {
-  Map<E, JsonType> _elements = {};
-  _CJsonSchema([Map<E, JsonType> value]) {
+class _CJsonSchema<E, JType> implements JsonSchema<E, JType> {
+  Map<E, JType> _elements = {};
+  _CJsonSchema([Map<E, JType> value]) {
     if (value != null) this._elements = value;
   }
   JsonSchema get value => this;
@@ -15,19 +14,19 @@ class _CJsonSchema<E, JsonType> implements JsonSchema<E, JsonType> {
 
 // proxy map
   @override
-  JsonType operator [](Object key) => this._elements[key];
+  JType operator [](Object key) => this._elements[key];
 
-  void operator []=(E key, JsonType value) {
+  void operator []=(E key, JType value) {
     this._elements[key] = value;
   }
 
   @override
-  void addAll(Map<E, JsonType> other) {
+  void addAll(Map<E, JType> other) {
     this._elements.addAll(other);
   }
 
   @override
-  void addEntries(Iterable<MapEntry<E, JsonType>> newEntries) {
+  void addEntries(Iterable<MapEntry<E, JType>> newEntries) {
     this._elements.addEntries(newEntries);
   }
 
@@ -52,10 +51,10 @@ class _CJsonSchema<E, JsonType> implements JsonSchema<E, JsonType> {
   }
 
   @override
-  Iterable<MapEntry<E, JsonType>> get entries => this._elements.entries;
+  Iterable<MapEntry<E, JType>> get entries => this._elements.entries;
 
   @override
-  void forEach(void Function(E key, JsonType value) f) {
+  void forEach(void Function(E key, JType value) f) {
     this._elements.forEach(f);
   }
 
@@ -72,28 +71,28 @@ class _CJsonSchema<E, JsonType> implements JsonSchema<E, JsonType> {
   int get length => this._elements.length;
 
   @override
-  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(E key, JsonType value) f) {
+  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(E key, JType value) f) {
     return this._elements.map<K2, V2>(f);
   }
 
   @override
-  JsonType putIfAbsent(E key, JsonType Function() ifAbsent) {
+  JType putIfAbsent(E key, JType Function() ifAbsent) {
     return this._elements.putIfAbsent(key, ifAbsent);
   }
 
   @override
-  JsonType remove(Object key) {
+  JType remove(Object key) {
     return this._elements.remove(key);
   }
 
   @override
-  void removeWhere(bool Function(E key, JsonType value) predicate) {
+  void removeWhere(bool Function(E key, JType value) predicate) {
     this._elements.removeWhere(predicate);
   }
 
   @override
-  JsonType update(E key, JsonType Function(JsonType value) update,
-      {JsonType Function() ifAbsent}) {
+  JType update(E key, JType Function(JType value) update,
+      {JType Function() ifAbsent}) {
     return this._elements.update(
           key,
           update,
@@ -102,10 +101,10 @@ class _CJsonSchema<E, JsonType> implements JsonSchema<E, JsonType> {
   }
 
   @override
-  void updateAll(JsonType Function(E key, JsonType value) update) {
+  void updateAll(JType Function(E key, JType value) update) {
     this._elements.updateAll(update);
   }
 
   @override
-  Iterable<JsonType> get values => this._elements.values;
+  Iterable<JType> get values => this._elements.values;
 }
