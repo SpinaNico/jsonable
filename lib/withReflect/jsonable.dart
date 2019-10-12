@@ -1,6 +1,7 @@
 import "dart:convert";
 import "./mapable.dart";
 
+@deprecated
 mixin mixinJson {
   String toJson() {
     return jsonable(this);

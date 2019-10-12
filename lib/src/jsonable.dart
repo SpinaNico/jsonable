@@ -14,7 +14,6 @@ import "dart:convert";
 
 mixin Jsonable {
   Typer _typer = Typer();
-  set value(value) => throw "you cannot set a scheme already created";
 
   /// Get Scheme
   JsonSchema get value => this._typer.schema;
