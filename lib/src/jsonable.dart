@@ -16,7 +16,7 @@ mixin Jsonable {
   Typer _typer = Typer();
 
   /// Get Scheme
-  JsonSchema get value => this._typer.schema;
+  // JsonSchema get value => this._typer.schema;
 
   validate({keyname}) {
     return this._typer.validate(keyname: keyname);

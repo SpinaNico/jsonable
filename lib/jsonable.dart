@@ -1,6 +1,9 @@
 library jsonable;
 
 export "./src/jsonable.dart" show Jsonable;
+export './src/validator/validator.dart' show validator, Validator;
+export './src/validator/exceptions.dart' show JsonableValidatorException;
+
 import 'package:jsonable/src/jsonable.dart';
 import 'package:jsonable/src/validator/validator.dart';
 
