@@ -18,6 +18,10 @@ mixin Jsonable {
   /// Get Scheme
   JsonSchema get value => this._typer.schema;
 
+  validate({keyname}) {
+    return this._typer.validate(keyname: keyname);
+  }
+
   String toJson() => jsonEncode(this.toMap());
   fromJson(String source) => this.fromMap(jsonDecode(source));
 

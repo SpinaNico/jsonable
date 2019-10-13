@@ -9,17 +9,14 @@ import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/typing/CJstring.dart';
 
 dynamic encodeJsonSchema(JsonSchema root) {
-  Map result = root.map((key, type) {
+  Map result = {};
+  root.forEach((key, type) {
     if (type is CJclass<Jsonable>) {
-      return MapEntry(key, type.value.toMap());
+      return result[key] = type.value.toMap();
     } else if (type is CJlist<Jsonable>) {
-      return MapEntry(
-          key,
-          type
-              .map((Jsonable val) => val.toMap())
-              .toList()); //[encodeJsonSchema(r.value)]);
+      return result[key] = type.map((Jsonable val) => val.toMap()).toList();
     } else
-      return MapEntry(key, type.value);
+      return result[key] = type.value;
   });
   return result != null ? result : {};
 }

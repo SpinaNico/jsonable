@@ -9,12 +9,7 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
   
 dependencies:  
-  # flutter:
-  #   sdk: flutter
 
 dev_dependencies:
   test: any
-#   flutter_test:
-#     sdk: flutter
-# flutter:
-#   uses-material-design: true
+  benchmark_harness: any
