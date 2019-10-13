@@ -10,6 +10,7 @@ Validator validator({
   dynamic notEgual,
   dynamic egual,
   bool required,
+  bool reserved,
   List<String> requiredWidth,
   List<String> requiredWithout,
   String badCharacter,
@@ -19,6 +20,7 @@ Validator validator({
       max: max,
       min: min,
       oneOf: oneOf,
+      reserved: reserved,
       regex: regex,
       notEgual: notEgual,
       egual: egual,
@@ -39,6 +41,7 @@ abstract class Validator {
   final bool required;
   final List<String> requiredWidth;
   final List<String> requiredWithout;
+  final bool reserved;
   final String badCharacter;
   Validator({
     this.len,
@@ -52,15 +55,12 @@ abstract class Validator {
     this.requiredWidth,
     this.requiredWithout,
     this.badCharacter,
+    this.reserved,
   });
 }
 
 class CValidator extends Validator {
   List<JsonableValidatorException> errors(JType element, keyname) {
-    if (element is JString) {
-    } else if (element is JBool) {
-    } else if (element is JNum) {}
-
     return [];
   }
 
@@ -68,6 +68,7 @@ class CValidator extends Validator {
     int len,
     num max,
     num min,
+    bool reserved,
     List oneOf,
     RegExp regex,
     dynamic notEgual,
@@ -82,6 +83,7 @@ class CValidator extends Validator {
           min: min,
           oneOf: oneOf,
           regex: regex,
+          reserved: reserved,
           notEgual: notEgual,
           egual: egual,
           required: required,
