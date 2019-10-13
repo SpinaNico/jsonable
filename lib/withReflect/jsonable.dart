@@ -14,10 +14,12 @@ mixin mixinJson {
 }
 
 ///This function receives an object and returns the json string of its fields
+@deprecated
 String jsonable(Object o) {
   return jsonEncode(mapable(o));
 }
 
+@deprecated
 List<E> jsonableList<E>(String json) {
   throw "Not implemented";
 }
