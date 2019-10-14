@@ -1,15 +1,8 @@
-# Jsonable (v0.0.2)
+# Jsonable (
+## Jsonable
 
-to install:
-
-```yaml
-dependencies:
-  jsonable: ^0.0.2
-```
-
-## what is Jsonable?
-
-if you are interested in Jsoable with reflect [read here](./WithReflect.md)
+>(deprecated of `0.0.2+2`)
+>if you are interested in Jsoable with reflect [read here](./WithReflect.md)
 
 Jsonable is a library that deals with offering a simple way to manage dart classes fromJson and toJson, allowing the transpiration from dart to json.
 One of the main objectives and the philosophy of Jsoanble, is to remove the generated code making any object convertible into Json.
@@ -53,6 +46,7 @@ Jsonable implements different types to represent the whole Json structure:
 * `JList<E>` 
 * `JDynamic` ***experimental**
 * `JMap` ***experimental**
+
 
 Jsonable records these types and serializes and deserializes the structure based on these types
 
@@ -114,8 +108,8 @@ Tests were made by timing, the result was:
 
 ### Conclusion
 
-If you want you can support the development by offering me a beer: [paypal](https://www.paypal.com/donate/?token=vm8zFQO-fdND2nUoQj1Qlasgv_-HBXfWnCPrQByr004Dhj5jc2AeBesdxe9AVcIiPYlezG&country.x=IT&locale.x=IT)
+If you want you can support the development by offering me a coffee: [paypal](https://www.paypal.com/donate/?token=vm8zFQO-fdND2nUoQj1Qlasgv_-HBXfWnCPrQByr004Dhj5jc2AeBesdxe9AVcIiPYlezG&country.x=IT&locale.x=IT)
 
-If you can't buy beer, you can always leave me a star on [github](https://github.com/SpinaNico/jsonable).
+If you can't buy coffee, you can always leave me a star on [github](https://github.com/SpinaNico/jsonable).
 
 thanks!
