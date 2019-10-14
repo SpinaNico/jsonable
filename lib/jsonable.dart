@@ -21,6 +21,21 @@ abstract class JType<E> {
   E _value;
   E get value => this._value;
   set value(E value) => this._value = value;
+
+  ///Pass me a value to change the internal value to Jtype
+  operator <<(E value) {
+    this.value = value;
+  }
+
+  /// it returns the internal value of the JType if you pass
+  /// another Jtype it will be replaced the value to the other.
+  /// you can pass me null to simply receive the value inside
+  E operator >>(JType<E> other) {
+    if (other != null) {
+      other << this.value;
+    }
+    return this.value;
+  }
 }
 
 abstract class JString extends JType<String>

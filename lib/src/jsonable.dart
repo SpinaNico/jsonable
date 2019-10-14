@@ -25,6 +25,9 @@ mixin Jsonable {
   Map toMap() => encodeJsonSchema(this._typer.schema);
   fromMap(Map m) => decodeJsonSchema(m, this._typer.schema);
 
+  /// returns the JType within the schema
+  JType operator [](keyname) => this._typer.schema[keyname];
+
   /// It returns a `JClass` in the generic of
   /// this type, extends Jsonable, moreover it requires
   /// the constructor a simple function that returns an
