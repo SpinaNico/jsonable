@@ -1,3 +1,12 @@
+### 0.0.2+2
+
+* add JType operator "<<" for set value internal Jtype  and operator ">>" for get value internal Jtype
+* add Jsonable operator "[]" 
+* performance improvement 
+* deprecation old Jsonable reflect if you use reflection use this pack: [dson](https://pub.dev/packages/dson)
+* start of experiments with flutter and auto-form (soon with a new flutter package)
+* add example for benchmark
+
 ### 0.0.2
 Breaking change.
 
