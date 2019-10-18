@@ -4,27 +4,27 @@ class CJnum extends JNum {
   CJnum({num initialValue}) : super(initialValue: initialValue);
 
   int compareTo(num other) {
-    return this.value.compareTo(other);
+    return this.get.compareTo(other);
   }
 
-  operator ==(Object other) {
+  bool operator ==(Object other) {
     if (other is CJnum)
-      return this.value == other.value;
+      return this.get == other.get;
     else
-      return this.value == other;
+      return this.get == other;
   }
 
-  operator >=(Object other) {
+  bool operator >=(Object other) {
     if (other is CJnum)
-      return this.value == other.value;
+      return this.get == other.get;
     else
-      return this.value == other;
+      return this.get == other;
   }
 
-  operator <=(Object other) {
+  bool operator <=(Object other) {
     if (other is CJnum)
-      return this.value == other.value;
+      return this.get == other.get;
     else
-      return this.value == other;
+      return this.get == other;
   }
 }

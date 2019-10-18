@@ -2,7 +2,7 @@ import 'package:jsonable/jsonable.dart';
 
 class CJmap<E, R> extends JMap<E, R> {
   CJmap({Map initialValue}) : super(initialValue: initialValue) {}
-  Map<E, R> get _elements => this.value;
+  Map<E, R> get _elements => this.get;
   void operator []=(E key, R value) {
     this._elements[key] = value;
   }

@@ -1,6 +1,8 @@
 import 'dart:convert';
-import '../example/composeClasseWithList.dart';
+
 import "package:test/test.dart";
+
+import '../example/composeClasseWithList.dart';
 
 main() {
   String source = """
@@ -20,22 +22,20 @@ main() {
   group("test fromJson", () {
     var p = Person();
     p.fromJson(source);
-    test("test name", () => expect(p.name.value, "Nico"));
-    test("test surname", () => expect(p.surname.value, "Spina"));
-    test(
-        "test permisions",
-        () =>
-            expect(p.permissions.value.runtimeType, Permisions().runtimeType));
+    test("test name", () => expect(p.name.get, "Nico"));
+    test("test surname", () => expect(p.surname.get, "Spina"));
+    test("test permisions",
+        () => expect(p.permissions.get.runtimeType, Permisions().runtimeType));
     test("test permisions role",
-        () => expect(p.permissions.value.role.value, "CTO"));
+        () => expect(p.permissions.get.role.get, "CTO"));
     test("test permision length", () {
-      expect(p.permissions.value.permisions.value.length, 1);
+      expect(p.permissions.get.permisions.get.length, 1);
     });
     test("test permision type is admin", () {
-      expect(p.permissions.value.permisions.value[0].type.value, "admin");
+      expect(p.permissions.get.permisions.get[0].type.get, "admin");
     });
     test("test permision description ", () {
-      expect(p.permissions.value.permisions.value[0].description.value,
+      expect(p.permissions.get.permisions.get[0].description.get,
           "complete controll");
     });
 

@@ -4,8 +4,8 @@ class CJbool extends JBool {
   CJbool({bool initialValue}) : super(initialValue: initialValue);
   operator ==(other) {
     if (other is CJbool)
-      return this.value == other.value;
+      return this.get == other.get;
     else
-      return this.value == other;
+      return this.get == other;
   }
 }

@@ -4,24 +4,23 @@ import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/errors.dart';
 
 class CJlist<E> extends JList<E> {
-  get constructor => this._constructor;
-  dynamic _constructor;
-  List<E> get _elements => this.value;
+  dynamic _builder;
+  List<E> get _elements => this.get;
 
   createElements(List values) {
-    if (constructor == null) throw noConstructorError;
+    if (this._builder == null) throw noConstructorError;
     //constructor()..fromMap({});
-    this.value = (values.where((v) => v is Map ? true : false).map<E>((val) {
-      return constructor()..fromMap(val);
+    this.set(values.where((v) => v is Map ? true : false).map<E>((val) {
+      return _builder()..fromMap(val);
     }).toList());
   }
 
-  CJlist({List<E> initialValue, JsonableConstructor constructor})
+  CJlist({List<E> initialValue, JsonableBuilder builder})
       : super(initialValue: initialValue) {
     if (initialValue == null) {
-      this.value = <E>[];
+      this.set(<E>[]);
     }
-    this._constructor = constructor;
+    this._builder = builder;
   }
 
   /// List proxy
@@ -95,15 +94,15 @@ class CJlist<E> extends JList<E> {
   }
 
   @override
-  E operator [](int index) => this.value[index];
+  E operator [](int index) => this.get[index];
 
   @override
-  void operator []=(int index, E value) => this.value[index] = value;
+  void operator []=(int index, E value) => this.get[index] = value;
 
   @override
-  void add(E value) => this.value.add(value);
+  void add(E value) => this.get.add(value);
   @override
-  void addAll(Iterable<E> iterable) => this.value.addAll(iterable);
+  void addAll(Iterable<E> iterable) => this.get.addAll(iterable);
 
   @override
   Map<int, E> asMap() => this._elements.asMap();

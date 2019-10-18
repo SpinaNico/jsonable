@@ -1,8 +1,8 @@
 import "./jsonable.dart";
 import "./mapable.dart";
-export "./jsonable.dart" show jsonable;
-export "./mapable.dart" show mapable;
+
 export './annotation.dart' show JsonNote, JsonValidator;
+export "./mapable.dart" show mapable;
 export "./validator/exceptions.dart";
 export "./validator/jsonValidator.dart" show validate;
 

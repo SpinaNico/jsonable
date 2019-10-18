@@ -15,7 +15,7 @@ class MyData with Jsonable {
   }
 
   /// Result false
-  bool comparateN1andN2() => this.num2.value == this.num1.value;
+  bool comparateN1andN2() => this.num2.get == this.num1.get;
 
   /// result false
   bool compareJNum1and2() => this.num2 == this.num1;

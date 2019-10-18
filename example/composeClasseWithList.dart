@@ -21,7 +21,7 @@ class Permisions with Jsonable {
   Permisions() {
     this.role = this.jString("role");
     this.permisions =
-        this.jList<Permision>("permisions", constructor: () => Permision());
+        this.jList<Permision>("permisions", builder: () => Permision());
   }
 }
 

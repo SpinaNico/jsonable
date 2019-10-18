@@ -32,11 +32,11 @@ main() {
     group("fromMap", () {
       var p = Person();
       p.fromMap(mapped);
-      test("name", () => expect(p.name.value, "Nico"));
-      test("surname", () => expect(p.surname.value, "Spina"));
-      test("years", () => expect(p.years.value, 25));
-      test("height", () => expect(p.height.value, 1.80));
-      test("ok", () => expect(p.ok.value, true));
+      test("name", () => expect(p.name.get, "Nico"));
+      test("surname", () => expect(p.surname.get, "Spina"));
+      test("years", () => expect(p.years.get, 25));
+      test("height", () => expect(p.height.get, 1.80));
+      test("ok", () => expect(p.ok.get, true));
     });
   });
 }

@@ -1,6 +1,8 @@
 import 'dart:convert';
-import "../example/JMapExample.dart";
+
 import "package:test/test.dart";
+
+import "../example/JMapExample.dart";
 
 main() {
   String fakeJson = """
@@ -13,7 +15,7 @@ main() {
     p.fromJson(fakeJson);
     var trued = jsonDecode(fakeJson);
     test("correct is Map", () {
-      expect(p.myMap.value["1"], trued["map"]["1"]);
+      expect(p.myMap.get["1"], trued["map"]["1"]);
     });
   });
 }

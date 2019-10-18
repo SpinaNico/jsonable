@@ -1,13 +1,13 @@
 library jsonable;
 
-export "./src/jsonable.dart" show Jsonable;
-export './src/validator/validator.dart' show validator, Validator;
-export './src/validator/exceptions.dart' show JsonableValidatorException;
-
 import 'package:jsonable/src/jsonable.dart';
 import 'package:jsonable/src/validator/validator.dart';
 
-typedef JsonableConstructor = Jsonable Function();
+export "./src/jsonable.dart" show Jsonable;
+export './src/validator/exceptions.dart' show JsonableValidatorException;
+export './src/validator/validator.dart' show validator, Validator;
+
+typedef JsonableBuilder<E extends Jsonable> = E Function();
 
 abstract class JType<E> {
   CValidator _validator;
@@ -19,23 +19,8 @@ abstract class JType<E> {
     }
   }
   E _value;
-  E get value => this._value;
-  set value(E value) => this._value = value;
-
-  ///Pass me a value to change the internal value to Jtype
-  operator <<(E value) {
-    this.value = value;
-  }
-
-  /// it returns the internal value of the JType if you pass
-  /// another Jtype it will be replaced the value to the other.
-  /// you can pass me null to simply receive the value inside
-  E operator >>(JType<E> other) {
-    if (other != null) {
-      other << this.value;
-    }
-    return this.value;
-  }
+  E get get => this._value;
+  void set(E value) => this._value = value;
 }
 
 abstract class JString extends JType<String>

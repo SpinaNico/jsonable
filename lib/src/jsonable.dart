@@ -1,16 +1,18 @@
+import "dart:convert";
+
 import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/errors.dart';
 import 'package:jsonable/src/scheme/JsonSchema.dart';
 import 'package:jsonable/src/scheme/fx.dart';
 import 'package:jsonable/src/typing/CJbool.dart';
+import 'package:jsonable/src/typing/CJclass.dart';
 import 'package:jsonable/src/typing/CJdynamic.dart';
 import 'package:jsonable/src/typing/CJlist.dart';
 import 'package:jsonable/src/typing/CJmap.dart';
 import 'package:jsonable/src/typing/CJnum.dart';
-import 'package:jsonable/src/typing/CJclass.dart';
-import "./typing/_Typezer.dart";
+
 import "./typing/CJstring.dart";
-import "dart:convert";
+import "./typing/_Typezer.dart";
 
 mixin Jsonable {
   Typer _typer = Typer();
@@ -35,10 +37,9 @@ mixin Jsonable {
   ///
   /// **Note:** *it will be instantiated immediately to the
   /// declaration if InitialValue is null*
-  JClass<E> jClass<E extends Jsonable>(keyname, JsonableConstructor constructor,
+  JClass<E> jClass<E extends Jsonable>(keyname, JsonableBuilder constructor,
       {E initialValue}) {
-    CJclass v =
-        CJclass<E>(initialValue: initialValue, constructor: constructor);
+    CJclass v = CJclass<E>(initialValue: initialValue, builder: constructor);
     var t = this._typer.registerType<JClass>(keyname, v);
     return t;
   }
@@ -48,19 +49,17 @@ mixin Jsonable {
   /// in this type the constructor parameter becomes mandatory
   /// if you are using a Jsonable as generic are not allowed types of data other
   /// **than: bool, string, num, int, double, map, list**
-  JList<E> jList<E>(keyname,
-      {List<E> initialValue, JsonableConstructor constructor}) {
+  JList<E> jList<E>(keyname, {List<E> initialValue, JsonableBuilder builder}) {
     if (initialValue != null) {
-      if (initialValue is List<Jsonable> && constructor == null) {
+      if (initialValue is List<Jsonable> && builder == null) {
         throw noConstructorError;
       }
     }
-    if (E is Jsonable && constructor == null) {
+    if (E is Jsonable && builder == null) {
       throw noConstructorError;
     }
 
-    JList<E> v =
-        CJlist<E>(initialValue: initialValue, constructor: constructor);
+    JList<E> v = CJlist<E>(initialValue: initialValue, builder: builder);
 
     var t = this._typer.registerType<JList<E>>(keyname, v);
     return t;
