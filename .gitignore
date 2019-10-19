@@ -2,5 +2,6 @@
 .dart_tool/
 _.dart
 .packages
+.idea
 _
 _/
