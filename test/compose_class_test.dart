@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import "package:test/test.dart";
 
-import '../example/composeClasseWithList.dart';
+import '../example/JList.dart';
 
 main() {
   String source = """

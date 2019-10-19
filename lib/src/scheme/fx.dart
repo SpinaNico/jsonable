@@ -15,6 +15,10 @@ dynamic encodeJsonSchema(JsonSchema root) {
       return result[key] = type.get.toMap();
     } else if (type is CJlist<Jsonable>) {
       return result[key] = type.map((Jsonable val) => val.toMap()).toList();
+    } else if (type is CJmap<dynamic, Jsonable>) {
+      return result[key] = type.map((key, val) {
+        return MapEntry(key, val.toMap());
+      });
     } else
       return result[key] = type.get;
   });
@@ -59,6 +63,10 @@ _combinerJTypeNormalType(JType jsonType, dynamic value) {
   }
 
   if (jsonType is CJmap && value is Map) {
+    if (jsonType is CJmap<dynamic, Jsonable> && value is Map) {
+      jsonType.createElements(value);
+      return;
+    }
     jsonType.set(value);
     return;
   }

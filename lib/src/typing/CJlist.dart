@@ -117,7 +117,10 @@ class CJlist<E> extends JList<E> {
       this._elements.fillRange(start, end);
 
   @override
-  void set first(E value) => this._elements.first = value;
+  void set first(E value) {
+    this._elements.first = value;
+  }
+
   @override
   Iterable<E> getRange(int start, int end) =>
       this._elements.getRange(start, end);
@@ -137,7 +140,9 @@ class CJlist<E> extends JList<E> {
       this._elements.insertAll(index, iterable);
 
   @override
-  void set last(E value) => this._elements.last = value;
+  void set last(E value) {
+    this._elements.last = value;
+  }
 
   @override
   int lastIndexOf(E element, [int start]) =>
@@ -148,7 +153,9 @@ class CJlist<E> extends JList<E> {
       this._elements.lastIndexWhere(test, start);
 
   @override
-  void set length(int newLength) => this._elements.length = newLength;
+  void set length(int newLength) {
+    this._elements.length = newLength;
+  }
 
   @override
   bool remove(Object value) => this.remove(value);

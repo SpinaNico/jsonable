@@ -1,5 +1,6 @@
-import "../example/simpleComparision.dart";
 import 'package:test/test.dart';
+
+import "../example/operator_jnum.dart";
 
 main() {
   group("test controll if expression num, string>", () {

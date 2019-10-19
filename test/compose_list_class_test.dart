@@ -1,6 +1,6 @@
 import "package:test/test.dart";
 
-import "../example/composedClass.dart";
+import "../example/Jclass.dart";
 
 main() {
   var fakeJson = """

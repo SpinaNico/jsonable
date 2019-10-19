@@ -97,8 +97,14 @@ mixin Jsonable {
   ///Return a `JType <Map<E,R>>` then manage a `Map<E,R>` type in the schema with
   ///`fromJson` will assign the value  only if it is a `Map<E,R>`, in `toJson`
   ///it will assign a `Map<E,R>`, you can assign only `Map<E,R>` values via ".value"
-  JMap<E, R> jMap<E, R>(keyname, {Map<E, R> initialValue}) {
-    JMap<E, R> v = CJmap<E, R>(initialValue: initialValue);
+  JMap<E, R> jMap<E, R>(keyname,
+      {Map<E, R> initialValue, JsonableBuilder builder}) {
+    if (R is Jsonable && builder == null) {
+      throw noConstructorError;
+    }
+
+    JMap<E, R> v = CJmap<E, R>(initialValue: initialValue, builder: builder);
+
     var t = this._typer.registerType<JMap<E, R>>(keyname, v);
     return t;
   }

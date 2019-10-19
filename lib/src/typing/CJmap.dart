@@ -1,10 +1,24 @@
 import 'package:jsonable/jsonable.dart';
+import 'package:jsonable/src/errors.dart';
 
 class CJmap<E, R> extends JMap<E, R> {
-  CJmap({Map initialValue}) : super(initialValue: initialValue) {}
+  dynamic _builder;
+  CJmap({Map initialValue, JsonableBuilder builder})
+      : super(initialValue: initialValue) {
+    this._builder = builder;
+  }
+
   Map<E, R> get _elements => this.get;
   void operator []=(E key, R value) {
     this._elements[key] = value;
+  }
+
+  createElements(Map<dynamic, Map> values) {
+    if (this._builder == null) throw noConstructorError;
+
+    this.set(values.map<E, R>((key, val) {
+      return MapEntry(key, this._builder()..fromMap(val));
+    }));
   }
 
   @override
