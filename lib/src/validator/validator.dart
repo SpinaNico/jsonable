@@ -1,5 +1,7 @@
+import 'package:jsonable/src/validator/test_functions.dart';
+
 class Validator {
-  Validator(List rules, String name);
+  Validator(List<Rule> rules, Exception except);
 }
 
 // Validator newValidator({
