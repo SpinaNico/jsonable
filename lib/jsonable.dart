@@ -4,13 +4,12 @@ import 'package:jsonable/src/jsonable.dart';
 import 'package:jsonable/src/validator/validator.dart';
 
 export "./src/jsonable.dart" show Jsonable;
-export './src/validator/exceptions.dart' show JsonableValidatorException;
-export './src/validator/validator.dart' show validator, Validator;
+export './src/validator/validator.dart' show Validator;
 
 typedef JsonableBuilder<E extends Jsonable> = E Function();
 
 abstract class JType<E> {
-  CValidator _validator;
+  Validator _validator;
   Validator get validator => this._validator;
   JType({E value, Validator validator}) {
     this._validator = validator;

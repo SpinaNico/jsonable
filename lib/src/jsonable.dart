@@ -17,9 +17,11 @@ import "./typing/_Typezer.dart";
 mixin Jsonable {
   Typer _typer = Typer();
   JsonSchema get scheme => this._typer.schema;
-  validate({keyname}) {
-    return this._typer.validate(keyname: keyname);
-  }
+
+  ///
+  // Map<dynamic, JsonableValidatorException> validate({keyname}) {
+  //   return this._typer.validate(keyname);
+  // }
 
   String toJson() => jsonEncode(this.toMap());
   fromJson(String source) => this.fromMap(jsonDecode(source));
@@ -69,8 +71,9 @@ mixin Jsonable {
   /// with `fromJson` will assign the value only if it is a `String`,
   /// in `toJson` it will assign a `String`, you can assign only `String` ù
   /// values via ".value"
-  JString jString(keyname, {String initialValue}) {
-    JString value = new CJstring(initialValue: initialValue);
+  JString jString(keyname, {String initialValue, Validator validator}) {
+    JString value =
+        new CJstring(initialValue: initialValue, validator: validator);
     var t = this._typer.registerType<JString>(keyname, value);
     return t;
   }

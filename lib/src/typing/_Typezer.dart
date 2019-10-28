@@ -1,21 +1,12 @@
 import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/scheme/JsonSchema.dart';
-import 'package:jsonable/src/validator/exceptions.dart';
-import 'package:jsonable/src/validator/validator.dart';
+
 import "./CJlist.dart";
 
 class Typer {
   JsonSchema schema = JsonSchema.newScheme({});
 
-  List<JsonableValidatorException> validate({keyname}) {
-    List<JsonableValidatorException> errors = [];
-    for (var key in this.schema.keys) {
-      errors.addAll(((this.schema[key] as JType).validator as CValidator)
-          .errors(
-              this.schema[key], "$keyname${keyname != null ? "." : ""}$key"));
-    }
-    return errors;
-  }
+  validate(keyname) {}
 
   E registerType<E extends JType>(String keyname, JType value) {
     _rules(value);

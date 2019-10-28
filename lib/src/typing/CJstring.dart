@@ -1,7 +1,8 @@
 import "package:jsonable/jsonable.dart";
 
 class CJstring extends JString {
-  CJstring({String initialValue}) : super(initialValue: initialValue);
+  CJstring({String initialValue, Validator validator})
+      : super(initialValue: initialValue, validator: validator);
 
   operator ==(other) {
     if (other is CJstring)

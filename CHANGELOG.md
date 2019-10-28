@@ -1,6 +1,16 @@
+### 0.1.0
+* add JMap type for Map and Map with Jsonable
+* add Validation and make validator
+* add jDynamic
+* **Breaking Change** setter and getter value have been removed and replaced with
+    * void set(E value) - set value within JType
+    * E get get; -  get value in JType
+* **Breaking Change** removed (experimental) operator "<<" and operator ">>"
+
+
 ### 0.0.2+2
 
-* add JType operator "<<" for set value internal Jtype  and operator ">>" for get value internal Jtype
+* (experimental) add JType  operator "<<" for set value internal Jtype  and operator ">>" for get value internal Jtype
 * add Jsonable operator "[]" 
 * performance improvement 
 * deprecation old Jsonable reflect if you use reflection use this pack: [dson](https://pub.dev/packages/dson)
