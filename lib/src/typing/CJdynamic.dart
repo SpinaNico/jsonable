@@ -1,5 +1,6 @@
 import 'package:jsonable/jsonable.dart';
 
 class CJdynamic extends JDynamic {
-  CJdynamic({dynamic initialValue}) : super(initialValue: initialValue);
+  CJdynamic(Jsonable parent, keyname, {dynamic initialValue})
+      : super(initialValue: initialValue);
 }

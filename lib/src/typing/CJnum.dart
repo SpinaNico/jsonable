@@ -1,7 +1,8 @@
 import "package:jsonable/jsonable.dart";
 
 class CJnum extends JNum {
-  CJnum({num initialValue}) : super(initialValue: initialValue);
+  CJnum(Jsonable parent, keyname, {num initialValue})
+      : super(initialValue: initialValue);
 
   int compareTo(num other) {
     return this.get.compareTo(other);

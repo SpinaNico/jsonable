@@ -15,7 +15,8 @@ class CJlist<E> extends JList<E> {
     }).toList());
   }
 
-  CJlist({List<E> initialValue, JsonableBuilder builder})
+  CJlist(Jsonable parent, keyname,
+      {List<E> initialValue, JsonableBuilder builder})
       : super(initialValue: initialValue) {
     if (initialValue == null) {
       this.set(<E>[]);

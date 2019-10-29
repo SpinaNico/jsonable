@@ -3,7 +3,7 @@ import 'package:jsonable/src/errors.dart';
 
 class CJmap<E, R> extends JMap<E, R> {
   dynamic _builder;
-  CJmap({Map initialValue, JsonableBuilder builder})
+  CJmap(Jsonable parent, keyname, {Map initialValue, JsonableBuilder builder})
       : super(initialValue: initialValue) {
     this._builder = builder;
   }

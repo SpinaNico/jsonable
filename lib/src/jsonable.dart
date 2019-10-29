@@ -41,7 +41,8 @@ mixin Jsonable {
   /// declaration if InitialValue is null*
   JClass<E> jClass<E extends Jsonable>(keyname, JsonableBuilder constructor,
       {E initialValue}) {
-    CJclass v = CJclass<E>(initialValue: initialValue, builder: constructor);
+    CJclass v = CJclass<E>(this, keyname,
+        initialValue: initialValue, builder: constructor);
     var t = this._typer.registerType<JClass>(keyname, v);
     return t;
   }
@@ -61,7 +62,8 @@ mixin Jsonable {
       throw noConstructorError;
     }
 
-    JList<E> v = CJlist<E>(initialValue: initialValue, builder: builder);
+    JList<E> v =
+        CJlist<E>(this, keyname, initialValue: initialValue, builder: builder);
 
     var t = this._typer.registerType<JList<E>>(keyname, v);
     return t;
@@ -72,8 +74,8 @@ mixin Jsonable {
   /// in `toJson` it will assign a `String`, you can assign only `String` ù
   /// values via ".value"
   JString jString(keyname, {String initialValue, Validator validator}) {
-    JString value =
-        new CJstring(initialValue: initialValue, validator: validator);
+    JString value = new CJstring(this, keyname,
+        initialValue: initialValue, validator: validator);
     var t = this._typer.registerType<JString>(keyname, value);
     return t;
   }
@@ -82,7 +84,7 @@ mixin Jsonable {
   /// `fromJson` will assign the value only if it is a `bool`, in
   /// `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
   JBool jBool(keyname, {bool initialValue}) {
-    JBool v = CJbool(initialValue: initialValue);
+    JBool v = CJbool(this, keyname, initialValue: initialValue);
     var t = this._typer.registerType<JBool>(keyname, v);
     return t;
   }
@@ -92,7 +94,7 @@ mixin Jsonable {
   /// only if it is a `num`, in `toJson` it will assign a
   ///  `num`, you can assign only `num` values via ".value"
   JNum jNum(keyname, {num initialValue}) {
-    JNum v = CJnum(initialValue: initialValue);
+    JNum v = CJnum(this, keyname, initialValue: initialValue);
     var t = this._typer.registerType<JNum>(keyname, v);
     return t;
   }
@@ -106,14 +108,15 @@ mixin Jsonable {
       throw noConstructorError;
     }
 
-    JMap<E, R> v = CJmap<E, R>(initialValue: initialValue, builder: builder);
+    JMap<E, R> v = CJmap<E, R>(this, keyname,
+        initialValue: initialValue, builder: builder);
 
     var t = this._typer.registerType<JMap<E, R>>(keyname, v);
     return t;
   }
 
   JDynamic jDynamic<E>(keyname, {dynamic initialValue}) {
-    JDynamic v = CJdynamic(initialValue: initialValue);
+    JDynamic v = CJdynamic(this, keyname, initialValue: initialValue);
     var t = this._typer.registerType<JDynamic>(keyname, v);
     return t;
   }
@@ -127,7 +130,9 @@ mixin Jsonable {
   /// Jonce returns your widget, without compromising it as long as the widget uses Jsonable
   dynamic jOnce(keyname, Jsonable value) {
     if (value is Jsonable) {
-      this._typer.registerType(keyname, CJclass(initialValue: value));
+      this
+          ._typer
+          .registerType(keyname, CJclass(this, keyname, initialValue: value));
     }
     return value;
   }

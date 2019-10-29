@@ -1,4 +1,4 @@
-import 'package:jsonable/src/validator/test_functions.dart';
+import 'package:jsonable/src/validator/rules.dart';
 
 class Validator {
   Validator(List<Rule> rules, Exception except);
