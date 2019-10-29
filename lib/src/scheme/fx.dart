@@ -29,7 +29,7 @@ decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
   scheme.forEach((key, value) {
     if (raw.containsKey(key)) {
       if (value is CJclass) {
-        if (value.get == null) value.set(value.newInstance);
+        if (value.get == null) value.set = value.newInstance;
         scheme[key].get.fromMap(raw[key]);
       } else if (value is JType) {
         _combinerJTypeNormalType(scheme[key], raw[key]);
@@ -41,21 +41,21 @@ decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
 _combinerJTypeNormalType(JType jsonType, dynamic value) {
   if (value == null) return;
   if (jsonType is CJdynamic) {
-    jsonType.set(value);
+    jsonType.set = value;
     return;
   }
   if (jsonType is CJstring && value is String) {
-    jsonType.set(value);
+    jsonType.set = value;
     return;
   }
 
   if (jsonType is CJnum && (value is num || value is int || value is double)) {
-    jsonType.set(value);
+    jsonType.set = value;
     return;
   }
 
   if (jsonType is CJbool && value is bool) {
-    jsonType.set(value);
+    jsonType.set = value;
     return;
   }
   if (jsonType is CJlist<Jsonable> && value is List) {
@@ -68,37 +68,37 @@ _combinerJTypeNormalType(JType jsonType, dynamic value) {
       jsonType.createElements(value);
       return;
     }
-    jsonType.set(value);
+    jsonType.set = value;
     return;
   }
 
   if (jsonType is CJlist && value is List) {
     if (jsonType is JList<String> && value is List) {
-      jsonType.set(value.cast<String>());
+      jsonType.set = value.cast<String>();
       return;
     }
     if (jsonType is CJlist<bool> && value is List) {
-      jsonType.set(value.cast<bool>());
+      jsonType.set = value.cast<bool>();
       return;
     }
     if (jsonType is CJlist<num> && value is List) {
-      jsonType.set(value.cast<num>());
+      jsonType.set = value.cast<num>();
       return;
     }
     if (jsonType is CJlist<int> && value is List) {
-      jsonType.set(value.cast<int>());
+      jsonType.set = value.cast<int>();
       return;
     }
     if (jsonType is CJlist<double> && value is List) {
-      jsonType.set(value.cast<double>());
+      jsonType.set = value.cast<double>();
       return;
     }
     if (jsonType is CJlist<Map> && value is List) {
-      jsonType.set(value.cast<Map>());
+      jsonType.set = value.cast<Map>();
       return;
     }
     if (jsonType is CJlist && value is List) {
-      jsonType.set(value);
+      jsonType.set = value;
     }
     return;
   }

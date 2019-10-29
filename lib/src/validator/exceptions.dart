@@ -1,4 +1,4 @@
-abstract class JsonableException implements Exception {
+class JsonableException implements Exception {
   String message;
   JsonableException(this.message);
 }

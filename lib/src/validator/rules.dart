@@ -10,6 +10,12 @@ abstract class Rule<E> {
   }
 }
 
+bool _isEmpitJType(JType value) {
+  if (value == null) return true;
+  if (value.get == null || (value is JString && value.get == "")) return true;
+  return false;
+}
+
 class RuleJtype implements Rule<JType> {
   @override
   bool Function(JType) function;
@@ -62,74 +68,227 @@ class Rules {
     );
   }
 
-  static Rule len(int len, {String message}) => RuleJtype((v) {
-        if (v.get != null) {
-          if (v is JString || v is JList) return v.get.length == len;
+  static Rule len(int len, {String message}) {
+    return RuleJtype((v) {
+      if (v.get != null) {
+        if (v is JString || v is JList) return v.get.length == len;
+      }
+      return true;
+    });
+  }
+
+  static Rule equal(dynamic value, {String message}) {
+    return RuleJtype((v) {
+      if (v.get != null) {
+        if (v is JString && value is String) return v.get == value;
+        if (v is JNum && value is num) return v.get == value;
+        if (v is JNum && value is int) return v.get == value;
+        if (v is JNum && value is double) return v.get == value;
+        if (v is JList && value is List) return v.get == value;
+      }
+
+      return true;
+    });
+  }
+
+  static Rule oneOf(List elements, {String message}) {
+    return RuleJtype((v) {
+      for (var e in elements) {
+        if (e == v.get) {
+          return true;
         }
-        return true;
-      });
+      }
+      return false;
+    });
+  }
 
-  static Rule equal(dynamic value, {String message}) => RuleJtype((v) {
-        if (v.get != null) {
-          if (v is JString && value is String) return v.get == value;
-          if (v is JNum && value is num) return v.get == value;
-          if (v is JNum && value is int) return v.get == value;
-          if (v is JNum && value is double) return v.get == value;
-          if (v is JList && value is List) return v.get == value;
-        }
+  ///Check that a field is not null, reporting the error with validate
+  static Rule required({String message}) {
+    return RuleJtype((v) {
+      return _isEmpitJType(v);
+    }, exceptionBuilder: (v) {
+      return RequiredRuleExcpetion(
+          message != null ? message : "${v.keyname} is required");
+    });
+  }
 
-        return true;
-      });
-
-  static Rule oneOf(List elements, {String message}) => RuleJtype((v) {
-        for (var e in elements) {
-          if (e == v.get) {
-            return true;
-          }
-        }
-        return false;
-      });
-
-  static Rule required({String message}) => RuleJtype((v) {
-        if (v.get == null) return false;
-        if (v is JString && v.get == "") return false;
-        return true;
-      });
-
+  ///This field will be checked, if it is not null or empty.
+  /// if it is not null / void all the fields indicated in
+  /// fields that are not empty / void will be checked
+  /// if it fails return in validate method; RequiredWithRuleExcpetion
   static Rule requiredWith(List<String> fields, {String message}) {
     return RuleJtype(
       (v) {
-        if (v.get == null || (v is JString && v.get == ""))
-          return false;
-        else {
+        if (_isEmpitJType(v) == false)
           return fields
               .map<bool>((element) {
-                if (v.parent[element] == null) return false;
-                if (v.parent[element].get == null ||
-                    (v.parent[element] is JString && v.parent[element] == ""))
+                if (_isEmpitJType(v.parent[element]))
+                  return true;
+                else
                   return false;
-                return true;
               })
               .toList()
-              .every((ele) => ele == true);
-        }
+              .every((ele) => ele == false);
+        return true;
       },
-      exceptionBuilder: (v) => RequiredWithRuleExcpetion(""),
+      exceptionBuilder: (v) {
+        var f = fields.join(", ");
+        return RequiredWithRuleExcpetion(message != null
+            ? message
+            : "${v.keyname} requires with fields: $f");
+      },
     );
   }
 
-  static Rule requiredWithout(List<String> fields, {String message}) {}
-  static Rule notEqual(dynamic value, {String message}) {}
-  static Rule gte(num value, {String message}) {}
-  static Rule lte(num value, {String message}) {}
-  static Rule lt(num value, {String message}) {}
-  static Rule gt(num value, {String message}) {}
-  static Rule isEmail({String message}) {}
-  static Rule isNumber({String message}) {}
-  static Rule isInt({String message}) {}
-  static Rule isDouble({String message}) {}
-  static Rule isDate({String message}) {}
-  static Rule isDateTime({String message}) {}
-  static Rule isURL({String message}) {}
-  static Rule regex(RegExp regex) {}
+  static Rule requiredWithout(List<String> fields, {String message}) {
+    return RuleJtype((v) {
+      var q = fields
+          .map<bool>((element) {
+            if (_isEmpitJType(v)) return false;
+
+            return true;
+          })
+          .toList()
+          .every((ele) => ele == false);
+
+      if (q == true) {
+        if (_isEmpitJType(v)) return true;
+        return false;
+      }
+    }, exceptionBuilder: (v) {
+      var f = fields.join(", ");
+      return RequiredWithoutRuleExcpetion(message != null
+          ? message
+          : "${v.keyname} required without fields: $f");
+    });
+  }
+
+  static Rule notEqual(dynamic value, {String message}) {
+    return RuleJtype((v) {
+      if (v is JNum && (value is int || value is double || value is num))
+        return v.get != value;
+
+      if (v is JString && value is String) return v != value;
+
+      return true;
+    }, exceptionBuilder: (v) {
+      return NotEqualRuleExcpetion(
+          message != null ? message : "${v.keyname} != $value");
+    });
+  }
+
+  static Rule gte(num value, {String message}) {
+    return RuleJtype((v) {
+      if (v is JNum && (value is int || value is double || value is num))
+        return v.get >= value;
+      return true;
+    }, exceptionBuilder: (v) {
+      return GteRuleExcpetion(
+          message != null ? message : "${v.keyname} <= $value");
+    });
+  }
+
+  static Rule lte(num value, {String message}) {
+    return RuleJtype((v) {
+      if (v is JNum && (value is int || value is double || value is num))
+        return v.get <= value;
+      return true;
+    }, exceptionBuilder: (v) {
+      return LteRuleExcpetion(
+          message != null ? message : "${v.keyname} <= $value");
+    });
+  }
+
+  static Rule lt(num value, {String message}) {
+    return RuleJtype((v) {
+      if (v is JNum && (value is int || value is double || value is num))
+        return v.get < value;
+      return true;
+    }, exceptionBuilder: (v) {
+      return LtRuleExcpetion(
+          message != null ? message : "${v.keyname} < $value");
+    });
+  }
+
+  static Rule gt(num value, {String message}) {
+    return RuleJtype((v) {
+      if (v is JNum && (value is int || value is double || value is num))
+        return v.get > value;
+      return true;
+    }, exceptionBuilder: (v) {
+      return GtRuleExcpetion(
+          message != null ? message : "${v.keyname} > $value");
+    });
+  }
+
+  static Rule isEmail({String message}) {
+    return RuleJtype((v) {
+      return true;
+    }, exceptionBuilder: (v) {
+      return JsonableException(message != null ? message : "");
+    });
+  }
+
+  static Rule isNumber({String message}) {
+    return RuleJtype((v) {
+      return true;
+    }, exceptionBuilder: (v) {
+      return JsonableException(message != null ? message : "");
+    });
+  }
+
+  static Rule isInt({String message}) {
+    return RuleJtype((v) {
+      return true;
+    }, exceptionBuilder: (v) {
+      return JsonableException(message != null ? message : "");
+    });
+  }
+
+  static Rule isDouble({String message}) {
+    return RuleJtype((v) {
+      return true;
+    }, exceptionBuilder: (v) {
+      return JsonableException(message != null ? message : "");
+    });
+  }
+
+  static Rule isDate({String message}) {
+    return RuleJtype((v) {
+      return true;
+    }, exceptionBuilder: (v) {
+      return JsonableException(message != null ? message : "");
+    });
+  }
+
+  static Rule isDateTime({String message}) {
+    return RuleJtype((v) {
+      return true;
+    }, exceptionBuilder: (v) {
+      return JsonableException(message != null ? message : "");
+    });
+  }
+
+  static Rule isURL({String message}) {
+    return RuleJtype((v) {
+      return true;
+    }, exceptionBuilder: (v) {
+      return JsonableException(message != null ? message : "");
+    });
+  }
+
+  static Rule regex(RegExp regex, String pattern, {String message}) {
+    return RuleJtype((v) {
+      if (v is JString) {
+        var m = regex.matchAsPrefix(pattern);
+        if (m.groupCount == 0) {
+          return false;
+        }
+        return true;
+      }
+      return true;
+    }, exceptionBuilder: (v) {
+      return JsonableException(message != null ? message : "");
+    });
+  }
 }

@@ -1,11 +1,11 @@
-import 'package:jsonable/src/validator/rules.dart';
+import 'package:jsonable/jsonable.dart';
+
 import "exceptions.dart";
 
-class Validator {
-  final List<Rule> rules;
-  Validator(this.rules);
+List<JsonableException> validateField(JType type) {
+  return [];
+}
 
-  List<JsonableException> validate() {
-    return [];
-  }
+List<JsonableException> validateJsoanble(Jsonable type) {
+  return [];
 }

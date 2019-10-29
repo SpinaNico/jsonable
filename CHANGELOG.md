@@ -5,7 +5,7 @@
 * **New** add support for validation field of Jsonable object (see readme)
 * **Breaking change** delete support Jsonable with reflection use [dson](https://pub.dev/packages/dson)
 * **Breaking Change** setter and getter value have been removed and replaced with
-    * void set(E value) - set value within JType
+    * void set set(E value) - set value within JType
     * E get get; -  get value in JType
 * **Breaking Change** removed (experimental) operator "<<" and operator ">>"
 

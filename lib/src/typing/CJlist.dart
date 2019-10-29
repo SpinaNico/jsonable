@@ -10,16 +10,16 @@ class CJlist<E> extends JList<E> {
   createElements(List values) {
     if (this._builder == null) throw noConstructorError;
     //constructor()..fromMap({});
-    this.set(values.where((v) => v is Map ? true : false).map<E>((val) {
+    this.set = values.where((v) => v is Map ? true : false).map<E>((val) {
       return _builder()..fromMap(val);
-    }).toList());
+    }).toList();
   }
 
   CJlist(Jsonable parent, keyname,
       {List<E> initialValue, JsonableBuilder builder})
       : super(initialValue: initialValue) {
     if (initialValue == null) {
-      this.set(<E>[]);
+      this.set = <E>[];
     }
     this._builder = builder;
   }
