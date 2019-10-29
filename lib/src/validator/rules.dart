@@ -4,7 +4,7 @@ import "./exceptions.dart";
 abstract class Rule<E> {
   bool Function(E) function;
   Rule(this.function);
-  JsonableException Function(E) exceptionBuilder;
+  RuleException Function(E) exceptionBuilder;
   bool test(E value) {
     return this.function(value);
   }
@@ -20,7 +20,7 @@ class RuleJtype implements Rule<JType> {
   @override
   bool Function(JType) function;
 
-  JsonableException Function(JType) exceptionBuilder;
+  RuleException Function(JType) exceptionBuilder;
 
   RuleJtype(this.function, {this.exceptionBuilder});
   @override
@@ -34,7 +34,7 @@ class RuleJsonable implements Rule<Jsonable> {
   @override
   bool Function(Jsonable) function;
   RuleJsonable(this.function, {this.exceptionBuilder});
-  JsonableException Function(Jsonable) exceptionBuilder;
+  RuleException Function(Jsonable) exceptionBuilder;
   @override
   bool test(Jsonable value) {
     return this.function(value);
@@ -225,7 +225,7 @@ class Rules {
     return RuleJtype((v) {
       return true;
     }, exceptionBuilder: (v) {
-      return JsonableException(message != null ? message : "");
+      return RuleException(message != null ? message : "");
     });
   }
 
@@ -233,7 +233,7 @@ class Rules {
     return RuleJtype((v) {
       return true;
     }, exceptionBuilder: (v) {
-      return JsonableException(message != null ? message : "");
+      return IsNumberRuleExcpetion(message != null ? message : "");
     });
   }
 
@@ -241,7 +241,7 @@ class Rules {
     return RuleJtype((v) {
       return true;
     }, exceptionBuilder: (v) {
-      return JsonableException(message != null ? message : "");
+      return IsIntRuleExcpetion(message != null ? message : "");
     });
   }
 
@@ -249,7 +249,7 @@ class Rules {
     return RuleJtype((v) {
       return true;
     }, exceptionBuilder: (v) {
-      return JsonableException(message != null ? message : "");
+      return IsDoubleRuleExcpetion(message != null ? message : "");
     });
   }
 
@@ -257,7 +257,7 @@ class Rules {
     return RuleJtype((v) {
       return true;
     }, exceptionBuilder: (v) {
-      return JsonableException(message != null ? message : "");
+      return IsDateRuleExcpetion(message != null ? message : "");
     });
   }
 
@@ -265,7 +265,7 @@ class Rules {
     return RuleJtype((v) {
       return true;
     }, exceptionBuilder: (v) {
-      return JsonableException(message != null ? message : "");
+      return IsDateTimeRuleExcpetion(message != null ? message : "");
     });
   }
 
@@ -273,7 +273,7 @@ class Rules {
     return RuleJtype((v) {
       return true;
     }, exceptionBuilder: (v) {
-      return JsonableException(message != null ? message : "");
+      return IsURLRuleExcpetion(message != null ? message : "");
     });
   }
 
@@ -288,7 +288,7 @@ class Rules {
       }
       return true;
     }, exceptionBuilder: (v) {
-      return JsonableException(message != null ? message : "");
+      return RegexRuleExcpetion(message != null ? message : "");
     });
   }
 }

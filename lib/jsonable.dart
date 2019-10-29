@@ -1,6 +1,8 @@
 library jsonable;
 
 import 'package:jsonable/src/jsonable.dart';
+import 'package:jsonable/src/validator/exceptions.dart';
+import 'package:jsonable/src/validator/validator.dart';
 export "./src/jsonable.dart" show Jsonable;
 export "./exceptions.dart";
 export "./src/validator/rules.dart" show Rules;
@@ -18,6 +20,7 @@ abstract class JType<E> {
   dynamic keyname;
   E get get => this._value;
   void set set(E value) => this._value = value;
+  List<RuleException> validate() => validateField(this);
 }
 
 abstract class JString extends JType<String>

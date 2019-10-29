@@ -11,6 +11,7 @@ import 'package:jsonable/src/typing/CJlist.dart';
 import 'package:jsonable/src/typing/CJmap.dart';
 import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/validator/rules.dart';
+import 'package:jsonable/src/validator/validator.dart';
 
 import "./typing/CJstring.dart";
 import "./typing/_Typezer.dart";
@@ -19,10 +20,11 @@ mixin Jsonable {
   Typer _typer = Typer();
   JsonSchema get scheme => this._typer.schema;
 
-  ///
-  // Map<dynamic, JsonableValidatorException> validate({keyname}) {
-  //   return this._typer.validate(keyname);
-  // }
+  Map<String, List<RuleException>> validate() {
+    return this.scheme.map<String, List<RuleException>>((s, t) {
+      return MapEntry(s, validateField(t));
+    });
+  }
 
   String toJson() => jsonEncode(this.toMap());
   fromJson(String source) => this.fromMap(jsonDecode(source));
@@ -31,7 +33,7 @@ mixin Jsonable {
   fromMap(Map m) => decodeJsonSchema(m, this._typer.schema);
 
   /// returns the JType within the schema
-  JType operator [](keyname) => this._typer.schema[keyname];
+  JType operator [](String keyName) => this._typer.schema[keyName];
 
   /// It returns a `JClass` in the generic of
   /// this type, extends Jsonable, moreover it requires
@@ -40,11 +42,12 @@ mixin Jsonable {
   ///
   /// **Note:** *it will be instantiated immediately to the
   /// declaration if InitialValue is null*
-  JClass<E> jClass<E extends Jsonable>(keyname, JsonableBuilder constructor,
+  JClass<E> jClass<E extends Jsonable>(
+      String keyName, JsonableBuilder constructor,
       {E initialValue}) {
-    CJclass v = CJclass<E>(this, keyname,
+    CJclass v = CJclass<E>(this, keyName,
         initialValue: initialValue, builder: constructor);
-    var t = this._typer.registerType<JClass>(keyname, v);
+    var t = this._typer.registerType<JClass>(keyName, v);
     return t;
   }
 
@@ -53,7 +56,8 @@ mixin Jsonable {
   /// in this type the constructor parameter becomes mandatory
   /// if you are using a Jsonable as generic are not allowed types of data other
   /// **than: bool, string, num, int, double, map, list**
-  JList<E> jList<E>(keyname, {List<E> initialValue, JsonableBuilder builder}) {
+  JList<E> jList<E>(String keyName,
+      {List<E> initialValue, JsonableBuilder builder}) {
     if (initialValue != null) {
       if (initialValue is List<Jsonable> && builder == null) {
         throw noConstructorError;
@@ -64,9 +68,9 @@ mixin Jsonable {
     }
 
     JList<E> v =
-        CJlist<E>(this, keyname, initialValue: initialValue, builder: builder);
+        CJlist<E>(this, keyName, initialValue: initialValue, builder: builder);
 
-    var t = this._typer.registerType<JList<E>>(keyname, v);
+    var t = this._typer.registerType<JList<E>>(keyName, v);
     return t;
   }
 
@@ -74,22 +78,22 @@ mixin Jsonable {
   /// with `fromJson` will assign the value only if it is a `String`,
   /// in `toJson` it will assign a `String`, you can assign only `String` ù
   /// values via ".value"
-  JString jString(keyname, {String initialValue, List<Rule> rules}) {
+  JString jString(String keyName, {String initialValue, List<Rule> rules}) {
     JString value = new CJstring(
       this,
-      keyname,
+      keyName,
       initialValue: initialValue,
     );
-    var t = this._typer.registerType<JString>(keyname, value);
+    var t = this._typer.registerType<JString>(keyName, value);
     return t;
   }
 
   /// Return a `JType <bool>` then manage a `bool` type in the schema with
   /// `fromJson` will assign the value only if it is a `bool`, in
   /// `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
-  JBool jBool(keyname, {bool initialValue, List<Rule> rules}) {
-    JBool v = CJbool(this, keyname, initialValue: initialValue);
-    var t = this._typer.registerType<JBool>(keyname, v);
+  JBool jBool(String keyName, {bool initialValue, List<Rule> rules}) {
+    JBool v = CJbool(this, keyName, initialValue: initialValue);
+    var t = this._typer.registerType<JBool>(keyName, v);
     return t;
   }
 
@@ -97,49 +101,47 @@ mixin Jsonable {
   /// the schema with `fromJson` will assign the value
   /// only if it is a `num`, in `toJson` it will assign a
   ///  `num`, you can assign only `num` values via ".value"
-  JNum jNum(keyname, {num initialValue, List<Rule> rules}) {
-    JNum v = CJnum(this, keyname, initialValue: initialValue);
-    var t = this._typer.registerType<JNum>(keyname, v);
+  JNum jNum(String keyName, {num initialValue, List<Rule> rules}) {
+    JNum v = CJnum(this, keyName, initialValue: initialValue);
+    var t = this._typer.registerType<JNum>(keyName, v);
     return t;
   }
 
   ///Return a `JType <Map<E,R>>` then manage a `Map<E,R>` type in the schema with
   ///`fromJson` will assign the value  only if it is a `Map<E,R>`, in `toJson`
   ///it will assign a `Map<E,R>`, you can assign only `Map<E,R>` values via ".value"
-  JMap<E, R> jMap<E, R>(keyname,
+  JMap<E, R> jMap<E, R>(String keyName,
       {Map<E, R> initialValue, JsonableBuilder builder, List<Rule> rules}) {
     if (R is Jsonable && builder == null) {
       throw noConstructorError;
     }
 
-    JMap<E, R> v = CJmap<E, R>(this, keyname,
+    JMap<E, R> v = CJmap<E, R>(this, keyName,
         initialValue: initialValue, builder: builder);
 
-    var t = this._typer.registerType<JMap<E, R>>(keyname, v);
+    var t = this._typer.registerType<JMap<E, R>>(keyName, v);
     return t;
   }
 
-  JDynamic jDynamic<E>(keyname, {dynamic initialValue, List<Rule> rules}) {
-    JDynamic v = CJdynamic(this, keyname, initialValue: initialValue);
-    var t = this._typer.registerType<JDynamic>(keyname, v);
+  JDynamic jDynamic<E>(String keyName,
+      {dynamic initialValue, List<Rule> rules}) {
+    JDynamic v = CJdynamic(this, keyName, initialValue: initialValue);
+    var t = this._typer.registerType<JDynamic>(keyName, v);
     return t;
   }
 
-  //JType<E> jType<E>(keyname) {}
+  //JType<E> jType<E>(String keyName) {}
 
   /// jOnce Returns the same value that passes in the value, the value you pass:
   /// it is inserted inside the Json schema, in a JClass that is not instantiated, further.
   /// This function is very useful when you are in a context like Flutter,
   /// where objects are called only in the widget build.
   /// Jonce returns your widget, without compromising it as long as the widget uses Jsonable
-  dynamic jOnce(
-    keyname,
-    Jsonable value,
-  ) {
+  dynamic jOnce(String keyName, Jsonable value) {
     if (value is Jsonable) {
       this
           ._typer
-          .registerType(keyname, CJclass(this, keyname, initialValue: value));
+          .registerType(keyName, CJclass(this, keyName, initialValue: value));
     }
     return value;
   }

@@ -6,8 +6,6 @@ import "./CJlist.dart";
 class Typer {
   JsonSchema schema = JsonSchema.newScheme({});
 
-  validate(keyname) {}
-
   E registerType<E extends JType>(String keyname, JType value) {
     _rules(value);
     this.schema[keyname] = value;
