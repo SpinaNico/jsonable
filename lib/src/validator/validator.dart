@@ -6,9 +6,6 @@ class Validator {
   Validator(this.rules);
 
   List<JsonableException> validate() {
-    return this
-        .rules
-        .map<JsonableException>((e) => e.exceptionBuilder(""))
-        .toList();
+    return [];
   }
 }

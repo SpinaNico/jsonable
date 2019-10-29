@@ -36,7 +36,7 @@ class RuleJsonable implements Rule<Jsonable> {
 }
 
 class Rules {
-  static Rule min(int min) {
+  static Rule min(int min, {String message}) {
     return RuleJtype(
       (v) {
         if (v.get != null) {
@@ -49,7 +49,7 @@ class Rules {
     );
   }
 
-  static Rule max(int max) {
+  static Rule max(int max, {String message}) {
     return RuleJtype(
       (v) {
         if (v.get != null) {
@@ -62,14 +62,14 @@ class Rules {
     );
   }
 
-  static Rule len(int len) => RuleJtype((v) {
+  static Rule len(int len, {String message}) => RuleJtype((v) {
         if (v.get != null) {
           if (v is JString || v is JList) return v.get.length == len;
         }
         return true;
       });
 
-  static Rule equal(dynamic value) => RuleJtype((v) {
+  static Rule equal(dynamic value, {String message}) => RuleJtype((v) {
         if (v.get != null) {
           if (v is JString && value is String) return v.get == value;
           if (v is JNum && value is num) return v.get == value;
@@ -81,7 +81,7 @@ class Rules {
         return true;
       });
 
-  static Rule oneOf(List elements) => RuleJtype((v) {
+  static Rule oneOf(List elements, {String message}) => RuleJtype((v) {
         for (var e in elements) {
           if (e == v.get) {
             return true;
@@ -90,25 +90,46 @@ class Rules {
         return false;
       });
 
-  static Rule required() => RuleJtype((v) {
+  static Rule required({String message}) => RuleJtype((v) {
         if (v.get == null) return false;
         if (v is JString && v.get == "") return false;
         return true;
       });
 
-  static Rule requiredWith(List<String> fields) {}
-  static Rule requiredWithout(List<String> fields) {}
-  static Rule notEqual(dynamic value) {}
-  static Rule gte(num value) {}
-  static Rule lte(num value) {}
-  static Rule lt(num value) {}
-  static Rule gt(num value) {}
-  static Rule isEmail() {}
-  static Rule isNumber() {}
-  static Rule isInt() {}
-  static Rule isDouble() {}
-  static Rule isDate() {}
-  static Rule isDateTime() {}
-  static Rule isURL() {}
+  static Rule requiredWith(List<String> fields, {String message}) {
+    return RuleJtype(
+      (v) {
+        if (v.get == null || (v is JString && v.get == ""))
+          return false;
+        else {
+          return fields
+              .map<bool>((element) {
+                if (v.parent[element] == null) return false;
+                if (v.parent[element].get == null ||
+                    (v.parent[element] is JString && v.parent[element] == ""))
+                  return false;
+                return true;
+              })
+              .toList()
+              .every((ele) => ele == true);
+        }
+      },
+      exceptionBuilder: (v) => RequiredWithRuleExcpetion(""),
+    );
+  }
+
+  static Rule requiredWithout(List<String> fields, {String message}) {}
+  static Rule notEqual(dynamic value, {String message}) {}
+  static Rule gte(num value, {String message}) {}
+  static Rule lte(num value, {String message}) {}
+  static Rule lt(num value, {String message}) {}
+  static Rule gt(num value, {String message}) {}
+  static Rule isEmail({String message}) {}
+  static Rule isNumber({String message}) {}
+  static Rule isInt({String message}) {}
+  static Rule isDouble({String message}) {}
+  static Rule isDate({String message}) {}
+  static Rule isDateTime({String message}) {}
+  static Rule isURL({String message}) {}
   static Rule regex(RegExp regex) {}
 }

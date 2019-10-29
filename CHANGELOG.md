@@ -1,5 +1,5 @@
 ### 0.1.0
-* add JMap type for Map and Map with Jsonable
+* add JMap type for Map\<dynamic, dyanmic\> and Map with Jsonable (Map\<String, Jsoanble\>)
 * add Validation and make validator
 * add jDynamic
 * **New** add support for validation field of Jsonable object (see readme)
@@ -8,7 +8,6 @@
     * void set(E value) - set value within JType
     * E get get; -  get value in JType
 * **Breaking Change** removed (experimental) operator "<<" and operator ">>"
-
 
 
 ### 0.0.2+2

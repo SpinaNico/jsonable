@@ -10,6 +10,7 @@ import 'package:jsonable/src/typing/CJdynamic.dart';
 import 'package:jsonable/src/typing/CJlist.dart';
 import 'package:jsonable/src/typing/CJmap.dart';
 import 'package:jsonable/src/typing/CJnum.dart';
+import 'package:jsonable/src/validator/rules.dart';
 
 import "./typing/CJstring.dart";
 import "./typing/_Typezer.dart";
@@ -73,9 +74,12 @@ mixin Jsonable {
   /// with `fromJson` will assign the value only if it is a `String`,
   /// in `toJson` it will assign a `String`, you can assign only `String` ù
   /// values via ".value"
-  JString jString(keyname, {String initialValue, Validator validator}) {
-    JString value = new CJstring(this, keyname,
-        initialValue: initialValue, validator: validator);
+  JString jString(keyname, {String initialValue, List<Rule> rules}) {
+    JString value = new CJstring(
+      this,
+      keyname,
+      initialValue: initialValue,
+    );
     var t = this._typer.registerType<JString>(keyname, value);
     return t;
   }
@@ -83,7 +87,7 @@ mixin Jsonable {
   /// Return a `JType <bool>` then manage a `bool` type in the schema with
   /// `fromJson` will assign the value only if it is a `bool`, in
   /// `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
-  JBool jBool(keyname, {bool initialValue}) {
+  JBool jBool(keyname, {bool initialValue, List<Rule> rules}) {
     JBool v = CJbool(this, keyname, initialValue: initialValue);
     var t = this._typer.registerType<JBool>(keyname, v);
     return t;
@@ -93,7 +97,7 @@ mixin Jsonable {
   /// the schema with `fromJson` will assign the value
   /// only if it is a `num`, in `toJson` it will assign a
   ///  `num`, you can assign only `num` values via ".value"
-  JNum jNum(keyname, {num initialValue}) {
+  JNum jNum(keyname, {num initialValue, List<Rule> rules}) {
     JNum v = CJnum(this, keyname, initialValue: initialValue);
     var t = this._typer.registerType<JNum>(keyname, v);
     return t;
@@ -103,7 +107,7 @@ mixin Jsonable {
   ///`fromJson` will assign the value  only if it is a `Map<E,R>`, in `toJson`
   ///it will assign a `Map<E,R>`, you can assign only `Map<E,R>` values via ".value"
   JMap<E, R> jMap<E, R>(keyname,
-      {Map<E, R> initialValue, JsonableBuilder builder}) {
+      {Map<E, R> initialValue, JsonableBuilder builder, List<Rule> rules}) {
     if (R is Jsonable && builder == null) {
       throw noConstructorError;
     }
@@ -115,7 +119,7 @@ mixin Jsonable {
     return t;
   }
 
-  JDynamic jDynamic<E>(keyname, {dynamic initialValue}) {
+  JDynamic jDynamic<E>(keyname, {dynamic initialValue, List<Rule> rules}) {
     JDynamic v = CJdynamic(this, keyname, initialValue: initialValue);
     var t = this._typer.registerType<JDynamic>(keyname, v);
     return t;
@@ -128,7 +132,10 @@ mixin Jsonable {
   /// This function is very useful when you are in a context like Flutter,
   /// where objects are called only in the widget build.
   /// Jonce returns your widget, without compromising it as long as the widget uses Jsonable
-  dynamic jOnce(keyname, Jsonable value) {
+  dynamic jOnce(
+    keyname,
+    Jsonable value,
+  ) {
     if (value is Jsonable) {
       this
           ._typer

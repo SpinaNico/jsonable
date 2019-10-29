@@ -29,6 +29,7 @@ decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
   scheme.forEach((key, value) {
     if (raw.containsKey(key)) {
       if (value is CJclass) {
+        if (value.get == null) value.set(value.newInstance);
         scheme[key].get.fromMap(raw[key]);
       } else if (value is JType) {
         _combinerJTypeNormalType(scheme[key], raw[key]);

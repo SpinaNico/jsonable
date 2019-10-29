@@ -15,7 +15,7 @@ class CJclass<E extends Jsonable> extends JClass<E> {
       if (builder == null) {
         throw noConstructorError;
       }
-      this.set(builder());
+      this._constructor = builder;
     }
   }
 }
