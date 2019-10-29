@@ -2,6 +2,7 @@ import 'dart:math';
 
 import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/errors.dart';
+import 'package:jsonable/src/validator/rules.dart';
 
 class CJlist<E> extends JList<E> {
   dynamic _builder;
@@ -16,7 +17,9 @@ class CJlist<E> extends JList<E> {
   }
 
   CJlist(Jsonable parent, keyname,
-      {List<E> initialValue, JsonableBuilder builder})
+      {List<E> initialValue,
+      JsonableBuilder builder,
+      List<Rule> rules: const []})
       : super(initialValue: initialValue) {
     if (initialValue == null) {
       this.set = <E>[];

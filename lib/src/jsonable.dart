@@ -43,10 +43,13 @@ mixin Jsonable {
   /// **Note:** *it will be instantiated immediately to the
   /// declaration if InitialValue is null*
   JClass<E> jClass<E extends Jsonable>(
-      String keyName, JsonableBuilder constructor,
-      {E initialValue}) {
+    String keyName,
+    JsonableBuilder constructor, {
+    E initialValue,
+    List<Rule> rules,
+  }) {
     CJclass v = CJclass<E>(this, keyName,
-        initialValue: initialValue, builder: constructor);
+        initialValue: initialValue, builder: constructor, rules: rules);
     var t = this._typer.registerType<JClass>(keyName, v);
     return t;
   }
@@ -57,7 +60,7 @@ mixin Jsonable {
   /// if you are using a Jsonable as generic are not allowed types of data other
   /// **than: bool, string, num, int, double, map, list**
   JList<E> jList<E>(String keyName,
-      {List<E> initialValue, JsonableBuilder builder}) {
+      {List<E> initialValue, JsonableBuilder builder, List<Rule> rules}) {
     if (initialValue != null) {
       if (initialValue is List<Jsonable> && builder == null) {
         throw noConstructorError;
@@ -67,8 +70,8 @@ mixin Jsonable {
       throw noConstructorError;
     }
 
-    JList<E> v =
-        CJlist<E>(this, keyName, initialValue: initialValue, builder: builder);
+    JList<E> v = CJlist<E>(this, keyName,
+        initialValue: initialValue, builder: builder, rules: rules);
 
     var t = this._typer.registerType<JList<E>>(keyName, v);
     return t;
@@ -79,11 +82,8 @@ mixin Jsonable {
   /// in `toJson` it will assign a `String`, you can assign only `String` ù
   /// values via ".value"
   JString jString(String keyName, {String initialValue, List<Rule> rules}) {
-    JString value = new CJstring(
-      this,
-      keyName,
-      initialValue: initialValue,
-    );
+    JString value =
+        new CJstring(this, keyName, initialValue: initialValue, rules: rules);
     var t = this._typer.registerType<JString>(keyName, value);
     return t;
   }
@@ -92,7 +92,7 @@ mixin Jsonable {
   /// `fromJson` will assign the value only if it is a `bool`, in
   /// `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
   JBool jBool(String keyName, {bool initialValue, List<Rule> rules}) {
-    JBool v = CJbool(this, keyName, initialValue: initialValue);
+    JBool v = CJbool(this, keyName, initialValue: initialValue, rules: rules);
     var t = this._typer.registerType<JBool>(keyName, v);
     return t;
   }
@@ -102,7 +102,7 @@ mixin Jsonable {
   /// only if it is a `num`, in `toJson` it will assign a
   ///  `num`, you can assign only `num` values via ".value"
   JNum jNum(String keyName, {num initialValue, List<Rule> rules}) {
-    JNum v = CJnum(this, keyName, initialValue: initialValue);
+    JNum v = CJnum(this, keyName, initialValue: initialValue, rules: rules);
     var t = this._typer.registerType<JNum>(keyName, v);
     return t;
   }
@@ -117,7 +117,7 @@ mixin Jsonable {
     }
 
     JMap<E, R> v = CJmap<E, R>(this, keyName,
-        initialValue: initialValue, builder: builder);
+        initialValue: initialValue, builder: builder, rules: rules);
 
     var t = this._typer.registerType<JMap<E, R>>(keyName, v);
     return t;
@@ -125,13 +125,14 @@ mixin Jsonable {
 
   JDynamic jDynamic<E>(String keyName,
       {dynamic initialValue, List<Rule> rules}) {
-    JDynamic v = CJdynamic(this, keyName, initialValue: initialValue);
+    JDynamic v =
+        CJdynamic(this, keyName, initialValue: initialValue, rules: rules);
     var t = this._typer.registerType<JDynamic>(keyName, v);
     return t;
   }
 
   //JType<E> jType<E>(String keyName) {}
-
+  /// **EXPERIMENTAL**
   /// jOnce Returns the same value that passes in the value, the value you pass:
   /// it is inserted inside the Json schema, in a JClass that is not instantiated, further.
   /// This function is very useful when you are in a context like Flutter,

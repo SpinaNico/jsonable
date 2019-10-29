@@ -1,9 +1,11 @@
 import 'package:jsonable/jsonable.dart';
 import 'package:jsonable/src/errors.dart';
+import 'package:jsonable/src/validator/rules.dart';
 
 class CJmap<E, R> extends JMap<E, R> {
   dynamic _builder;
-  CJmap(Jsonable parent, keyname, {Map initialValue, JsonableBuilder builder})
+  CJmap(Jsonable parent, keyname,
+      {Map initialValue, JsonableBuilder builder, List<Rule> rules: const []})
       : super(initialValue: initialValue) {
     this._builder = builder;
   }

@@ -1,5 +1,6 @@
 import 'package:jsonable/jsonable.dart';
 import 'package:jsonable/src/errors.dart';
+import 'package:jsonable/src/validator/rules.dart';
 
 class CJclass<E extends Jsonable> extends JClass<E> {
   E Function() _constructor;
@@ -10,6 +11,7 @@ class CJclass<E extends Jsonable> extends JClass<E> {
     keyname, {
     E initialValue,
     E Function() builder,
+    List<Rule> rules: const [],
   }) : super(initialValue: initialValue) {
     if (initialValue == null) {
       if (builder == null) {
