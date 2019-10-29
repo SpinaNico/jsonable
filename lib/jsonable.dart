@@ -18,6 +18,8 @@ abstract class JType<E> {
     }
   }
   E _value;
+  Jsonable parent;
+  dynamic keyname;
   E get get => this._value;
   void set(E value) => this._value = value;
 }

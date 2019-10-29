@@ -1,32 +1,10 @@
 import 'package:jsonable/jsonable.dart';
-
-// typedef Rule = bool Function(JType, Object);
-
-// Rule test_min = (value, int lenExpect) {
-//   if (value is JString) {}
-//   return false;
-// };
-//   int len,
-//   num max,
-//   num min,
-//   List oneOf,
-//   RegExp regex,
-//   dynamic notEgual,
-//   dynamic egual,
-//   bool required,
-//   bool reserved,
-//   List<String> requiredWidth,
-//   List<String> requiredWithout,
-//   String badCharacter,
-
-abstract class JsonableException implements Exception {}
-
-class MinRuleException extends JsonableException {}
+import "./exceptions.dart";
 
 abstract class Rule<E> {
   bool Function(E) function;
   Rule(this.function);
-
+  JsonableException Function(E) exceptionBuilder;
   bool test(E value) {
     return this.function(value);
   }
@@ -35,53 +13,63 @@ abstract class Rule<E> {
 class RuleJtype implements Rule<JType> {
   @override
   bool Function(JType) function;
-  RuleJtype(this.function);
+
+  JsonableException Function(JType) exceptionBuilder;
+
+  RuleJtype(this.function, {this.exceptionBuilder});
   @override
   bool test(JType value) {
-    return null;
+    return this.function(value);
   }
 }
 
+/// future implementation
 class RuleJsonable implements Rule<Jsonable> {
   @override
   bool Function(Jsonable) function;
-  RuleJsonable(this.function);
-
+  RuleJsonable(this.function, {this.exceptionBuilder});
+  JsonableException Function(Jsonable) exceptionBuilder;
   @override
   bool test(Jsonable value) {
-    return null;
+    return this.function(value);
   }
 }
 
 class Rules {
-  Rule min(int min) {
-    return RuleJtype((v) {
-      if (v.get != null) {
-        if (v is JString || v is JList) return v.get.length > min;
-        if (v is JNum) return v.get > min;
-      }
-      return true;
-    });
+  static Rule min(int min) {
+    return RuleJtype(
+      (v) {
+        if (v.get != null) {
+          if (v is JString || v is JList) return v.get.length > min;
+          if (v is JNum) return v.get > min;
+        }
+        return true;
+      },
+      exceptionBuilder: (v) => MinRuleException("${v.keyname} < $min"),
+    );
   }
 
-  Rule max(int max) {
-    return RuleJtype((v) {
-      if (v.get != null) {
-        if (v is JString || v is JList) return v.get.length < max;
-        if (v is JNum) return v.get < max;
-      }
-      return true;
-    });
+  static Rule max(int max) {
+    return RuleJtype(
+      (v) {
+        if (v.get != null) {
+          if (v is JString || v is JList) return v.get.length < max;
+          if (v is JNum) return v.get < max;
+        }
+        return true;
+      },
+      exceptionBuilder: (v) => MinRuleException("${v.keyname} < $min"),
+    );
   }
 
-  Rule len(int len) => RuleJtype((v) {
+  static Rule len(int len) => RuleJtype((v) {
         if (v.get != null) {
           if (v is JString || v is JList) return v.get.length == len;
         }
         return true;
       });
 
-  Rule equal(dynamic value) => RuleJtype((v) {
+  static Rule equal(dynamic value) => RuleJtype((v) {
         if (v.get != null) {
           if (v is JString && value is String) return v.get == value;
           if (v is JNum && value is num) return v.get == value;
@@ -93,7 +81,7 @@ class Rules {
         return true;
       });
 
-  Rule oneOf(List elements) => RuleJtype((v) {
+  static Rule oneOf(List elements) => RuleJtype((v) {
         for (var e in elements) {
           if (e == v.get) {
             return true;
@@ -102,9 +90,25 @@ class Rules {
         return false;
       });
 
-  Rule required() => RuleJtype((v) {
+  static Rule required() => RuleJtype((v) {
         if (v.get == null) return false;
         if (v is JString && v.get == "") return false;
         return true;
       });
+
+  static Rule requiredWith(List<String> fields) {}
+  static Rule requiredWithout(List<String> fields) {}
+  static Rule notEqual(dynamic value) {}
+  static Rule gte(num value) {}
+  static Rule lte(num value) {}
+  static Rule lt(num value) {}
+  static Rule gt(num value) {}
+  static Rule isEmail() {}
+  static Rule isNumber() {}
+  static Rule isInt() {}
+  static Rule isDouble() {}
+  static Rule isDate() {}
+  static Rule isDateTime() {}
+  static Rule isURL() {}
+  static Rule regex(RegExp regex) {}
 }
