@@ -12,7 +12,7 @@ class CJclass<E extends Jsonable> extends JClass<E> {
     E initialValue,
     E Function() builder,
     List<Rule> rules: const [],
-  }) : super(initialValue: initialValue) {
+  }) : super(initialValue: initialValue, rules: rules) {
     if (initialValue == null) {
       if (builder == null) {
         throw noConstructorError;

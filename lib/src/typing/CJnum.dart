@@ -4,7 +4,7 @@ import 'package:jsonable/src/validator/rules.dart';
 class CJnum extends JNum {
   CJnum(Jsonable parent, keyname,
       {num initialValue, List<Rule> rules: const []})
-      : super(initialValue: initialValue);
+      : super(initialValue: initialValue, rules: rules);
 
   int compareTo(num other) {
     return this.get.compareTo(other);

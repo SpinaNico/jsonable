@@ -6,7 +6,7 @@ class CJmap<E, R> extends JMap<E, R> {
   dynamic _builder;
   CJmap(Jsonable parent, keyname,
       {Map initialValue, JsonableBuilder builder, List<Rule> rules: const []})
-      : super(initialValue: initialValue) {
+      : super(initialValue: initialValue, rules: rules) {
     this._builder = builder;
   }
 

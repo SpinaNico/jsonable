@@ -1,11 +1,10 @@
 import "package:jsonable/jsonable.dart";
+
 import 'package:jsonable/src/validator/rules.dart';
 
 class CJstring extends JString {
   CJstring(Jsonable parent, keyname, {String initialValue, List<Rule> rules})
-      : super(
-          initialValue: initialValue,
-        );
+      : super(initialValue: initialValue, rules: rules);
 
   operator ==(other) {
     if (other is CJstring)

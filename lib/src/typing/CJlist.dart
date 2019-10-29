@@ -20,7 +20,7 @@ class CJlist<E> extends JList<E> {
       {List<E> initialValue,
       JsonableBuilder builder,
       List<Rule> rules: const []})
-      : super(initialValue: initialValue) {
+      : super(initialValue: initialValue, rules: rules) {
     if (initialValue == null) {
       this.set = <E>[];
     }

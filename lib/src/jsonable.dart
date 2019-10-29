@@ -11,7 +11,6 @@ import 'package:jsonable/src/typing/CJlist.dart';
 import 'package:jsonable/src/typing/CJmap.dart';
 import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/validator/rules.dart';
-import 'package:jsonable/src/validator/validator.dart';
 
 import "./typing/CJstring.dart";
 import "./typing/_Typezer.dart";
@@ -20,9 +19,10 @@ mixin Jsonable {
   Typer _typer = Typer();
   JsonSchema get scheme => this._typer.schema;
 
+  /// A structural validation returns for each field
   Map<String, List<RuleException>> validate() {
     return this.scheme.map<String, List<RuleException>>((s, t) {
-      return MapEntry(s, validateField(t));
+      return MapEntry(s, t.validate());
     });
   }
 
