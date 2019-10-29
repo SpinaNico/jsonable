@@ -1,6 +1,10 @@
 class RuleException implements Exception {
   String message;
   RuleException(this.message);
+  @override
+  String toString() {
+    return this.message.toString();
+  }
 }
 
 class MinRuleException extends RuleException {

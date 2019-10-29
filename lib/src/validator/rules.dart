@@ -231,6 +231,15 @@ class Rules {
 
   static Rule isNumber({String message}) {
     return RuleJtype((v) {
+      if (v is JString) {
+        if (!_isEmpitJType(v)) {
+          var e = num.tryParse(v.get);
+          if (e != null) {
+            return true;
+          }
+        }
+        return false;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return IsNumberRuleExcpetion(message != null ? message : "");
@@ -239,6 +248,15 @@ class Rules {
 
   static Rule isInt({String message}) {
     return RuleJtype((v) {
+      if (v is JString) {
+        if (!_isEmpitJType(v)) {
+          var e = int.tryParse(v.get);
+          if (e != null) {
+            return true;
+          }
+        }
+        return false;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return IsIntRuleExcpetion(message != null ? message : "");
@@ -247,6 +265,15 @@ class Rules {
 
   static Rule isDouble({String message}) {
     return RuleJtype((v) {
+      if (v is JString) {
+        if (!_isEmpitJType(v)) {
+          var e = double.tryParse(v.get);
+          if (e != null) {
+            return true;
+          }
+        }
+        return false;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return IsDoubleRuleExcpetion(message != null ? message : "");
@@ -255,6 +282,11 @@ class Rules {
 
   static Rule isDate({String message}) {
     return RuleJtype((v) {
+      if (v is JString && !_isEmpitJType(v)) {
+        var d = DateTime.tryParse(v.get);
+        if (d != null) return true;
+        return false;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return IsDateRuleExcpetion(message != null ? message : "");
@@ -263,6 +295,11 @@ class Rules {
 
   static Rule isDateTime({String message}) {
     return RuleJtype((v) {
+      if (v is JString && !_isEmpitJType(v)) {
+        var d = DateTime.tryParse(v.get);
+        if (d != null) return true;
+        return false;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return IsDateTimeRuleExcpetion(message != null ? message : "");
@@ -270,9 +307,7 @@ class Rules {
   }
 
   static Rule isURL({String message}) {
-    return RuleJtype((v) {
-      return true;
-    }, exceptionBuilder: (v) {
+    return RuleJtype((v) {}, exceptionBuilder: (v) {
       return IsURLRuleExcpetion(message != null ? message : "");
     });
   }
