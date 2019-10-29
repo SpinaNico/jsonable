@@ -155,6 +155,7 @@ class Rules {
         if (_isEmpitJType(v)) return true;
         return false;
       }
+      return true;
     }, exceptionBuilder: (v) {
       var f = fields.join(", ");
       return RequiredWithoutRuleExcpetion(message != null
@@ -306,17 +307,19 @@ class Rules {
     });
   }
 
-  static Rule isURL({String message}) {
-    return RuleJtype((v) {}, exceptionBuilder: (v) {
-      return IsURLRuleExcpetion(message != null ? message : "");
-    });
-  }
+  // static Rule isURL({String message}) {
+  //   return RuleJtype((v) {
+  //     return true;
+  //   }, exceptionBuilder: (v) {
+  //     return IsURLRuleExcpetion(message != null ? message : "");
+  //   });
+  // }
 
-  static Rule regex(RegExp regex, String pattern, {String message}) {
+  static Rule regex(RegExp regex, {String message}) {
     return RuleJtype((v) {
       if (v is JString) {
-        var m = regex.matchAsPrefix(pattern);
-        if (m.groupCount == 0) {
+        var m = regex.allMatches(v.get);
+        if (m.length == 0) {
           return false;
         }
         return true;
@@ -325,5 +328,12 @@ class Rules {
     }, exceptionBuilder: (v) {
       return RegexRuleExcpetion(message != null ? message : "");
     });
+  }
+
+  /// Build your layout, if you return true no error will be triggered,
+  /// if you return false it will trigger the error
+  Rule customRule(
+      bool Function(JType) test, RuleException Function(JType) exption) {
+    return RuleJtype(test, exceptionBuilder: exption);
   }
 }
