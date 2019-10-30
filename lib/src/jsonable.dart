@@ -35,6 +35,12 @@ mixin Jsonable {
   /// returns the JType within the schema
   JType operator [](String keyName) => this._typer.schema[keyName];
 
+  E registerType<E extends JType>(keyName, E v) {
+    v.keyname = keyName;
+    v.parent = this;
+    return this._typer.registerType<E>(keyName, v);
+  }
+
   /// It returns a `JClass` in the generic of
   /// this type, extends Jsonable, moreover it requires
   /// the constructor a simple function that returns an
@@ -50,7 +56,7 @@ mixin Jsonable {
   }) {
     CJclass v = CJclass<E>(this, keyName,
         initialValue: initialValue, builder: constructor, rules: rules);
-    var t = this._typer.registerType<JClass>(keyName, v);
+    var t = this.registerType<JClass>(keyName, v);
     return t;
   }
 
@@ -73,7 +79,7 @@ mixin Jsonable {
     JList<E> v = CJlist<E>(this, keyName,
         initialValue: initialValue, builder: builder, rules: rules);
 
-    var t = this._typer.registerType<JList<E>>(keyName, v);
+    var t = this.registerType<JList<E>>(keyName, v);
     return t;
   }
 
@@ -84,7 +90,7 @@ mixin Jsonable {
   JString jString(String keyName, {String initialValue, List<Rule> rules}) {
     JString value =
         new CJstring(this, keyName, initialValue: initialValue, rules: rules);
-    var t = this._typer.registerType<JString>(keyName, value);
+    var t = this.registerType<JString>(keyName, value);
     return t;
   }
 
@@ -93,7 +99,7 @@ mixin Jsonable {
   /// `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
   JBool jBool(String keyName, {bool initialValue, List<Rule> rules}) {
     JBool v = CJbool(this, keyName, initialValue: initialValue, rules: rules);
-    var t = this._typer.registerType<JBool>(keyName, v);
+    var t = this.registerType<JBool>(keyName, v);
     return t;
   }
 
@@ -103,7 +109,7 @@ mixin Jsonable {
   ///  `num`, you can assign only `num` values via ".value"
   JNum jNum(String keyName, {num initialValue, List<Rule> rules}) {
     JNum v = CJnum(this, keyName, initialValue: initialValue, rules: rules);
-    var t = this._typer.registerType<JNum>(keyName, v);
+    var t = this.registerType<JNum>(keyName, v);
     return t;
   }
 
@@ -119,7 +125,7 @@ mixin Jsonable {
     JMap<E, R> v = CJmap<E, R>(this, keyName,
         initialValue: initialValue, builder: builder, rules: rules);
 
-    var t = this._typer.registerType<JMap<E, R>>(keyName, v);
+    var t = this.registerType<JMap<E, R>>(keyName, v);
     return t;
   }
 
@@ -127,7 +133,7 @@ mixin Jsonable {
       {dynamic initialValue, List<Rule> rules}) {
     JDynamic v =
         CJdynamic(this, keyName, initialValue: initialValue, rules: rules);
-    var t = this._typer.registerType<JDynamic>(keyName, v);
+    var t = this.registerType<JDynamic>(keyName, v);
     return t;
   }
 

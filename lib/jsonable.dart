@@ -18,13 +18,17 @@ abstract class JType<E> {
     this._rules = rules;
   }
   E _value;
+
+  /// this is JsonScheme object parent.
   Jsonable parent;
+
+  /// this is Keyname in jsonable object
   String keyname;
   E get get => this._value;
   void set set(E value) => this._value = value;
   List<RuleException> validate() {
     return _rules
-        .where((r) => !r.test(this))
+        .where((r) => r.test(this))
         .map<RuleException>((e) => e.exceptionBuilder(this))
         .toList();
   }
@@ -33,7 +37,7 @@ abstract class JType<E> {
 abstract class JString extends JType<String>
     implements Comparable<String>, Pattern {
   JString({String initialValue, List<Rule> rules: const []})
-      : super(value: initialValue);
+      : super(value: initialValue, rules: rules);
 }
 
 abstract class JNum extends JType<num> implements Comparable<num> {

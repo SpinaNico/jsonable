@@ -1,11 +1,11 @@
 import 'package:jsonable/jsonable.dart';
 import "./exceptions.dart";
 
-abstract class Rule<E> {
-  bool Function(E) function;
+abstract class Rule {
+  bool Function(JType) function;
   Rule(this.function);
-  RuleException Function(E) exceptionBuilder;
-  bool test(E value) {
+  RuleException Function(JType) exceptionBuilder;
+  bool test(JType value) {
     return this.function(value);
   }
 }
@@ -16,7 +16,7 @@ bool _isEmpitJType(JType value) {
   return false;
 }
 
-class RuleJtype implements Rule<JType> {
+class RuleJtype implements Rule {
   @override
   bool Function(JType) function;
 
@@ -30,26 +30,25 @@ class RuleJtype implements Rule<JType> {
 }
 
 /// future implementation
-class RuleJsonable implements Rule<Jsonable> {
-  @override
-  bool Function(Jsonable) function;
-  RuleJsonable(this.function, {this.exceptionBuilder});
-  RuleException Function(Jsonable) exceptionBuilder;
-  @override
-  bool test(Jsonable value) {
-    return this.function(value);
-  }
-}
+// class RuleJsonable extends Rule {
+//   @override
+//   bool Function(Jsonable) function;
+//   RuleJsonable(this.function, {this.exceptionBuilder});
+
+//   bool test(Jsonable value) {
+//     return this.function(value);
+//   }
+// }
 
 class Rules {
   static Rule min(int min, {String message}) {
     return RuleJtype(
       (v) {
         if (v.get != null) {
-          if (v is JString || v is JList) return v.get.length > min;
-          if (v is JNum) return v.get > min;
+          if (v is JString || v is JList) return v.get.length < min;
+          if (v is JNum) return v.get < min;
         }
-        return true;
+        return false;
       },
       exceptionBuilder: (v) => MinRuleException("${v.keyname} < $min"),
     );
@@ -59,35 +58,60 @@ class Rules {
     return RuleJtype(
       (v) {
         if (v.get != null) {
-          if (v is JString || v is JList) return v.get.length < max;
-          if (v is JNum) return v.get < max;
+          if (v is JString || v is JList) return v.get.length > max;
+          if (v is JNum) return v.get > max;
         }
-        return true;
+        return false;
       },
-      exceptionBuilder: (v) => MinRuleException("${v.keyname} < $min"),
+      exceptionBuilder: (v) => MaxRuleExcpetion("${v.keyname} > $max"),
     );
   }
 
+  /// check the length of a JList or JString
   static Rule len(int len, {String message}) {
     return RuleJtype((v) {
       if (v.get != null) {
-        if (v is JString || v is JList) return v.get.length == len;
+        if (v is JString || v is JList) {
+          if (v.get.length == len) {
+            return false;
+          } else {
+            return true;
+          }
+        }
       }
-      return true;
-    });
+      return false;
+    },
+        exceptionBuilder: (v) =>
+            LenRuleExcepeion(message != null ? message : "is len"));
   }
 
+  ///
+  /// todo: Documentation
+  ///
+  /// .....
   static Rule equal(dynamic value, {String message}) {
     return RuleJtype((v) {
       if (v.get != null) {
-        if (v is JString && value is String) return v.get == value;
-        if (v is JNum && value is num) return v.get == value;
-        if (v is JNum && value is int) return v.get == value;
-        if (v is JNum && value is double) return v.get == value;
-        if (v is JList && value is List) return v.get == value;
+        if (v is JString && value is String ||
+            v is JNum && value is num ||
+            v is JBool && value is bool) {
+          if (v.get == value) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+        if (v is JList && value is List) {
+          if (v == value) {
+            return false;
+          } else
+            return true;
+        }
       }
 
       return true;
+    }, exceptionBuilder: (v) {
+      return EqualRuleExcpetion(message != null ? message : " not equal");
     });
   }
 
@@ -95,16 +119,22 @@ class Rules {
     return RuleJtype((v) {
       for (var e in elements) {
         if (e == v.get) {
-          return true;
+          return false;
         }
       }
-      return false;
+      return true;
     });
   }
 
   ///Check that a field is not null, reporting the error with validate
   static Rule required({String message}) {
     return RuleJtype((v) {
+      if (v is JBool) {
+        if (v.get == false)
+          return true;
+        else
+          return false;
+      }
       return _isEmpitJType(v);
     }, exceptionBuilder: (v) {
       return RequiredRuleExcpetion(
@@ -121,15 +151,10 @@ class Rules {
       (v) {
         if (_isEmpitJType(v) == false)
           return fields
-              .map<bool>((element) {
-                if (_isEmpitJType(v.parent[element]))
-                  return true;
-                else
-                  return false;
-              })
+              .map<bool>((element) => _isEmpitJType(v.parent[element]))
               .toList()
-              .every((ele) => ele == false);
-        return true;
+              .any((ele) => ele == true);
+        return false;
       },
       exceptionBuilder: (v) {
         var f = fields.join(", ");
@@ -142,20 +167,14 @@ class Rules {
 
   static Rule requiredWithout(List<String> fields, {String message}) {
     return RuleJtype((v) {
-      var q = fields
-          .map<bool>((element) {
-            if (_isEmpitJType(v)) return false;
-
-            return true;
-          })
-          .toList()
-          .every((ele) => ele == false);
-
-      if (q == true) {
-        if (_isEmpitJType(v)) return true;
-        return false;
+      if (_isEmpitJType(v)) {
+        return fields
+            .map<bool>((element) => _isEmpitJType(v))
+            .toList()
+            .any((ele) => ele == true);
       }
-      return true;
+
+      return false;
     }, exceptionBuilder: (v) {
       var f = fields.join(", ");
       return RequiredWithoutRuleExcpetion(message != null
@@ -169,9 +188,11 @@ class Rules {
       if (v is JNum && (value is int || value is double || value is num))
         return v.get != value;
 
-      if (v is JString && value is String) return v != value;
+      if (v is JString && value is String) return v.get != value;
+      if (v is JList && value is List) return v != value;
+      if (v is JBool && value is bool) return v.get != value;
 
-      return true;
+      return false;
     }, exceptionBuilder: (v) {
       return NotEqualRuleExcpetion(
           message != null ? message : "${v.keyname} != $value");
@@ -224,6 +245,12 @@ class Rules {
 
   static Rule isEmail({String message}) {
     return RuleJtype((v) {
+      if (v is JString) {
+        var r = RegExp(r"^[A-z0-9\.\+_-]+@[A-z0-9\._-]+\.[A-z]{2,6}$");
+        var q = r.allMatches(v.get);
+        return q == 0;
+      }
+
       return true;
     }, exceptionBuilder: (v) {
       return RuleException(message != null ? message : "");
@@ -236,12 +263,12 @@ class Rules {
         if (!_isEmpitJType(v)) {
           var e = num.tryParse(v.get);
           if (e != null) {
-            return true;
+            return false;
           }
         }
-        return false;
+        return true;
       }
-      return true;
+      return false;
     }, exceptionBuilder: (v) {
       return IsNumberRuleExcpetion(message != null ? message : "");
     });
@@ -252,13 +279,13 @@ class Rules {
       if (v is JString) {
         if (!_isEmpitJType(v)) {
           var e = int.tryParse(v.get);
-          if (e != null) {
+          if (e == null) {
             return true;
           }
         }
         return false;
       }
-      return true;
+      return false;
     }, exceptionBuilder: (v) {
       return IsIntRuleExcpetion(message != null ? message : "");
     });

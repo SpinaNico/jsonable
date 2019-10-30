@@ -4,6 +4,14 @@ import "package:jsonable/jsonable.dart";
 import 'package:jsonable/src/errors.dart';
 import 'package:jsonable/src/validator/rules.dart';
 
+Iterable<List<T>> zip<T>(List<Iterable> iterables) sync* {
+  if (iterables.isEmpty) return;
+  final iterators = iterables.map((e) => e.iterator).toList(growable: false);
+  while (iterators.every((e) => e.moveNext())) {
+    yield iterators.map((e) => e.current).toList(growable: false);
+  }
+}
+
 class CJlist<E> extends JList<E> {
   dynamic _builder;
   List<E> get _elements => this.get;
@@ -27,6 +35,18 @@ class CJlist<E> extends JList<E> {
     this._builder = builder;
   }
 
+  operator ==(Object other) {
+    if (other is JList || other is List) {
+      if ((other as List).length != this.length) return false;
+      for (var el in zip([this, other])) {
+        if (el[0] != el[1]) return false;
+      }
+      return true;
+    }
+
+    return this == other;
+  }
+
   /// List proxy
   @override
   bool any(bool Function(E element) test) {
@@ -44,16 +64,24 @@ class CJlist<E> extends JList<E> {
       this._elements.expand(f);
 
   E get first => this._elements.first;
+
   E firstWhere(bool Function(E element) test, {Function() orElse}) =>
       this._elements.firstWhere(test, orElse: orElse);
+
   T fold<T>(T initialValue, T Function(T previousValue, E element) combine) =>
       this._elements.fold(initialValue, combine);
+
   Iterable<E> followedBy(Iterable other) => this.followedBy(other);
   void forEach(void Function(E element) f) => this._elements.forEach(f);
+
   bool get isEmpty => this._elements.isEmpty;
+
   bool get isNotEmpty => this._elements.isNotEmpty;
+
   Iterator<E> get iterator => this._elements.iterator;
+
   String join([String separator = ""]) => this._elements.join(separator);
+
   E get last => this._elements.last;
   lastWhere(bool Function(E element) test, {Function() orElse}) =>
       this._elements.lastWhere(test, orElse: orElse);

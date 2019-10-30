@@ -15,8 +15,8 @@ class MaxRuleExcpetion extends RuleException {
   MaxRuleExcpetion(String message) : super(message);
 }
 
-class LenRuleExcpetion extends RuleException {
-  LenRuleExcpetion(String message) : super(message);
+class LenRuleExcepeion extends RuleException {
+  LenRuleExcepeion(String message) : super(message);
 }
 
 class EqualRuleExcpetion extends RuleException {
