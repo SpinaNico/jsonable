@@ -10,15 +10,27 @@ class SingUp with Jsonable {
 
   SingUp() {
     name = jString("name", rules: [
-      Rules.requiredWith(["surname"])
+      Rules.requiredWith(
+        ["surname"],
+      ),
     ]);
     surname = jString("surname", rules: [
-      Rules.requiredWith(["name"])
+      Rules.requiredWith(
+        ["name"],
+      ),
     ]);
     denomination = jString("denomination", rules: [
-      Rules.requiredWithout(["name", "surname"])
+      Rules.requiredWithout(
+        ["name", "surname"],
+      ),
     ]);
-    cookie = jBool("cookie", rules: [Rules.required()]);
-    privacy = jBool("privacy", rules: [Rules.notEqual(false)]);
+    cookie = jBool(
+      "cookie",
+      rules: [Rules.required()],
+    );
+    privacy = jBool(
+      "privacy",
+      rules: [Rules.notEqual(false)],
+    );
   }
 }

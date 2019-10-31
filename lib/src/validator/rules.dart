@@ -188,9 +188,22 @@ class Rules {
       if (v is JNum && (value is int || value is double || value is num))
         return v.get != value;
 
-      if (v is JString && value is String) return v.get != value;
-      if (v is JList && value is List) return v != value;
-      if (v is JBool && value is bool) return v.get != value;
+      if (v is JString && value is String) if (v.get != value)
+        return false;
+      else
+        return true;
+      if (v is JList && value is List) {
+        if (v != value) {
+          return false;
+        } else
+          return true;
+      }
+      if (v is JBool && value is bool) {
+        if (v.get != value) {
+          return false;
+        } else
+          return true;
+      }
 
       return false;
     }, exceptionBuilder: (v) {

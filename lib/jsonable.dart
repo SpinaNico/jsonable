@@ -24,8 +24,10 @@ abstract class JType<E> {
 
   /// this is Keyname in jsonable object
   String keyname;
+
   E get get => this._value;
   void set set(E value) => this._value = value;
+
   List<RuleException> validate() {
     return _rules
         .where((r) => r.test(this))
