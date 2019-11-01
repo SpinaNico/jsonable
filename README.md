@@ -1,5 +1,6 @@
-# Jsonable (
-## Jsonable
+# Jsonable 
+
+![](./coverage_badge.svg)
 
 >(deprecated of `0.0.2+2`)
 >if you are interested in Jsoable with reflect [read here](./WithReflect.md)

@@ -13,3 +13,4 @@ dependencies:
 dev_dependencies:
   test: any
   benchmark_harness: any
+  test_coverage: ^0.3.0

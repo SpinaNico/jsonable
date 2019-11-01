@@ -5,3 +5,5 @@ _.dart
 .idea
 _
 _/
+test/.test_coverage.dart
+coverage
