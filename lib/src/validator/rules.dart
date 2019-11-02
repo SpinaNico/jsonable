@@ -12,7 +12,8 @@ abstract class Rule {
 
 bool _isEmpitJType(JType value) {
   if (value == null) return true;
-  if (value.get == null || (value is JString && value.get == "")) return true;
+  if (value.value == null || (value is JString && value.value == ""))
+    return true;
   return false;
 }
 
@@ -44,9 +45,9 @@ class Rules {
   static Rule min(int min, {String message}) {
     return RuleJtype(
       (v) {
-        if (v.get != null) {
-          if (v is JString || v is JList) return v.get.length < min;
-          if (v is JNum) return v.get < min;
+        if (v.value != null) {
+          if (v is JString || v is JList) return v.value.length < min;
+          if (v is JNum) return v.value < min;
         }
         return false;
       },
@@ -57,9 +58,9 @@ class Rules {
   static Rule max(int max, {String message}) {
     return RuleJtype(
       (v) {
-        if (v.get != null) {
-          if (v is JString || v is JList) return v.get.length > max;
-          if (v is JNum) return v.get > max;
+        if (v.value != null) {
+          if (v is JString || v is JList) return v.value.length > max;
+          if (v is JNum) return v.value > max;
         }
         return false;
       },
@@ -70,9 +71,9 @@ class Rules {
   /// check the length of a JList or JString
   static Rule len(int len, {String message}) {
     return RuleJtype((v) {
-      if (v.get != null) {
+      if (v.value != null) {
         if (v is JString || v is JList) {
-          if (v.get.length == len) {
+          if (v.value.length == len) {
             return false;
           } else {
             return true;
@@ -91,11 +92,11 @@ class Rules {
   /// .....
   static Rule equal(dynamic value, {String message}) {
     return RuleJtype((v) {
-      if (v.get != null) {
+      if (v.value != null) {
         if (v is JString && value is String ||
             v is JNum && value is num ||
             v is JBool && value is bool) {
-          if (v.get == value) {
+          if (v.value == value) {
             return false;
           } else {
             return true;
@@ -118,7 +119,7 @@ class Rules {
   static Rule oneOf(List elements, {String message}) {
     return RuleJtype((v) {
       for (var e in elements) {
-        if (e == v.get) {
+        if (e == v.value) {
           return false;
         }
       }
@@ -130,7 +131,7 @@ class Rules {
   static Rule required({String message}) {
     return RuleJtype((v) {
       if (v is JBool) {
-        if (v.get == false)
+        if (v.value == false)
           return true;
         else
           return false;
@@ -186,9 +187,9 @@ class Rules {
   static Rule notEqual(dynamic value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
-        return v.get != value;
+        return v.value != value;
 
-      if (v is JString && value is String) if (v.get != value)
+      if (v is JString && value is String) if (v.value != value)
         return false;
       else
         return true;
@@ -199,7 +200,7 @@ class Rules {
           return true;
       }
       if (v is JBool && value is bool) {
-        if (v.get != value) {
+        if (v.value != value) {
           return false;
         } else
           return true;
@@ -215,7 +216,7 @@ class Rules {
   static Rule gte(num value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
-        return v.get >= value;
+        return v.value >= value;
       return true;
     }, exceptionBuilder: (v) {
       return GteRuleExcpetion(
@@ -226,7 +227,7 @@ class Rules {
   static Rule lte(num value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
-        return v.get <= value;
+        return v.value <= value;
       return true;
     }, exceptionBuilder: (v) {
       return LteRuleExcpetion(
@@ -237,7 +238,7 @@ class Rules {
   static Rule lt(num value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
-        return v.get < value;
+        return v.value < value;
       return true;
     }, exceptionBuilder: (v) {
       return LtRuleExcpetion(
@@ -248,7 +249,7 @@ class Rules {
   static Rule gt(num value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
-        return v.get > value;
+        return v.value > value;
       return true;
     }, exceptionBuilder: (v) {
       return GtRuleExcpetion(
@@ -260,13 +261,14 @@ class Rules {
     return RuleJtype((v) {
       if (v is JString) {
         var r = RegExp(r"^[A-z0-9\.\+_-]+@[A-z0-9\._-]+\.[A-z]{2,6}$");
-        var q = r.allMatches(v.get);
-        return q == 0;
+        var q = r.allMatches(v.value);
+        return q.length == 0;
       }
 
       return true;
     }, exceptionBuilder: (v) {
-      return RuleException(message != null ? message : "");
+      return IsEmailRuleExcpetion(
+          message != null ? message : "${v.keyname} is not valid email");
     });
   }
 
@@ -274,7 +276,7 @@ class Rules {
     return RuleJtype((v) {
       if (v is JString) {
         if (!_isEmpitJType(v)) {
-          var e = num.tryParse(v.get);
+          var e = num.tryParse(v.value);
           if (e != null) {
             return false;
           }
@@ -283,7 +285,9 @@ class Rules {
       }
       return false;
     }, exceptionBuilder: (v) {
-      return IsNumberRuleExcpetion(message != null ? message : "");
+      return IsNumberRuleExcpetion(message != null
+          ? message
+          : "${v.keyname} is not valid number (${v.value})");
     });
   }
 
@@ -291,7 +295,7 @@ class Rules {
     return RuleJtype((v) {
       if (v is JString) {
         if (!_isEmpitJType(v)) {
-          var e = int.tryParse(v.get);
+          var e = int.tryParse(v.value);
           if (e == null) {
             return true;
           }
@@ -300,15 +304,19 @@ class Rules {
       }
       return false;
     }, exceptionBuilder: (v) {
-      return IsIntRuleExcpetion(message != null ? message : "");
+      return IsIntRuleExcpetion(message != null
+          ? message
+          : "${v.keyname} is not valid int (${v.value})");
     });
   }
 
+  /// This rule checks if the string contained in JString is a valid double.
+  ///The rule makes no distinction between "." (dot) or "," (comma).
   static Rule isDouble({String message}) {
     return RuleJtype((v) {
       if (v is JString) {
         if (!_isEmpitJType(v)) {
-          var e = double.tryParse(v.get);
+          var e = double.tryParse(v.value.replaceAll(".", ","));
           if (e != null) {
             return true;
           }
@@ -317,33 +325,24 @@ class Rules {
       }
       return true;
     }, exceptionBuilder: (v) {
-      return IsDoubleRuleExcpetion(message != null ? message : "");
-    });
-  }
-
-  static Rule isDate({String message}) {
-    return RuleJtype((v) {
-      if (v is JString && !_isEmpitJType(v)) {
-        var d = DateTime.tryParse(v.get);
-        if (d != null) return true;
-        return false;
-      }
-      return true;
-    }, exceptionBuilder: (v) {
-      return IsDateRuleExcpetion(message != null ? message : "");
+      return IsDoubleRuleExcpetion(message != null
+          ? message
+          : "${v.keyname} is not valid double (${v.value})");
     });
   }
 
   static Rule isDateTime({String message}) {
     return RuleJtype((v) {
       if (v is JString && !_isEmpitJType(v)) {
-        var d = DateTime.tryParse(v.get);
-        if (d != null) return true;
-        return false;
+        var d = DateTime.tryParse(v.value);
+        if (d != null) return false;
+        return true;
       }
       return true;
     }, exceptionBuilder: (v) {
-      return IsDateTimeRuleExcpetion(message != null ? message : "");
+      return IsDateTimeRuleExcpetion(message != null
+          ? message
+          : " ${v.keyname} is not valid DateTime (${v.value})");
     });
   }
 
@@ -358,7 +357,7 @@ class Rules {
   static Rule regex(RegExp regex, {String message}) {
     return RuleJtype((v) {
       if (v is JString) {
-        var m = regex.allMatches(v.get);
+        var m = regex.allMatches(v.value);
         if (m.length == 0) {
           return false;
         }

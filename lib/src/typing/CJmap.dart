@@ -10,7 +10,7 @@ class CJmap<E, R> extends JMap<E, R> {
     this._builder = builder;
   }
 
-  Map<E, R> get _elements => this.get;
+  Map<E, R> get _elements => this.value;
   void operator []=(E key, R value) {
     this._elements[key] = value;
   }
@@ -18,7 +18,7 @@ class CJmap<E, R> extends JMap<E, R> {
   createElements(Map<dynamic, Map> values) {
     if (this._builder == null) throw noConstructorError;
 
-    this.set = values.map<E, R>((key, val) {
+    this.value = values.map<E, R>((key, val) {
       return MapEntry(key, this._builder()..fromMap(val));
     });
   }

@@ -1,5 +1,4 @@
 import 'package:jsonable/jsonable.dart';
-import 'package:jsonable/src/jsonable.dart';
 
 class SingUp with Jsonable {
   JString name;

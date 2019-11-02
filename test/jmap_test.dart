@@ -15,7 +15,7 @@ main() {
     p.fromJson(fakeJson);
     var trued = jsonDecode(fakeJson);
     test("correct is Map", () {
-      expect(p.myMap.get["1"], trued["map"]["1"]);
+      expect(p.myMap.value["1"], trued["map"]["1"]);
     });
   });
 }

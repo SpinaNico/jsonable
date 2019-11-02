@@ -1,6 +1,6 @@
-import 'package:jsonable/exceptions.dart';
-
 import "../example/exmaple_validation/required_validation.dart";
+
+import "package:jsonable/jsonable.dart";
 import "package:test/test.dart";
 
 main() {
@@ -21,12 +21,8 @@ main() {
     });
     test("required without surname", () {
       var lName = p.name.validate();
-      // var lSurname = p.surname.validate();
-
       expect(lName.length, 1);
-      // expect(lSurname.length, 1);
       expect(lName[0], isA<RequiredWithRuleExcpetion>());
-      // expect(lSurname[0], isA<RequiredWithRuleExcpetion>());
     });
   });
 

@@ -21,8 +21,8 @@ main() {
     });
     test("list contain Elon Musk?", () {
       if (p.contact.length > 0) {
-        expect(p.contact[0].name.get, "Elon");
-        expect(p.contact[0].surname.get, "Musk");
+        expect(p.contact[0].name.value, "Elon");
+        expect(p.contact[0].surname.value, "Musk");
       }
     });
   });

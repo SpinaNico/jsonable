@@ -8,27 +8,27 @@ class CJstring extends JString {
 
   operator ==(other) {
     if (other is CJstring)
-      return this.get == other.get;
+      return this.value == other.value;
     else if (other is String)
-      return this.get == other;
+      return this.value == other;
     else
-      return this.get == other;
+      return this.value == other;
   }
 
   @override
   int compareTo(String other) {
-    return this.get.compareTo(other);
+    return this.value.compareTo(other);
   }
 
   @override
   Iterable<Match> allMatches(String string, [int start = 0]) =>
-      this.get.allMatches(string, start);
+      this.value.allMatches(string, start);
 
   Match matchAsPrefix(String string, [int start = 0]) =>
-      this.get.matchAsPrefix(string, start);
+      this.value.matchAsPrefix(string, start);
 
   @override
   noSuchMethod(Invocation invocation) {
-    return this.get.noSuchMethod(invocation);
+    return this.value.noSuchMethod(invocation);
   }
 }

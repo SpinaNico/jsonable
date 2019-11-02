@@ -14,12 +14,12 @@ Iterable<List<T>> zip<T>(List<Iterable> iterables) sync* {
 
 class CJlist<E> extends JList<E> {
   dynamic _builder;
-  List<E> get _elements => this.get;
+  List<E> get _elements => this.value;
 
   createElements(List values) {
     if (this._builder == null) throw noConstructorError;
     //constructor()..fromMap({});
-    this.set = values.where((v) => v is Map ? true : false).map<E>((val) {
+    this.value = values.where((v) => v is Map ? true : false).map<E>((val) {
       return _builder()..fromMap(val);
     }).toList();
   }
@@ -30,7 +30,7 @@ class CJlist<E> extends JList<E> {
       List<Rule> rules: const []})
       : super(initialValue: initialValue, rules: rules) {
     if (initialValue == null) {
-      this.set = <E>[];
+      this.value = <E>[];
     }
     this._builder = builder;
   }
@@ -126,15 +126,15 @@ class CJlist<E> extends JList<E> {
   }
 
   @override
-  E operator [](int index) => this.get[index];
+  E operator [](int index) => this.value[index];
 
   @override
-  void operator []=(int index, E value) => this.get[index] = value;
+  void operator []=(int index, E value) => this.value[index] = value;
 
   @override
-  void add(E value) => this.get.add(value);
+  void add(E value) => this.value.add(value);
   @override
-  void addAll(Iterable<E> iterable) => this.get.addAll(iterable);
+  void addAll(Iterable<E> iterable) => this.value.addAll(iterable);
 
   @override
   Map<int, E> asMap() => this._elements.asMap();

@@ -8,8 +8,8 @@ main() {
     var m = {"name": "Mario", "surname": "Bross"};
     p.fromMap(m);
     test("jdynamic clas", () {
-      expect(p.name.get, "Mario");
-      expect(p.surname.get, "Bross");
+      expect(p.name.value, "Mario");
+      expect(p.surname.value, "Bross");
     });
   });
 }

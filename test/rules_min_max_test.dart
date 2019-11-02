@@ -1,7 +1,6 @@
-import 'package:jsonable/exceptions.dart';
-import 'package:jsonable/jsonable.dart';
-
 import "../example/exmaple_validation/simple_example.dart";
+
+import 'package:jsonable/jsonable.dart';
 import "package:test/test.dart";
 
 main() {

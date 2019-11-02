@@ -75,10 +75,6 @@ class IsDoubleRuleExcpetion extends RuleException {
   IsDoubleRuleExcpetion(String message) : super(message);
 }
 
-class IsDateRuleExcpetion extends RuleException {
-  IsDateRuleExcpetion(String message) : super(message);
-}
-
 class IsDateTimeRuleExcpetion extends RuleException {
   IsDateTimeRuleExcpetion(String message) : super(message);
 }

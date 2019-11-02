@@ -7,8 +7,8 @@ class CJbool extends JBool {
       : super(initialValue: initialValue, rules: rules);
   operator ==(other) {
     if (other is CJbool)
-      return this.get == other.get;
+      return this.value == other.value;
     else
-      return this.get == other;
+      return this.value == other;
   }
 }
