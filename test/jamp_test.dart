@@ -1,6 +1,6 @@
 import "package:test/test.dart";
 
-import "../example/jMap.dart";
+import "../example/lib/jMap.dart";
 
 main() {
   group("test of jMap", () {

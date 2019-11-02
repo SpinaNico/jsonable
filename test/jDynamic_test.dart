@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import "../example/jDynamic.dart";
+import "../example/lib/jDynamic.dart";
 
 main() {
   group("jdynamic", () {

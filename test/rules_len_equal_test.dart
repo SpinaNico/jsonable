@@ -1,6 +1,6 @@
 import 'package:jsonable/src/validator/exceptions.dart';
 import "package:test/test.dart";
-import "../example/exmaple_validation/len_equal_example.dart";
+import "../example/lib/exmaple_validation/len_equal_example.dart";
 
 main() {
   group("rule equal tests, with errors", () {

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:test/test.dart';
 
-import "../example/simple_class.dart";
+import "../example/lib/simple_class.dart";
 
 main() {
   String json = """

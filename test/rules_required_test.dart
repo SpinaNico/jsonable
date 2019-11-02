@@ -1,4 +1,4 @@
-import "../example/exmaple_validation/required_validation.dart";
+import "../example/lib/exmaple_validation/required_validation.dart";
 
 import "package:jsonable/jsonable.dart";
 import "package:test/test.dart";

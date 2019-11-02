@@ -1,6 +1,6 @@
 import 'package:jsonable/src/validator/exceptions.dart';
 
-import "../example/exmaple_validation/custom_rule.dart";
+import "../example/lib/exmaple_validation/custom_rule.dart";
 import "package:test/test.dart";
 
 main() {

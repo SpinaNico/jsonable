@@ -172,6 +172,8 @@ class Person with Jsonable {
 
 
 
+
+
 ## Performance
 
 in this  `0.0.2` release I had particular attention to performance: Jsonable is less than 50% slower than native (generated).

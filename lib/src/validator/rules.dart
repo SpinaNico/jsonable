@@ -12,8 +12,9 @@ abstract class Rule {
 
 bool _isEmpitJType(JType value) {
   if (value == null) return true;
-  if (value.value == null || (value is JString && value.value == ""))
+  if (value.value == null || (value is JString && value.value == "")) {
     return true;
+  }
   return false;
 }
 
@@ -50,8 +51,12 @@ abstract class Rules {
     return RuleJtype(
       (v) {
         if (v.value != null) {
-          if (v is JString || v is JList) return v.value.length < min;
-          if (v is JNum) return v.value < min;
+          if (v is JString || v is JList) {
+            return v.value.length < min;
+          }
+          if (v is JNum) {
+            return v.value < min;
+          }
         }
         return false;
       },
@@ -64,8 +69,12 @@ abstract class Rules {
     return RuleJtype(
       (v) {
         if (v.value != null) {
-          if (v is JString || v is JList) return v.value.length > max;
-          if (v is JNum) return v.value > max;
+          if (v is JString || v is JList) {
+            return v.value.length > max;
+          }
+          if (v is JNum) {
+            return v.value > max;
+          }
         }
         return false;
       },
@@ -157,11 +166,12 @@ abstract class Rules {
   static Rule requiredWith(List<String> fields, {String message}) {
     return RuleJtype(
       (v) {
-        if (_isEmpitJType(v) == false)
+        if (_isEmpitJType(v) == false) {
           return fields
               .map<bool>((element) => _isEmpitJType(v.parent[element]))
               .toList()
               .any((ele) => ele == true);
+        }
         return false;
       },
       exceptionBuilder: (v) {
@@ -195,13 +205,15 @@ abstract class Rules {
   ///This rule works with the following types: `JString, JNum, JList, JBool`
   static Rule notEqual(dynamic value, {String message}) {
     return RuleJtype((v) {
-      if (v is JNum && (value is int || value is double || value is num))
+      if (v is JNum && (value is int || value is double || value is num)) {
         return v.value != value;
+      }
 
-      if (v is JString && value is String) if (v.value != value)
+      if (v is JString && value is String) if (v.value != value) {
         return false;
-      else
+      } else {
         return true;
+      }
       if (v is JList && value is List) {
         if (v != value) {
           return false;
@@ -225,8 +237,9 @@ abstract class Rules {
   ///This rule works with the following types: `JNum`
   static Rule gte(num value, {String message}) {
     return RuleJtype((v) {
-      if (v is JNum && (value is int || value is double || value is num))
+      if (v is JNum && (value is int || value is double || value is num)) {
         return v.value >= value;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return GteRuleExcpetion(
@@ -237,8 +250,9 @@ abstract class Rules {
   ///This rule works with the following types: `JNum`
   static Rule lte(num value, {String message}) {
     return RuleJtype((v) {
-      if (v is JNum && (value is int || value is double || value is num))
+      if (v is JNum && (value is int || value is double || value is num)) {
         return v.value <= value;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return LteRuleExcpetion(
@@ -249,8 +263,9 @@ abstract class Rules {
   ///This rule works with the following types: `JNum`
   static Rule lt(num value, {String message}) {
     return RuleJtype((v) {
-      if (v is JNum && (value is int || value is double || value is num))
+      if (v is JNum && (value is int || value is double || value is num)) {
         return v.value < value;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return LtRuleExcpetion(
@@ -261,8 +276,9 @@ abstract class Rules {
   ///This rule works with the following types: `JNum`
   static Rule gt(num value, {String message}) {
     return RuleJtype((v) {
-      if (v is JNum && (value is int || value is double || value is num))
+      if (v is JNum && (value is int || value is double || value is num)) {
         return v.value > value;
+      }
       return true;
     }, exceptionBuilder: (v) {
       return GtRuleExcpetion(
@@ -353,7 +369,9 @@ abstract class Rules {
     return RuleJtype((v) {
       if (v is JString && !_isEmpitJType(v)) {
         var d = DateTime.tryParse(v.value);
-        if (d != null) return false;
+        if (d != null) {
+          return false;
+        }
         return true;
       }
       return true;

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import "package:test/test.dart";
 
-import "../example/JMapExample.dart";
+import "../example/lib/JMapExample.dart";
 
 main() {
   String fakeJson = """
