@@ -1,16 +1,46 @@
 ### 0.1.0
-* add JMap type for Map\<dynamic, dyanmic\> and Map with Jsonable (Map\<String, Jsoanble\>)
-* add Validation and make validator
-* add jDynamic
+* `add`  add support for `JMap` for `Map\<dynamic, dyanmic\>` and Map of Jsonable: `Map<String, Jsoanble>`
+
+    ```dart
+    class Person with Jsonable {
+      JMap tags;
+      JMap<String, Contact> contacts;
+      Person() {
+        this.tags = jMap("tags");
+        this.contacts = jMap<String, Contact>("contacts", builder: () => Contact());
+      }
+    }
+    
+    class Contact with Jsonable {
+      JString name;
+      JString number;
+      Contact() {
+        name = jString("name");
+        number = jString("number");
+      }
+    }
+    ```
+
+    
+
+* `add` jDynamic new JType for dynamic
+
 * **New** add support for validation field of Jsonable object (see readme)
+
 * **Breaking change** delete support Jsonable with reflection use [dson](https://pub.dev/packages/dson)
-* **Breaking Change** setter and getter value have been removed and replaced with
+
+* *`add`* setter and getter value 
+    
     * void setValue(E value) - set value within JType
-    * E getValue; -  get value in JType
-    **every JType**
-    * setString(String value)
-    * setNum(num value)
-    * setBool(bool value)
+* E getValue; -  get value in JType
+    
+* `add`every JType has access to "value" even in a more specific way
+    
+    * setString(String value) / String getString()
+    * setNum(num value) / num getNum()
+    * setBool(bool value) / bool getBool()
+    * 
+    
 * **Breaking Change** removed (experimental) operator "<<" and operator ">>"
 
 

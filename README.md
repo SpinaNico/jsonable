@@ -45,8 +45,8 @@ Jsonable implements different types to represent the whole Json structure:
 * `JBool`
 * `JClass<E extends Jsonable>`
 * `JList<E>` 
-* `JDynamic` ***experimental**
-* `JMap` ***experimental**
+* `JDynamic` 
+* `JMap` 
 
 
 Jsonable records these types and serializes and deserializes the structure based on these types
@@ -55,7 +55,7 @@ The functions provided by `Jsonable`:
 
 * `JClass<E> jClass<E extends Jsonable>(keyname, JsonableConstructor constructor, {E initialValue}) `
 
-  > It returns aJClass is `JType<Jsonable>` in the generic of this type, extends Jsonable, moreover it requires the constructor a simple function that returns an instance of that type.
+  > It returns a JClass is `JType<Jsonable>` in the generic of this type, extends Jsonable, moreover it requires the constructor a simple function that returns an instance of that type.
   > Note: it will be instantiated immediately to the declaration if InitialValue is null
 
 *  `JList<E> jList<E>(dynamic keyname, {List<E> initialValue, JsonableConstructor constructor})`
@@ -82,7 +82,6 @@ The functions provided by `Jsonable`:
 
   > Return a `JType <dynamic>` then manage a `dynamic` type in the schema with `fromJson` will assign the value  only if it is a `dynamic`, in `toJson` it will assign a `dynamic`, you can assign only `dynamic` values via ".value"
   
-
 * `dynamic jOnce(keyname, Jsonable value)` ***experimental**
 
   > `jOnce` Returns the same value that passes in the value, the value you pass:
@@ -95,15 +94,93 @@ The functions provided by `Jsonable`:
   >
   > `Jonce` returns your widget, without compromising it as long as the widget uses `Jsonable`
 
+
+
+# Validation 
+
+From the `Jsoanble` `0.1.0` version, support for json schema validation has been introduced
+
+Validation is done using "rules" that are made available to the "Rules" class.
+
+The Rules are applied to the single field and validate the single field.
+
+Each field, then every `JType` has the `validate()` method which returns a list of elements that are exceptions ` RuleException` every rule has its exception and all extend `RuleException`, following a small example where we apply the rules:
+
+```dart
+import 'package:jsonable/jsonable.dart';
+
+class Person with Jsonable {
+  JString name;
+  JString surname;
+  JNum years;
+  Person() {
+    name = this.jString("name", rules: [
+      Rules.max(12),
+      Rules.min(4),
+    ]);
+    surname = this.jString("surname", rules: [
+      Rules.min(4),
+      Rules.max(12),
+    ]);
+
+    years = this.jNum("years", rules: [
+      /// If this rule fails, you will get this error in the error list: GteRuleExcpetion
+      /// To get the list of errors call .validate() (method of Jsoanble object)
+      Rules.min(18, message: "My personal error message!"),
+      Rules.max(99),
+    ]);
+  }
+}
+```
+
+the `Jsonable` mixin also provides a validated method, in this case it will return` Map <String, List <RuleException>> ` where the keys (String) are the names of the fields, while the values are lists of the exceptions of the single value , the `validate ()` method within the mixin calls the validates of each of its internal elements.
+
+#### Custom Rules
+
+Surely it may be interesting to create your own Rule, in order to cover a given behavior that the rules do not support.
+To create your own rule you can use the `Rules.customRule()` method.
+
+This method accepts two necessary and mandatory parameters to correctly create your rule, see an example:
+
+```dart
+// signature customRule;  
+/*
+Rule customRule(
+      bool Function(JType) test, RuleException Function(JType) exption) */
+
+import 'package:jsonable/jsonable.dart';
+
+var myPersonalRule = Rules.customRule((JType value) {
+  if (value is JString) {
+    if (value.getString() != "Nico") {
+      return true;
+    }
+  }
+
+  return false;
+}, (JType value) => RuleException("${value.keyname} oh No!!"));
+
+class Person with Jsonable {
+  JString name;
+
+  Person() {
+    this.name = this.jString("name", rules: [myPersonalRule]);
+  }
+}
+
+```
+
+
+
 ## Performance
 
-in this second release I had particular attention to performance: Jsonable is less than 50% slower than native (generated).
+in this  `0.0.2` release I had particular attention to performance: Jsonable is less than 50% slower than native (generated).
 This test has not yet been made a benchmark with written tests.
 Tests were made by timing, the result was:
 
 ![](./assets/bench.png)
 
-**Note:** *I used dartVm not AOT*
+**Note:** *I used dartVm not AOT, test with `jsonable: 0.0.2`*
 
 
 

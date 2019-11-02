@@ -41,7 +41,11 @@ class RuleJtype implements Rule {
 //   }
 // }
 
-class Rules {
+abstract class Rules {
+  ///This rule works with the following types: `JString, JNum, JList`
+  /// * it is a `JString` check the length of the characters are greater than the minimum.
+  /// * `JNum` it behaves like `Rules.lt`: check that the value is not below min
+  /// * `JList` check the number of items
   static Rule min(int min, {String message}) {
     return RuleJtype(
       (v) {
@@ -55,6 +59,7 @@ class Rules {
     );
   }
 
+  ///This rule works with the following types: `JString, JNum, JList`
   static Rule max(int max, {String message}) {
     return RuleJtype(
       (v) {
@@ -68,6 +73,7 @@ class Rules {
     );
   }
 
+  /// ///This rule works with the following types: `JString, JList`
   /// check the length of a JList or JString
   static Rule len(int len, {String message}) {
     return RuleJtype((v) {
@@ -86,10 +92,8 @@ class Rules {
             LenRuleExcepeion(message != null ? message : "is len"));
   }
 
+  /// This rule works with the following types: `JString, JNum, JList, JBool`
   ///
-  /// todo: Documentation
-  ///
-  /// .....
   static Rule equal(dynamic value, {String message}) {
     return RuleJtype((v) {
       if (v.value != null) {
@@ -116,6 +120,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JString, JNum, JList, JBool, JDynamic, JType`
   static Rule oneOf(List elements, {String message}) {
     return RuleJtype((v) {
       for (var e in elements) {
@@ -127,6 +132,7 @@ class Rules {
     });
   }
 
+  /// This rule works with the following types: `JString, JBool, JList`
   ///Check that a field is not null, reporting the error with validate
   static Rule required({String message}) {
     return RuleJtype((v) {
@@ -143,6 +149,7 @@ class Rules {
     });
   }
 
+  /// ///This rule works with the following types: `ALL`
   ///This field will be checked, if it is not null or empty.
   /// if it is not null / void all the fields indicated in
   /// fields that are not empty / void will be checked
@@ -166,6 +173,7 @@ class Rules {
     );
   }
 
+  ///This rule works with the following types: `ALL`
   static Rule requiredWithout(List<String> fields, {String message}) {
     return RuleJtype((v) {
       if (_isEmpitJType(v)) {
@@ -184,6 +192,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JString, JNum, JList, JBool`
   static Rule notEqual(dynamic value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
@@ -213,6 +222,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JNum`
   static Rule gte(num value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
@@ -224,6 +234,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JNum`
   static Rule lte(num value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
@@ -235,6 +246,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JNum`
   static Rule lt(num value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
@@ -246,6 +258,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JNum`
   static Rule gt(num value, {String message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num))
@@ -257,6 +270,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JString`
   static Rule isEmail({String message}) {
     return RuleJtype((v) {
       if (v is JString) {
@@ -272,6 +286,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JString`
   static Rule isNumber({String message}) {
     return RuleJtype((v) {
       if (v is JString) {
@@ -291,6 +306,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JString`
   static Rule isInt({String message}) {
     return RuleJtype((v) {
       if (v is JString) {
@@ -310,6 +326,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JString`
   /// This rule checks if the string contained in JString is a valid double.
   ///The rule makes no distinction between "." (dot) or "," (comma).
   static Rule isDouble({String message}) {
@@ -331,6 +348,7 @@ class Rules {
     });
   }
 
+  ///This rule works with the following types: `JString`
   static Rule isDateTime({String message}) {
     return RuleJtype((v) {
       if (v is JString && !_isEmpitJType(v)) {
@@ -346,14 +364,7 @@ class Rules {
     });
   }
 
-  // static Rule isURL({String message}) {
-  //   return RuleJtype((v) {
-  //     return true;
-  //   }, exceptionBuilder: (v) {
-  //     return IsURLRuleExcpetion(message != null ? message : "");
-  //   });
-  // }
-
+  ///This rule works with the following types: `JString`
   static Rule regex(RegExp regex, {String message}) {
     return RuleJtype((v) {
       if (v is JString) {
@@ -369,10 +380,12 @@ class Rules {
     });
   }
 
-  /// Build your layout, if you return true no error will be triggered,
-  /// if you return false it will trigger the error
-  Rule customRule(
-      bool Function(JType) test, RuleException Function(JType) exption) {
-    return RuleJtype(test, exceptionBuilder: exption);
+  /// Build your layout, if you return `false` no error will be triggered,
+  /// if you return `true` it will trigger the error
+  static Rule customRule(
+    bool Function(JType) test,
+    RuleException Function(JType) exception,
+  ) {
+    return RuleJtype(test, exceptionBuilder: exception);
   }
 }
