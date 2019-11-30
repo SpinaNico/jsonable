@@ -53,6 +53,18 @@ abstract class JNum extends JType<num> implements Comparable<num> {
   JNum({num initialValue, List<Rule> rules})
       : super(value: initialValue, rules: rules);
 
+  num operator +(Object o);
+  num operator -(Object o);
+  num operator *(Object o);
+  num operator /(Object o);
+  int operator ~/(Object o);
+  int operator %(Object o);
+  bool operator ==(Object o);
+  bool operator <=(Object o);
+  bool operator >=(Object o);
+  bool operator <(Object o);
+  bool operator >(Object o);
+
   num getNum() => this._value;
   void setNum(num value) => this._value = value;
 }
