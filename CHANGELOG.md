@@ -1,3 +1,8 @@
+### 0.1.1
+
+* `jnum` add support to logic operator and arithmetic operator
+
+
 ### 0.1.0
 * `add`  add support for `JMap` for `Map\<dynamic, dyanmic\>` and Map of Jsonable: `Map<String, Jsoanble>`
 

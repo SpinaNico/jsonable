@@ -2,9 +2,6 @@
 
 ![](./coverage_badge.svg)
 
->(deprecated of `0.0.2+2`)
->if you are interested in Jsoable with reflect [read here](./WithReflect.md)
-
 Jsonable is a library that deals with offering a simple way to manage dart classes fromJson and toJson, allowing the transpiration from dart to json.
 One of the main objectives and the philosophy of Jsoanble, is to remove the generated code making any object convertible into Json.
 

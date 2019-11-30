@@ -32,6 +32,9 @@ mixin Jsonable {
   Map toMap() => encodeJsonSchema(this._typer.schema);
   fromMap(Map m) => decodeJsonSchema(m, this._typer.schema);
 
+  /// this method call .fromMap method.
+  update(Map m) => this.fromMap(m);
+
   /// returns the JType within the schema
   JType operator [](String keyName) => this._typer.schema[keyName];
 
