@@ -47,6 +47,9 @@ abstract class JString extends JType<String>
 
   String getString() => this._value;
   void setString(String value) => this._value = value;
+
+  operator ==(Object o);
+  String operator +(Object o);
 }
 
 abstract class JNum extends JType<num> implements Comparable<num> {
@@ -82,6 +85,8 @@ abstract class JList<E> extends JType<List<E>> implements List<E> {
 
   List<E> getList() => this._value;
   void setList(List<E> value) => this._value = value;
+  operator ==(Object o);
+  List<E> operator +(Object o);
 }
 
 abstract class JClass<E extends Jsonable> extends JType<E> {

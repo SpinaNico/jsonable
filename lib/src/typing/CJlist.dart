@@ -120,9 +120,11 @@ class CJlist<E> extends JList<E> {
   Iterable<T> whereType<T>() => this._elements.whereType();
 
   @override
-  List<E> operator +(List<E> other) {
-    this._elements + other;
-    return this._elements;
+  List<E> operator +(Object other) {
+    if (other is List<E> || other is JList<E>) {
+      return List.from(this._elements) + List.from(other);
+    }
+    return this._elements + other;
   }
 
   @override
