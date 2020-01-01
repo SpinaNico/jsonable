@@ -48,7 +48,7 @@ abstract class JString extends JType<String>
   String getString() => this._value;
   void setString(String value) => this._value = value;
 
-  operator ==(Object o);
+  bool operator ==(Object o);
   String operator +(Object o);
 }
 

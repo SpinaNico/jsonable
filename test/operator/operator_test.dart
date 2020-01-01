@@ -49,7 +49,7 @@ void main() {
       expect(s.string1 + s.string2, "ciao mondo");
       expect(s.string1 + "mondo", "ciao mondo");
       expect(s.string1 == s.string2, false);
-      expect(s.string1 == "caio ", true);
+      expect(s.string1 == "ciao ", true);
       expect(s.string2 == s.string2, true);
     });
 

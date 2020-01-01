@@ -1,4 +1,4 @@
-import "package:jsonable/jsonable.dart";
+import 'package:jsonable/jsonable.dart';
 
 import 'package:jsonable/src/validator/rules.dart';
 
@@ -6,13 +6,20 @@ class CJstring extends JString {
   CJstring(Jsonable parent, keyname, {String initialValue, List<Rule> rules})
       : super(initialValue: initialValue, rules: rules);
 
-  operator ==(other) {
-    if (other is CJstring)
-      return this.value == other.value;
-    else if (other is String)
-      return this.value == other;
-    else
-      return this.value == other;
+  bool operator ==(Object other) {
+    if (other is CJstring) return this.value == other.value;
+
+    return this.value == other;
+  }
+
+  String operator +(Object o) {
+    if (o is CJstring) {
+      return value + o.value;
+    }
+    if (o is String) {
+      return value + o;
+    }
+    return this.value + o;
   }
 
   @override
