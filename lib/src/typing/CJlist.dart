@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import "package:jsonable/jsonable.dart";
+import 'package:jsonable/jsonable.dart';
 import 'package:jsonable/src/errors.dart';
 import 'package:jsonable/src/validator/rules.dart';
 
@@ -16,10 +16,10 @@ class CJlist<E> extends JList<E> {
   dynamic _builder;
   List<E> get _elements => this.value;
 
-  createElements(List values) {
-    if (this._builder == null) throw noConstructorError;
+  void createElements(List values) {
+    if (_builder == null) throw noConstructorError;
     //constructor()..fromMap({});
-    this.value = values.where((v) => v is Map ? true : false).map<E>((val) {
+    value = values.where((v) => v is Map ? true : false).map<E>((val) {
       return _builder()..fromMap(val);
     }).toList();
   }
@@ -35,7 +35,7 @@ class CJlist<E> extends JList<E> {
     this._builder = builder;
   }
 
-  operator ==(Object other) {
+  bool operator ==(Object other) {
     if (other is JList || other is List) {
       if ((other as List).length != this.length) return false;
       for (var el in zip([this, other])) {
@@ -92,7 +92,7 @@ class CJlist<E> extends JList<E> {
   }
 
   @override
-  reduce(Function(E value, E element) combine) =>
+  E reduce(Function(E value, E element) combine) =>
       this._elements.reduce(combine);
   E get single => this._elements.single;
   E singleWhere(bool Function(E element) test, {Function() orElse}) =>

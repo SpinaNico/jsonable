@@ -1,18 +1,18 @@
 import 'package:jsonable/jsonable.dart';
-import "./exceptions.dart";
+import './exceptions.dart';
 
 abstract class Rule {
   bool Function(JType) function;
   Rule(this.function);
   RuleException Function(JType) exceptionBuilder;
   bool test(JType value) {
-    return this.function(value);
+    return function(value);
   }
 }
 
 bool _isEmpitJType(JType value) {
   if (value == null) return true;
-  if (value.value == null || (value is JString && value.value == "")) {
+  if (value.value == null || (value is JString && value.value == '')) {
     return true;
   }
   return false;
@@ -27,7 +27,7 @@ class RuleJtype implements Rule {
   RuleJtype(this.function, {this.exceptionBuilder});
   @override
   bool test(JType value) {
-    return this.function(value);
+    return function(value);
   }
 }
 

@@ -1,6 +1,6 @@
-import "dart:convert";
+import 'dart:convert';
 
-import "package:jsonable/jsonable.dart";
+import 'package:jsonable/jsonable.dart';
 import 'package:jsonable/src/errors.dart';
 import 'package:jsonable/src/scheme/JsonSchema.dart';
 import 'package:jsonable/src/scheme/fx.dart';
@@ -12,8 +12,8 @@ import 'package:jsonable/src/typing/CJmap.dart';
 import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/validator/rules.dart';
 
-import "./typing/CJstring.dart";
-import "./typing/_Typezer.dart";
+import './typing/CJstring.dart';
+import './typing/_Typezer.dart';
 
 mixin Jsonable {
   Typer _typer = Typer();
