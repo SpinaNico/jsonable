@@ -4,8 +4,8 @@ class Person with Jsonable {
   JMap tags;
   JMap<String, Contact> contacts;
   Person() {
-    this.tags = jMap("tags");
-    this.contacts = jMap<String, Contact>("contacts", builder: () => Contact());
+    tags = jMap("tags");
+    contacts = jMap<String, Contact>("contacts", builder: () => Contact());
   }
 }
 

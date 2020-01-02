@@ -7,19 +7,19 @@ class MyData with Jsonable {
   JString string1;
   JString string2;
   MyData() {
-    this.num1 = this.jNum("num1", initialValue: 1);
-    this.num2 = this.jNum("num2", initialValue: 2);
-    this.num3 = this.jNum("num3", initialValue: 1);
-    this.string1 = this.jString("keyname", initialValue: "hello");
-    this.string2 = this.jString("keyname", initialValue: "ciao");
+    num1 = jNum("num1", initialValue: 1);
+    num2 = jNum("num2", initialValue: 2);
+    num3 = jNum("num3", initialValue: 1);
+    string1 = jString("keyname", initialValue: "hello");
+    string2 = jString("keyname", initialValue: "ciao");
   }
 
   /// Result false
-  bool comparateN1andN2() => this.num2.value == this.num1.value;
+  bool comparateN1andN2() => num2.value == num1.value;
 
   /// result false
-  bool compareJNum1and2() => this.num2 == this.num1;
+  bool compareJNum1and2() => num2 == num1;
 
   /// result true
-  bool compareJnum3and1() => this.num3 == this.num1;
+  bool compareJnum3and1() => num3 == num1;
 }

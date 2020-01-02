@@ -5,8 +5,8 @@ class AA with Jsonable {
   JNum a;
   JNum b;
   AA() {
-    this.a = this.jNum("a");
-    this.b = this.jNum("b");
+    a = jNum("a");
+    b = jNum("b");
   }
 }
 
@@ -15,7 +15,7 @@ void main() {
     var aa = AA()..fromMap({"a": 10, "b": 20});
 
     test("Jnum(10) + 5", () {
-      num q = aa.a + 5;
+      var q = aa.a + 5;
       expect(q, isA<num>());
       expect(q, 15);
     });

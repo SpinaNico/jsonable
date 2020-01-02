@@ -9,7 +9,7 @@ import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/typing/CJstring.dart';
 
 dynamic encodeJsonSchema(JsonSchema root) {
-  Map result = {};
+  final result = {};
   root.forEach((key, type) {
     if (type is CJclass<Jsonable>) {
       return result[key] = type.value.toMap();
@@ -29,7 +29,7 @@ decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
   scheme.forEach((key, value) {
     if (raw.containsKey(key)) {
       if (value is CJclass) {
-        if (value.value == null) value.value = value.newInstance;
+        value.value ??= value.value = value.newInstance;
         scheme[key].value.fromMap(raw[key]);
       } else if (value is JType) {
         _combinerJTypeNormalType(scheme[key], raw[key]);

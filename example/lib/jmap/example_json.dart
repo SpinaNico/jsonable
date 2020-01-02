@@ -4,8 +4,8 @@ class Person with Jsonable {
   JNum id;
   JMap<String, JClass<Contact>> contact;
   Person({id, contact}) {
-    this.id = this.jNum("id", initialValue: id);
-    this.contact = this.jMap<String, JClass<Contact>>(
+    id = jNum("id", initialValue: id);
+    contact = jMap<String, JClass<Contact>>(
       "contact",
       builder: () => Contact(),
       initialValue: contact,
@@ -17,8 +17,8 @@ class Contact with Jsonable {
   JNum price;
   JString title;
   Contact({price, title}) {
-    this.price = this.jNum("price", initialValue: price);
-    this.title = this.jString("title", initialValue: title);
+    price = jNum("price", initialValue: price);
+    title = jString("title", initialValue: title);
   }
 }
 

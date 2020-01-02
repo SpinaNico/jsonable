@@ -20,7 +20,7 @@ main() {
       expect(p.contact.length, 1);
     });
     test("list contain Elon Musk?", () {
-      if (p.contact.length > 0) {
+      if (p.contact.isNotEmpty) {
         expect(p.contact[0].name.value, "Elon");
         expect(p.contact[0].surname.value, "Musk");
       }

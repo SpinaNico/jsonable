@@ -6,10 +6,10 @@ class Person with Jsonable {
   JList<Contact> contact;
   JList tags;
   Person() {
-    this.name = this.jString("name");
-    this.surname = this.jString("surname");
-    this.tags = this.jList("tags");
-    this.contact = this.jList<Contact>("contacts", builder: () => Contact());
+    name = jString("name");
+    surname = jString("surname");
+    tags = jList("tags");
+    contact = jList<Contact>("contacts", builder: () => Contact());
   }
 }
 
@@ -17,7 +17,7 @@ class Contact with Jsonable {
   JString name;
   JString surname;
   Contact({String name, String surname}) {
-    this.name = this.jString("name", initialValue: name);
-    this.surname = this.jString("surname", initialValue: surname);
+    this.name = jString("name", initialValue: name);
+    this.surname = jString("surname", initialValue: surname);
   }
 }

@@ -16,32 +16,32 @@ import './typing/CJstring.dart';
 import './typing/_Typezer.dart';
 
 mixin Jsonable {
-  Typer _typer = Typer();
-  JsonSchema get scheme => this._typer.schema;
+  final Typer _typer = Typer();
+  JsonSchema get scheme => _typer.schema;
 
   /// A structural validation returns for each field
   Map<String, List<RuleException>> validate() {
-    return this.scheme.map<String, List<RuleException>>((s, t) {
+    return scheme.map<String, List<RuleException>>((s, t) {
       return MapEntry(s, t.validate());
     });
   }
 
-  String toJson() => jsonEncode(this.toMap());
-  fromJson(String source) => this.fromMap(jsonDecode(source));
+  String toJson() => jsonEncode(toMap());
+  fromJson(String source) => fromMap(jsonDecode(source));
 
-  Map toMap() => encodeJsonSchema(this._typer.schema);
-  fromMap(Map m) => decodeJsonSchema(m, this._typer.schema);
+  Map toMap() => encodeJsonSchema(_typer.schema);
+  fromMap(Map m) => decodeJsonSchema(m, _typer.schema);
 
   /// this method call .fromMap method.
-  update(Map m) => this.fromMap(m);
+  update(Map m) => fromMap(m);
 
   /// returns the JType within the schema
-  JType operator [](String keyName) => this._typer.schema[keyName];
+  JType operator [](String keyName) => _typer.schema[keyName];
 
   E registerType<E extends JType>(keyName, E v) {
     v.keyname = keyName;
     v.parent = this;
-    return this._typer.registerType<E>(keyName, v);
+    return _typer.registerType<E>(keyName, v);
   }
 
   /// It returns a `JClass` in the generic of
@@ -59,7 +59,7 @@ mixin Jsonable {
   }) {
     CJclass v = CJclass<E>(this, keyName,
         initialValue: initialValue, builder: constructor, rules: rules);
-    var t = this.registerType<JClass>(keyName, v);
+    var t = registerType<JClass>(keyName, v);
     return t;
   }
 
@@ -82,7 +82,7 @@ mixin Jsonable {
     JList<E> v = CJlist<E>(this, keyName,
         initialValue: initialValue, builder: builder, rules: rules);
 
-    var t = this.registerType<JList<E>>(keyName, v);
+    var t = registerType<JList<E>>(keyName, v);
     return t;
   }
 
@@ -92,8 +92,8 @@ mixin Jsonable {
   /// values via ".value"
   JString jString(String keyName, {String initialValue, List<Rule> rules}) {
     JString value =
-        new CJstring(this, keyName, initialValue: initialValue, rules: rules);
-    var t = this.registerType<JString>(keyName, value);
+        CJstring(this, keyName, initialValue: initialValue, rules: rules);
+    var t = registerType<JString>(keyName, value);
     return t;
   }
 
@@ -102,7 +102,7 @@ mixin Jsonable {
   /// `toJson` it will assign a `bool`, you can assign only `bool` values via ".value"
   JBool jBool(String keyName, {bool initialValue, List<Rule> rules}) {
     JBool v = CJbool(this, keyName, initialValue: initialValue, rules: rules);
-    var t = this.registerType<JBool>(keyName, v);
+    var t = registerType<JBool>(keyName, v);
     return t;
   }
 
@@ -112,7 +112,7 @@ mixin Jsonable {
   ///  `num`, you can assign only `num` values via ".value"
   JNum jNum(String keyName, {num initialValue, List<Rule> rules}) {
     JNum v = CJnum(this, keyName, initialValue: initialValue, rules: rules);
-    var t = this.registerType<JNum>(keyName, v);
+    var t = registerType<JNum>(keyName, v);
     return t;
   }
 
@@ -128,7 +128,7 @@ mixin Jsonable {
     JMap<E, R> v = CJmap<E, R>(this, keyName,
         initialValue: initialValue, builder: builder, rules: rules);
 
-    var t = this.registerType<JMap<E, R>>(keyName, v);
+    var t = registerType<JMap<E, R>>(keyName, v);
     return t;
   }
 
@@ -136,7 +136,7 @@ mixin Jsonable {
       {dynamic initialValue, List<Rule> rules}) {
     JDynamic v =
         CJdynamic(this, keyName, initialValue: initialValue, rules: rules);
-    var t = this.registerType<JDynamic>(keyName, v);
+    var t = registerType<JDynamic>(keyName, v);
     return t;
   }
 
@@ -149,9 +149,7 @@ mixin Jsonable {
   /// Jonce returns your widget, without compromising it as long as the widget uses Jsonable
   dynamic jOnce(String keyName, Jsonable value) {
     if (value is Jsonable) {
-      this
-          ._typer
-          .registerType(keyName, CJclass(this, keyName, initialValue: value));
+      _typer.registerType(keyName, CJclass(this, keyName, initialValue: value));
     }
     return value;
   }

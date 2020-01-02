@@ -14,6 +14,6 @@ class Person with Jsonable {
   JString name;
 
   Person() {
-    this.name = this.jString("name", rules: [myPersonalRule]);
+    name = jString("name", rules: [myPersonalRule]);
   }
 }

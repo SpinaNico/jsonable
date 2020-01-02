@@ -1,5 +1,5 @@
-import "./simple_class.dart";
 import 'package:benchmark_harness/benchmark_harness.dart';
+import "./simple_class.dart";
 
 const int N = 10000;
 const Map<String, dynamic> source = {"name": "Nico", "surname": "Spina"};
@@ -9,7 +9,7 @@ class PersonNormal {
   String name;
   String surname;
 
-  PersonNormal({this.name, this.surname});
+  PersonNormal();
 
   /// I modified the generated code here.
   fromJson(Map<String, dynamic> json) {
@@ -18,9 +18,9 @@ class PersonNormal {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['surname'] = this.surname;
+    final data = <String, dynamic>{};
+    data['name'] = name;
+    data['surname'] = surname;
     return data;
   }
 }
@@ -29,7 +29,7 @@ class JsonableClassTest extends BenchmarkBase {
   const JsonableClassTest() : super("Jsoanble class struct");
 
   static void main() {
-    new JsonableClassTest().report();
+    JsonableClassTest().report();
   }
 
   void run() {
@@ -48,7 +48,7 @@ class JsonableFromMap extends BenchmarkBase {
   const JsonableFromMap() : super("Jsoanble (fromMap)");
 
   static void main() {
-    new JsonableFromMap().report();
+    JsonableFromMap().report();
   }
 
   void run() {
@@ -66,7 +66,7 @@ class JsonableToMap extends BenchmarkBase {
   const JsonableToMap() : super("Jsoanble (toMap)");
 
   static void main() {
-    new JsonableToMap().report();
+    JsonableToMap().report();
   }
 
   void run() {
@@ -86,7 +86,7 @@ class NormalJsonParse extends BenchmarkBase {
   const NormalJsonParse() : super("Normal class struct  ");
 
   static void main() {
-    new NormalJsonParse().report();
+    NormalJsonParse().report();
   }
 
   void run() {
@@ -105,7 +105,7 @@ class NormalFromJson extends BenchmarkBase {
   const NormalFromJson() : super("Normal  (fromJson) ");
 
   static void main() {
-    new NormalFromJson().report();
+    NormalFromJson().report();
   }
 
   void run() {
@@ -123,7 +123,7 @@ class NormalToJson extends BenchmarkBase {
   const NormalToJson() : super("Normal  (toJson) ");
 
   static void main() {
-    new NormalToJson().report();
+    NormalToJson().report();
   }
 
   void run() {

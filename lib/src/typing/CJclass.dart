@@ -4,20 +4,19 @@ import 'package:jsonable/src/validator/rules.dart';
 
 class CJclass<E extends Jsonable> extends JClass<E> {
   E Function() _constructor;
-  Jsonable parent;
-  E get newInstance => this._constructor();
+  E get newInstance => _constructor();
   CJclass(
     Jsonable parent,
-    keyname, {
+    dynamic keyname, {
     E initialValue,
     E Function() builder,
-    List<Rule> rules: const [],
-  }) : super(initialValue: initialValue, rules: rules) {
+    List<Rule> rules = const [],
+  }) : super(keyname, parent, initialValue: initialValue, rules: rules) {
     if (initialValue == null) {
       if (builder == null) {
         throw noConstructorError;
       }
-      this._constructor = builder;
+      _constructor = builder;
     }
   }
 }

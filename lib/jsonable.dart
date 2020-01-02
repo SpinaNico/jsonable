@@ -12,25 +12,23 @@ typedef JsonableBuilder<E extends Jsonable> = E Function();
 
 abstract class JType<E> {
   List<Rule> _rules;
-  JType({E value, List<Rule> rules: const []}) {
+  JType(this.keyname, this.parent, {E value, List<Rule> rules = const []}) {
     if (value != null) {
-      this._value = value;
+      this.value = value;
     }
-    this._rules = rules;
+    _rules = rules;
   }
-  E _value;
 
   /// this is JsonScheme object parent.
   Jsonable parent;
 
   /// this is Keyname in jsonable object
-  String keyname;
+  dynamic keyname;
 
-  E get value => this._value;
-  void set value(E value) => this._value = value;
+  E value;
 
-  E getValue() => this._value;
-  void setValue(E value) => this._value = value;
+  E getValue() => value;
+  void setValue(E value) => value = value;
 
   List<RuleException> validate() {
     return _rules
@@ -42,72 +40,76 @@ abstract class JType<E> {
 
 abstract class JString extends JType<String>
     implements Comparable<String>, Pattern {
-  JString({String initialValue, List<Rule> rules: const []})
-      : super(value: initialValue, rules: rules);
+  JString(dynamic keyname, Jsonable parent,
+      {String initialValue, List<Rule> rules = const []})
+      : super(keyname, parent, value: initialValue, rules: rules);
 
-  String getString() => this._value;
-  void setString(String value) => this._value = value;
+  String getString() => value;
+  void setString(String value) => value = value;
 
-  bool operator ==(Object o);
-  String operator +(Object o);
+  bool operator ==(Object other);
+  String operator +(Object other);
 }
 
 abstract class JNum extends JType<num> implements Comparable<num> {
-  JNum({num initialValue, List<Rule> rules})
-      : super(value: initialValue, rules: rules);
+  JNum(dynamic keyname, Jsonable parent, {num initialValue, List<Rule> rules})
+      : super(keyname, parent, value: initialValue, rules: rules);
 
-  num operator +(Object o);
-  num operator -(Object o);
-  num operator *(Object o);
-  num operator /(Object o);
-  int operator ~/(Object o);
-  int operator %(Object o);
-  bool operator ==(Object o);
-  bool operator <=(Object o);
-  bool operator >=(Object o);
-  bool operator <(Object o);
-  bool operator >(Object o);
+  num operator +(Object other);
+  num operator -(Object other);
+  num operator *(Object other);
+  num operator /(Object other);
+  int operator ~/(Object other);
+  int operator %(Object other);
+  bool operator ==(Object other);
+  bool operator <=(Object other);
+  bool operator >=(Object other);
+  bool operator <(Object other);
+  bool operator >(Object other);
 
-  num getNum() => this._value;
-  void setNum(num value) => this._value = value;
+  num getNum() => value;
+  void setNum(num value) => value = value;
 }
 
 abstract class JBool extends JType<bool> {
-  JBool({bool initialValue, List<Rule> rules})
-      : super(value: initialValue, rules: rules);
-  bool getBool() => this._value;
-  void setBool(bool value) => this._value = value;
+  JBool(dynamic keyname, Jsonable parent, {bool initialValue, List<Rule> rules})
+      : super(keyname, parent, value: initialValue, rules: rules);
+  bool getBool() => value;
+  void setBool(bool value) => value = value;
 }
 
 abstract class JList<E> extends JType<List<E>> implements List<E> {
-  JList({List<E> initialValue, List<Rule> rules})
-      : super(value: initialValue, rules: rules);
+  JList(dynamic keyname, Jsonable parent,
+      {List<E> initialValue, List<Rule> rules})
+      : super(keyname, parent, value: initialValue, rules: rules);
 
-  List<E> getList() => this._value;
-  void setList(List<E> value) => this._value = value;
-  operator ==(Object o);
-  List<E> operator +(Object o);
+  List<E> getList() => value;
+  void setList(List<E> value) => value = value;
+  operator ==(Object other);
+  List<E> operator +(Object other);
 }
 
 abstract class JClass<E extends Jsonable> extends JType<E> {
-  JClass({Jsonable initialValue, List<Rule> rules})
-      : super(value: initialValue, rules: rules);
-  E getClass() => this._value;
-  void setClass(E value) => this._value = value;
+  JClass(dynamic keyname, Jsonable parent,
+      {Jsonable initialValue, List<Rule> rules})
+      : super(keyname, parent, value: initialValue, rules: rules);
+  E getClass() => value;
+  void setClass(E value) => value = value;
 }
 
 abstract class JMap<E, R> extends JType<Map> implements Map<E, R> {
-  JMap({Map initialValue, List<Rule> rules})
-      : super(value: initialValue, rules: rules);
+  JMap(dynamic keyname, Jsonable parent, {Map initialValue, List<Rule> rules})
+      : super(keyname, parent, value: initialValue, rules: rules);
 
-  Map<E, R> getMap() => this._value;
-  void setMap(Map<E, R> value) => this._value = value;
+  Map<E, R> getMap() => value;
+  void setMap(Map<E, R> value) => value = value;
 }
 
 abstract class JDynamic extends JType<dynamic> {
-  JDynamic({dynamic initialValue, List<Rule> rules})
-      : super(value: initialValue, rules: rules);
+  JDynamic(dynamic keyname, Jsonable parent,
+      {dynamic initialValue, List<Rule> rules})
+      : super(keyname, parent, value: initialValue, rules: rules);
 
-  dynamic getDynamic() => this._value;
-  void setDynamic(dynamic value) => this._value = value;
+  dynamic getDynamic() => value;
+  void setDynamic(dynamic value) => value = value;
 }

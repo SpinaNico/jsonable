@@ -21,7 +21,7 @@ bool _isEmpitJType(JType value) {
 class RuleJtype implements Rule {
   @override
   bool Function(JType) function;
-
+  @override
   RuleException Function(JType) exceptionBuilder;
 
   RuleJtype(this.function, {this.exceptionBuilder});
@@ -60,7 +60,7 @@ abstract class Rules {
         }
         return false;
       },
-      exceptionBuilder: (v) => MinRuleException("${v.keyname} < $min"),
+      exceptionBuilder: (v) => MinRuleException('${v.keyname} < $min'),
     );
   }
 
@@ -78,7 +78,7 @@ abstract class Rules {
         }
         return false;
       },
-      exceptionBuilder: (v) => MaxRuleExcpetion("${v.keyname} > $max"),
+      exceptionBuilder: (v) => MaxRuleExcpetion('${v.keyname} > $max'),
     );
   }
 
@@ -98,7 +98,7 @@ abstract class Rules {
       return false;
     },
         exceptionBuilder: (v) =>
-            LenRuleExcepeion(message != null ? message : "is len"));
+            LenRuleExcepeion(message != null ? message : 'is len'));
   }
 
   /// This rule works with the following types: `JString, JNum, JList, JBool`
@@ -292,7 +292,7 @@ abstract class Rules {
       if (v is JString) {
         var r = RegExp(r"^[A-z0-9\.\+_-]+@[A-z0-9\._-]+\.[A-z]{2,6}$");
         var q = r.allMatches(v.value);
-        return q.length == 0;
+        return q.isEmpty;
       }
 
       return true;
@@ -387,7 +387,7 @@ abstract class Rules {
     return RuleJtype((v) {
       if (v is JString) {
         var m = regex.allMatches(v.value);
-        if (m.length == 0) {
+        if (m.isEmpty) {
           return false;
         }
         return true;

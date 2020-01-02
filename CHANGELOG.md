@@ -1,5 +1,7 @@
+### 0.1.1+3 (2020-01-02)
+  * fix hints indicate of pub.dev
+  
 ### 0.1.1
-
 * `JNum` add support to logic operator and arithmetic operator
 * `JString` add support to logic operator and arithmetic operator
 * `JList` add support to logic operator and arithmetic operator

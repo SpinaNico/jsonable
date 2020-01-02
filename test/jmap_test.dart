@@ -5,7 +5,7 @@ import "package:test/test.dart";
 import "../example/lib/JMapExample.dart";
 
 main() {
-  String fakeJson = """
+  var fakeJson = """
   {
     "map": {"1": "hello", "ciao":"hello", "bool": true}
   }

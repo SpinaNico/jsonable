@@ -14,7 +14,7 @@ Iterable<List<T>> zip<T>(List<Iterable> iterables) sync* {
 
 class CJlist<E> extends JList<E> {
   dynamic _builder;
-  List<E> get _elements => this.value;
+  List<E> get _elements => value;
 
   void createElements(List values) {
     if (_builder == null) throw noConstructorError;
@@ -27,17 +27,24 @@ class CJlist<E> extends JList<E> {
   CJlist(Jsonable parent, keyname,
       {List<E> initialValue,
       JsonableBuilder builder,
-      List<Rule> rules: const []})
-      : super(initialValue: initialValue, rules: rules) {
+      List<Rule> rules = const []})
+      : super(keyname, parent, initialValue: initialValue, rules: rules) {
     if (initialValue == null) {
-      this.value = <E>[];
+      value = <E>[];
     }
-    this._builder = builder;
+    _builder = builder;
   }
 
   bool operator ==(Object other) {
-    if (other is JList || other is List) {
-      if ((other as List).length != this.length) return false;
+    if (other is JList) {
+      if (other.length != length) return false;
+      for (var el in zip([this, other])) {
+        if (el[0] != el[1]) return false;
+      }
+      return true;
+    }
+    if (other is List) {
+      if (other.length != length) return false;
       for (var el in zip([this, other])) {
         if (el[0] != el[1]) return false;
       }
@@ -50,85 +57,83 @@ class CJlist<E> extends JList<E> {
   /// List proxy
   @override
   bool any(bool Function(E element) test) {
-    for (var element in this._elements) {
+    for (var element in _elements) {
       if (test(element)) return true;
     }
     return false;
   }
 
-  bool contains(dynamic element) => this._elements.contains(element);
+  bool contains(dynamic element) => _elements.contains(element);
 
-  elementAt(int index) => this._elements.elementAt(index);
-  bool every(bool Function(E element) test) => this._elements.every(test);
+  elementAt(int index) => _elements.elementAt(index);
+  bool every(bool Function(E element) test) => _elements.every(test);
   Iterable<T> expand<T>(Iterable<T> Function(E element) f) =>
-      this._elements.expand(f);
+      _elements.expand(f);
 
-  E get first => this._elements.first;
+  E get first => _elements.first;
 
   E firstWhere(bool Function(E element) test, {Function() orElse}) =>
-      this._elements.firstWhere(test, orElse: orElse);
+      _elements.firstWhere(test, orElse: orElse);
 
   T fold<T>(T initialValue, T Function(T previousValue, E element) combine) =>
-      this._elements.fold(initialValue, combine);
+      _elements.fold(initialValue, combine);
 
-  Iterable<E> followedBy(Iterable other) => this.followedBy(other);
-  void forEach(void Function(E element) f) => this._elements.forEach(f);
+  Iterable<E> followedBy(Iterable other) => followedBy(other);
+  void forEach(void Function(E element) f) => _elements.forEach(f);
 
-  bool get isEmpty => this._elements.isEmpty;
+  bool get isEmpty => _elements.isEmpty;
 
-  bool get isNotEmpty => this._elements.isNotEmpty;
+  bool get isNotEmpty => _elements.isNotEmpty;
 
-  Iterator<E> get iterator => this._elements.iterator;
+  Iterator<E> get iterator => _elements.iterator;
 
-  String join([String separator = ""]) => this._elements.join(separator);
+  String join([String separator = ""]) => _elements.join(separator);
 
-  E get last => this._elements.last;
+  E get last => _elements.last;
   lastWhere(bool Function(E element) test, {Function() orElse}) =>
-      this._elements.lastWhere(test, orElse: orElse);
+      _elements.lastWhere(test, orElse: orElse);
 
-  int get length => this._elements.length;
+  int get length => _elements.length;
   Iterable<T> map<T>(T Function(E e) f) {
-    return this._elements.map<T>(f);
+    return _elements.map<T>(f);
   }
 
   @override
-  E reduce(Function(E value, E element) combine) =>
-      this._elements.reduce(combine);
-  E get single => this._elements.single;
+  E reduce(Function(E value, E element) combine) => _elements.reduce(combine);
+  E get single => _elements.single;
   E singleWhere(bool Function(E element) test, {Function() orElse}) =>
-      this._elements.singleWhere(test, orElse: orElse);
+      _elements.singleWhere(test, orElse: orElse);
 
   @override
-  Iterable<E> skip(int count) => this._elements.skip(count);
+  Iterable<E> skip(int count) => _elements.skip(count);
 
   Iterable<E> skipWhile(bool Function(E value) test) =>
-      this._elements.skipWhile(test);
+      _elements.skipWhile(test);
 
-  Iterable<E> take(int count) => this._elements.take(count);
+  Iterable<E> take(int count) => _elements.take(count);
 
   Iterable<E> takeWhile(bool Function(E value) test) =>
-      this._elements.takeWhile(test);
+      _elements.takeWhile(test);
 
-  List<E> toList({bool growable = true}) => this._elements.toList();
+  List<E> toList({bool growable = true}) => _elements.toList();
 
-  Set<E> toSet() => this._elements.toSet();
+  Set<E> toSet() => _elements.toSet();
 
-  Iterable<E> where(bool Function(E element) test) =>
-      this._elements.where(test);
+  Iterable<E> where(bool Function(E element) test) => _elements.where(test);
 
   @override
-  Iterable<T> whereType<T>() => this._elements.whereType();
+  Iterable<T> whereType<T>() => _elements.whereType();
 
   @override
   List<E> operator +(Object other) {
     if (other is List<E> || other is JList<E>) {
-      return List.from(this._elements) + List.from(other);
+      return List.from(_elements) + List.from(other);
     }
-    return this._elements + other;
+    return _elements + other;
   }
 
   @override
-  E operator [](int index) => this.value[index];
+  E operator [](int index) => value[index];
 
   @override
   void operator []=(int index, E value) => this.value[index] = value;
@@ -136,102 +141,100 @@ class CJlist<E> extends JList<E> {
   @override
   void add(E value) => this.value.add(value);
   @override
-  void addAll(Iterable<E> iterable) => this.value.addAll(iterable);
+  void addAll(Iterable<E> iterable) => value.addAll(iterable);
 
   @override
-  Map<int, E> asMap() => this._elements.asMap();
+  Map<int, E> asMap() => _elements.asMap();
 
   @override
-  List<R> cast<R>() => this._elements.cast<R>();
+  List<R> cast<R>() => _elements.cast<R>();
 
   @override
-  void clear() => this._elements.clear();
+  void clear() => _elements.clear();
   @override
   void fillRange(int start, int end, [E fillValue]) =>
-      this._elements.fillRange(start, end);
+      _elements.fillRange(start, end);
 
   @override
-  void set first(E value) {
-    this._elements.first = value;
+  set first(E value) {
+    _elements.first = value;
   }
 
   @override
-  Iterable<E> getRange(int start, int end) =>
-      this._elements.getRange(start, end);
+  Iterable<E> getRange(int start, int end) => _elements.getRange(start, end);
 
   @override
-  int indexOf(E element, [int start = 0]) => this.indexOf(element, start);
+  int indexOf(E element, [int start = 0]) => indexOf(element, start);
 
   @override
   int indexWhere(bool Function(E element) test, [int start = 0]) =>
-      this.indexWhere(test, start);
+      indexWhere(test, start);
 
   @override
-  void insert(int index, E element) => this._elements.insert(index, element);
+  void insert(int index, E element) => _elements.insert(index, element);
 
   @override
   void insertAll(int index, Iterable<E> iterable) =>
-      this._elements.insertAll(index, iterable);
+      _elements.insertAll(index, iterable);
 
   @override
-  void set last(E value) {
-    this._elements.last = value;
+  set last(E value) {
+    _elements.last = value;
   }
 
   @override
   int lastIndexOf(E element, [int start]) =>
-      this._elements.lastIndexOf(element, start);
+      _elements.lastIndexOf(element, start);
 
   @override
   int lastIndexWhere(bool Function(E element) test, [int start]) =>
-      this._elements.lastIndexWhere(test, start);
+      _elements.lastIndexWhere(test, start);
 
   @override
-  void set length(int newLength) {
-    this._elements.length = newLength;
+  set length(int newLength) {
+    _elements.length = newLength;
   }
 
   @override
-  bool remove(Object value) => this.remove(value);
+  bool remove(Object value) => remove(value);
 
   @override
-  E removeAt(int index) => this.removeAt(index);
+  E removeAt(int index) => removeAt(index);
 
   @override
-  E removeLast() => this._elements.removeLast();
+  E removeLast() => _elements.removeLast();
 
   @override
-  void removeRange(int start, int end) =>
-      this._elements.removeRange(start, end);
+  void removeRange(int start, int end) => _elements.removeRange(start, end);
 
   @override
   void removeWhere(bool Function(E element) test) =>
-      this._elements.removeWhere(test);
+      _elements.removeWhere(test);
 
   @override
   void replaceRange(int start, int end, Iterable<E> replacement) =>
-      this._elements.replaceRange(start, end, replacement);
+      _elements.replaceRange(start, end, replacement);
 
   @override
   void retainWhere(bool Function(E element) test) =>
-      this._elements.retainWhere(test);
+      _elements.retainWhere(test);
 
-  Iterable<E> get reversed => this._elements.reversed;
+  Iterable<E> get reversed => _elements.reversed;
 
   @override
-  void setAll(int index, Iterable<E> iterable) => this.setAll(index, iterable);
+  void setAll(int index, Iterable<E> iterable) => setAll(index, iterable);
 
   @override
   void setRange(int start, int end, Iterable<E> iterable,
           [int skipCount = 0]) =>
-      this._elements.setRange(start, end, iterable);
+      _elements.setRange(start, end, iterable);
 
   @override
-  void shuffle([Random random]) => this._elements.shuffle(random);
+  void shuffle([Random random]) => _elements.shuffle(random);
 
   @override
-  void sort([int Function(E a, E b) compare]) => this._elements.sort(compare);
+  void sort([int Function(E a, E b) compare]) => _elements.sort(compare);
 
   @override
-  List<E> sublist(int start, [int end]) => this._elements.sublist(start, end);
+  List<E> sublist(int start, [int end]) => _elements.sublist(start, end);
 }

@@ -11,11 +11,11 @@ class Person with Jsonable {
   JNum height;
 
   Person() {
-    this.ok = this.jBool("ok");
-    this.name = this.jString("name");
-    this.surname = this.jString("surname");
-    this.years = this.jNum("years");
-    this.height = this.jNum("height");
+    ok = jBool("ok");
+    name = jString("name");
+    surname = jString("surname");
+    years = jNum("years");
+    height = jNum("height");
   }
 }
 

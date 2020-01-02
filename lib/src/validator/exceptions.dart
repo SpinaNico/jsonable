@@ -3,7 +3,7 @@ class RuleException implements Exception {
   RuleException(this.message);
   @override
   String toString() {
-    return this.message.toString();
+    return message.toString();
   }
 }
 
