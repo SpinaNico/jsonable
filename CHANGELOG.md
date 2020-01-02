@@ -1,8 +1,8 @@
 ### 0.1.1
 
 * `JNum` add support to logic operator and arithmetic operator
-* `JString` ass support to logic operator and arithmetic operator
-* `JList` ass support to logic operator and arithmetic operator
+* `JString` add support to logic operator and arithmetic operator
+* `JList` add support to logic operator and arithmetic operator
 * `update(Map)` new method (call always pre-existent `fromMap` method)
 
 
