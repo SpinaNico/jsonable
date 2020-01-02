@@ -22,14 +22,16 @@ import "package:jsonable/jsonable.dart";
 class Person with Jsonable {
  JString name;
  JString surname;
-  Person({String name, String surname}) {
-    this.name = this.jString("name", initialValue: name);
-    this.surname = this.jString("surname", initialValue: surname);
+  Person() {
+    this.name = this.jString("name");
+    this.surname = this.jString("surname");
   }
 }
 
 main() {
-  var p = Person(name: "Nico", surname: "Spina");
+  var p = Person()..fromMap({
+    "name": "Nico", "surname": "Spina"
+  });
   print(p.toJson());
   // output: {"name":"Nico","surname":"Spina"}
 }
