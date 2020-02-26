@@ -8,8 +8,6 @@ version: 0.1.2
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
-dependencies:
-
 dev_dependencies:
   test: any
   benchmark_harness: any
