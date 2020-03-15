@@ -1,3 +1,6 @@
+### 0.1.2 (2020-02-26)
+ + updating the Jlist <Jsonable> does not produce different values, but updates the current ones without recreating with the constructor
+
 ### 0.1.1+3 (2020-01-02)
   * fix hints indicate of pub.dev
 

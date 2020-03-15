@@ -18,10 +18,15 @@ class CJlist<E> extends JList<E> {
 
   void createElements(List values) {
     if (_builder == null) throw noConstructorError;
-    //constructor()..fromMap({});
-    value = values.where((v) => v is Map ? true : false).map<E>((val) {
-      return _builder()..fromMap(val);
-    }).toList();
+    var index = 0;
+    values.where((v) => v is Map ? true : false).forEach((val) {
+      if (index < length) {
+        (this[index] as Jsonable).fromMap(val);
+      } else {
+        add(_builder()..fromMap(val));
+      }
+      index++;
+    });
   }
 
   CJlist(Jsonable parent, keyname,
