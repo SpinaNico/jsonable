@@ -1,3 +1,11 @@
+### 0.1.3 (2020-03-15)
+
+* fix JList methos
+  * indexOf
+  * removeAt
+  * indexWhere
+  * setAll
+
 ### 0.1.2 (2020-02-26)
  + updating the Jlist <Jsonable> does not produce different values, but updates the current ones without recreating with the constructor
 

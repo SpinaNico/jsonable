@@ -169,11 +169,11 @@ class CJlist<E> extends JList<E> {
   Iterable<E> getRange(int start, int end) => _elements.getRange(start, end);
 
   @override
-  int indexOf(E element, [int start = 0]) => indexOf(element, start);
+  int indexOf(E element, [int start = 0]) => _elements.indexOf(element, start);
 
   @override
   int indexWhere(bool Function(E element) test, [int start = 0]) =>
-      indexWhere(test, start);
+      _elements.indexWhere(test, start);
 
   @override
   void insert(int index, E element) => _elements.insert(index, element);
@@ -201,10 +201,10 @@ class CJlist<E> extends JList<E> {
   }
 
   @override
-  bool remove(Object value) => remove(value);
+  bool remove(Object value) => _elements.remove(value);
 
   @override
-  E removeAt(int index) => removeAt(index);
+  E removeAt(int index) => _elements.removeAt(index);
 
   @override
   E removeLast() => _elements.removeLast();
@@ -227,7 +227,8 @@ class CJlist<E> extends JList<E> {
   Iterable<E> get reversed => _elements.reversed;
 
   @override
-  void setAll(int index, Iterable<E> iterable) => setAll(index, iterable);
+  void setAll(int index, Iterable<E> iterable) =>
+      _elements.setAll(index, iterable);
 
   @override
   void setRange(int start, int end, Iterable<E> iterable,
