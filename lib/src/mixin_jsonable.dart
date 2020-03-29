@@ -139,18 +139,4 @@ mixin Jsonable {
     var t = registerType<JDynamic>(keyName, v);
     return t;
   }
-
-  //JType<E> jType<E>(String keyName) {}
-  /// **EXPERIMENTAL**
-  /// jOnce Returns the same value that passes in the value, the value you pass:
-  /// it is inserted inside the Json schema, in a JClass that is not instantiated, further.
-  /// This function is very useful when you are in a context like Flutter,
-  /// where objects are called only in the widget build.
-  /// Jonce returns your widget, without compromising it as long as the widget uses Jsonable
-  dynamic jOnce(String keyName, Jsonable value) {
-    if (value is Jsonable) {
-      _typer.registerType(keyName, CJclass(this, keyName, initialValue: value));
-    }
-    return value;
-  }
 }

@@ -36,6 +36,25 @@ main() {
   // output: {"name":"Nico","surname":"Spina"}
 }
 ```
+The class members (JStrng name and JString surname) have the role, to keep the reference of JType, if you don't need it you can define a more compact class
+example:
+```dart
+import "package:jsonable/jsonable.dart";
+
+class Person with Jsonable {
+  Person() {
+    jString("name");
+    jString("surname");
+  }
+}
+
+main() {
+  var p = Person()..fromMap({
+    "name": "Nico", "surname": "Spina"
+  });
+  print(p.toJson());
+  // output: {"name":"Nico","surname":"Spina"}
+```
 
 Jsonable implements different types to represent the whole Json structure:
 
@@ -80,18 +99,6 @@ The functions provided by `Jsonable`:
 * `JDynamic jDynamic(dynamic keyname, {dynamic initialValue})`
 
   > Return a `JType <dynamic>` then manage a `dynamic` type in the schema with `fromJson` will assign the value  only if it is a `dynamic`, in `toJson` it will assign a `dynamic`, you can assign only `dynamic` values via ".value"
-  
-* `dynamic jOnce(keyname, Jsonable value)` ***experimental**
-
-  > `jOnce` Returns the same value that passes in the value, the value you pass:
-  >
-  > it is inserted inside the Json schema, in a `JClass` that is not instantiated, further.
-  >
-  > This function is very useful when you are in a context like Flutter,
-  >
-  > where objects are called only in the widget build.
-  >
-  > `Jonce` returns your widget, without compromising it as long as the widget uses `Jsonable`
 
 
 
@@ -168,10 +175,6 @@ class Person with Jsonable {
 }
 
 ```
-
-
-
-
 
 ## Performance
 

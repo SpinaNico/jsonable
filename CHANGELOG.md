@@ -1,3 +1,9 @@
+### 0.1.4 (2020-03-29)
+
+* fix support for JMap<dynamic, Jsonable>
+* change readme add example for write Jsonable "lean" mode
+*  ( Breaking change )remove jOnce function 
+
 ### 0.1.3 (2020-03-15)
 
 * fix JList methos
