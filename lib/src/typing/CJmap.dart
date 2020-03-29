@@ -15,9 +15,8 @@ class CJmap<E, R> extends JMap<E, R> {
     _elements[key] = value;
   }
 
-  createElements(Map<dynamic, Map> values) {
+  createElements(Map<dynamic, dynamic> values) {
     if (_builder == null) throw noConstructorError;
-
     value = values.map<E, R>((key, val) {
       return MapEntry(key, _builder()..fromMap(val));
     });

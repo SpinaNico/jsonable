@@ -62,7 +62,6 @@ _combinerJTypeNormalType(JType jsonType, dynamic value) {
     jsonType.createElements(value);
     return;
   }
-
   if (jsonType is CJmap && value is Map) {
     if (jsonType is CJmap<dynamic, Jsonable> && value is Map) {
       jsonType.createElements(value);
