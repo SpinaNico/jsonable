@@ -11,4 +11,4 @@ environment:
 dev_dependencies:
   test: ^1.17.8
   benchmark_harness: ^2.0.0
-  coverage: ^1.0.3
+  test_cov: ^1.0.1

@@ -72,7 +72,7 @@ packages:
     source: hosted
     version: "3.0.0"
   coverage:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: coverage
       url: "https://pub.dartlang.org"
@@ -302,6 +302,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.28"
+  test_cov:
+    dependency: "direct dev"
+    description:
+      name: test_cov
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   typed_data:
     dependency: transitive
     description:
