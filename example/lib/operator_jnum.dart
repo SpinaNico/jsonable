@@ -1,11 +1,11 @@
 import 'package:jsonable/jsonable.dart';
 
 class MyData with Jsonable {
-  JNum num1;
-  JNum num2;
-  JNum num3;
-  JString string1;
-  JString string2;
+  JNum? num1;
+  JNum? num2;
+  JNum? num3;
+  JString? string1;
+  JString? string2;
   MyData() {
     num1 = jNum("num1", initialValue: 1);
     num2 = jNum("num2", initialValue: 2);
@@ -15,7 +15,7 @@ class MyData with Jsonable {
   }
 
   /// Result false
-  bool comparateN1andN2() => num2.value == num1.value;
+  bool comparateN1andN2() => num2!.value == num1!.value;
 
   /// result false
   bool compareJNum1and2() => num2 == num1;

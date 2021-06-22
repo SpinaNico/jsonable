@@ -1,10 +1,10 @@
 import "package:jsonable/jsonable.dart";
 
 class Person with Jsonable {
-  JString name;
-  JString surname;
-  JClass<Permisions> permissions;
-  JList tags;
+  late JString name;
+  late JString surname;
+  late JClass<Permisions> permissions;
+  late JList<String?> tags;
   Person() {
     name = jString("name");
     surname = jString("surname");
@@ -14,8 +14,8 @@ class Person with Jsonable {
 }
 
 class Permisions with Jsonable {
-  JString role;
-  JList<Permision> permisions;
+  late JString role;
+  late JList<Permision?> permisions;
 
   Permisions() {
     role = jString("role");
@@ -24,8 +24,8 @@ class Permisions with Jsonable {
 }
 
 class Permision with Jsonable {
-  JString type;
-  JString description;
+  late JString type;
+  late JString description;
   Permision() {
     type = jString("type");
     description = jString("description");

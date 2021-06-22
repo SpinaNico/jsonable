@@ -1,8 +1,8 @@
 import 'package:jsonable/jsonable.dart';
 
 class Person with Jsonable {
-  JDynamic name;
-  JDynamic surname;
+  late JDynamic name;
+  late JDynamic surname;
   Person() {
     name = jDynamic("name");
     surname = jDynamic("surname");

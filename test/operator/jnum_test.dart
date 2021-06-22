@@ -2,8 +2,8 @@ import 'package:jsonable/jsonable.dart';
 import "package:test/test.dart";
 
 class AA with Jsonable {
-  JNum a;
-  JNum b;
+  late JNum a;
+  late JNum b;
   AA() {
     a = jNum("a");
     b = jNum("b");

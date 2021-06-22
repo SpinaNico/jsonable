@@ -1,8 +1,8 @@
 import "package:jsonable/jsonable.dart";
 
 class Person with Jsonable {
-  JMap tags;
-  JMap<String, Contact> contacts;
+  late JMap tags;
+  late JMap<String?, Contact?> contacts;
   Person() {
     tags = jMap("tags");
     contacts = jMap<String, Contact>("contacts", builder: () => Contact());
@@ -10,8 +10,8 @@ class Person with Jsonable {
 }
 
 class Contact with Jsonable {
-  JString name;
-  JString number;
+  late JString name;
+  late JString number;
   Contact() {
     name = jString("name");
     number = jString("number");

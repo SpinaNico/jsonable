@@ -12,22 +12,26 @@ dynamic encodeJsonSchema(JsonSchema root) {
   final result = {};
   root.forEach((key, type) {
     if (type is CJclass<Jsonable>) {
-      return result[key] = type.value.toMap();
+      result[key] = type.value!.toMap();
+      return;
     } else if (type is CJlist<Jsonable>) {
-      return result[key] = type.map((Jsonable val) => val.toMap()).toList();
+      result[key] = type.map((Jsonable? val) => val!.toMap()).toList();
+      return;
     } else if (type is CJmap<dynamic, Jsonable>) {
-      return result[key] = type.map((key, val) {
-        return MapEntry(key, val.toMap());
+      result[key] = type.map((key, val) {
+        return MapEntry(key, val!.toMap());
       });
+      return;
     } else
-      return result[key] = type.value;
+      result[key] = type.value;
+      return;
   });
-  return result != null ? result : {};
+  return result;
 }
 
-decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
+decodeJsonSchema(Map<dynamic, dynamic>? raw, JsonSchema scheme) {
   scheme.forEach((key, value) {
-    if (raw.containsKey(key)) {
+    if (raw!.containsKey(key)) {
       if (value is CJclass) {
         value.value ??= value.value = value.newInstance;
         scheme[key].value.fromMap(raw[key]);
@@ -38,7 +42,7 @@ decodeJsonSchema(Map<dynamic, dynamic> raw, JsonSchema scheme) {
   });
 }
 
-_combinerJTypeNormalType(JType jsonType, dynamic value) {
+_combinerJTypeNormalType(JType? jsonType, dynamic value) {
   if (value == null) return;
   if (jsonType is CJdynamic) {
     jsonType.value = value;
@@ -90,6 +94,10 @@ _combinerJTypeNormalType(JType jsonType, dynamic value) {
     }
     if (jsonType is CJlist<double> && value is List) {
       jsonType.value = value.cast<double>();
+      return;
+    }
+    if (jsonType is CJlist<String> && value is List) {
+      jsonType.value = value.cast<String>();
       return;
     }
     if (jsonType is CJlist<Map> && value is List) {

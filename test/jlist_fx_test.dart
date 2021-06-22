@@ -22,7 +22,7 @@ void main() {
     });
 
     test("removeAt", () {
-      var list = CJlist<String>(null, "list",
+      var list = CJlist<String?>(null, "list",
           initialValue: ["example1", "example2", "example3"]);
 
       expect(list.removeAt(1), "example2");

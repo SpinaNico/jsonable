@@ -3,8 +3,8 @@ import 'package:jsonable/src/mixin_jsonable.dart';
 import 'package:test/test.dart';
 
 class Contact with Jsonable {
-  JString name;
-  JString phone;
+  late JString name;
+  late JString phone;
   Contact() {
     name = jString("name");
     phone = jString("phone");
@@ -12,7 +12,7 @@ class Contact with Jsonable {
 }
 
 class Contacts with Jsonable {
-  JList<Contact> contacts;
+  late JList<Contact?> contacts;
   Contacts() {
     contacts = jList("contacts", builder: () => Contact());
   }

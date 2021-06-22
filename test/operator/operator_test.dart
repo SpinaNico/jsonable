@@ -2,14 +2,14 @@ import "package:jsonable/jsonable.dart";
 import "package:test/test.dart";
 
 class Simple with Jsonable {
-  JNum number1;
-  JNum number2;
+  late JNum number1;
+  late JNum number2;
 
-  JList list1;
-  JList list2;
+  late JList list1;
+  late JList list2;
 
-  JString string1;
-  JString string2;
+  late JString string1;
+  late JString string2;
 
   Simple() {
     number1 = jNum("n1");

@@ -11,7 +11,7 @@ var myPersonalRule = Rules.customRule((JType value) {
 }, (JType value) => RuleException("${value.keyname} oh No!!"));
 
 class Person with Jsonable {
-  JString name;
+  late JString name;
 
   Person() {
     name = jString("name", rules: [myPersonalRule]);

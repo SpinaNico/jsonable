@@ -1,9 +1,9 @@
 import 'package:jsonable/jsonable.dart';
 
 class Person with Jsonable {
-  JString name;
-  JString surname;
-  JNum years;
+  late JString name;
+  late JString surname;
+  late JNum years;
   Person() {
     name = jString("name", rules: [
       Rules.max(12),

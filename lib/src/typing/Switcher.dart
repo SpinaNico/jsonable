@@ -2,17 +2,16 @@ import 'package:jsonable/jsonable.dart';
 
 switcher(
   JType value, {
-  Function(JString) jstring,
-  Function(JNum) jnum,
-  Function(JBool) jbool,
-  Function(JClass) jclass,
-  Function(JList) jlist,
-  Function(JList<Jsonable>) jlisJsonable,
-  Function(JDynamic) jdynamic,
-  Function(JMap) jmap,
-  Function(JType) jtypeDefault,
+  Function(JString)? jstring,
+  Function(JNum)? jnum,
+  Function(JBool)? jbool,
+  Function(JClass)? jclass,
+  Function(JList)? jlist,
+  Function(JList<Jsonable>)? jlisJsonable,
+  Function(JDynamic)? jdynamic,
+  Function(JMap)? jmap,
+  Function(JType)? jtypeDefault,
 }) {
-  if (value == null) return;
   if (value is JDynamic && jdynamic != null) {
     jdynamic(value);
     return;

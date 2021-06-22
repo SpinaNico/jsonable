@@ -2,8 +2,8 @@ import 'package:jsonable/jsonable.dart';
 import 'package:test/test.dart';
 
 class PearsonWithJsonable with Jsonable {
-  JMap<String, PearsonWithJsonable> example;
-  JNum code;
+  late JMap<String?, PearsonWithJsonable?> example;
+  late JNum code;
   PearsonWithJsonable() {
     code = jNum("code");
     example = jMap("example", builder: () => PearsonWithJsonable());
@@ -26,8 +26,8 @@ main() {
     test("recorsive this", () {
       var p = PearsonWithJsonable()..fromJson(source);
       expect(p.code.getNum(), 0);
-      expect(p.example["p1"].code.getNum(), 1);
-      expect(p.example["p2"].code.getNum(), 2);
+      expect(p.example["p1"]!.code.getNum(), 1);
+      expect(p.example["p2"]!.code.getNum(), 2);
     });
   });
 }

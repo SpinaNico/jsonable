@@ -6,7 +6,7 @@ abstract class JsonSchema<E, JType> implements Map<E, JType> {
 
 class _CJsonSchema<E, JType> implements JsonSchema<E, JType> {
   Map<E, JType> _elements = {};
-  _CJsonSchema([Map<E, JType> value]) {
+  _CJsonSchema([Map<E, JType>? value]) {
     if (value != null) _elements = value;
   }
   JsonSchema get value => this;
@@ -14,7 +14,7 @@ class _CJsonSchema<E, JType> implements JsonSchema<E, JType> {
 
 // proxy map
   @override
-  JType operator [](Object key) => _elements[key];
+  JType? operator [](Object? key) => _elements[key as E];
 
   void operator []=(E key, JType value) {
     _elements[key] = value;
@@ -41,12 +41,12 @@ class _CJsonSchema<E, JType> implements JsonSchema<E, JType> {
   }
 
   @override
-  bool containsKey(Object key) {
+  bool containsKey(Object? key) {
     return _elements.containsKey(key);
   }
 
   @override
-  bool containsValue(Object value) {
+  bool containsValue(Object? value) {
     return _elements.containsValue(value);
   }
 
@@ -81,7 +81,7 @@ class _CJsonSchema<E, JType> implements JsonSchema<E, JType> {
   }
 
   @override
-  JType remove(Object key) {
+  JType? remove(Object? key) {
     return _elements.remove(key);
   }
 
@@ -92,7 +92,7 @@ class _CJsonSchema<E, JType> implements JsonSchema<E, JType> {
 
   @override
   JType update(E key, JType Function(JType value) update,
-      {JType Function() ifAbsent}) {
+      {JType Function()? ifAbsent}) {
     return _elements.update(
       key,
       update,
