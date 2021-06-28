@@ -1,4 +1,5 @@
 import 'package:jsonable/jsonable.dart';
+
 import './exceptions.dart';
 
 abstract class Rule {
@@ -158,8 +159,8 @@ abstract class Rules {
     });
   }
 
-  /// ///This rule works with the following types: `ALL`
-  ///This field will be checked, if it is not null or empty.
+  /// This rule works with the following types: `ALL`
+  /// This field will be checked, if it is not null or empty.
   /// if it is not null / void all the fields indicated in
   /// fields that are not empty / void will be checked
   /// if it fails return in validate method; RequiredWithRuleExcpetion
@@ -183,7 +184,7 @@ abstract class Rules {
     );
   }
 
-  ///This rule works with the following types: `ALL`
+  /// This rule works with the following types: `ALL`
   static Rule requiredWithout(List<String> fields, {String? message}) {
     return RuleJtype((v) {
       if (_isEmpitJType(v)) {

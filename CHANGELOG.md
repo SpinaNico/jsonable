@@ -1,89 +1,91 @@
+### 0.2.0 (2021-06-28)
+
+- null satefy by @PoloLacoste
+
 ### 0.1.4 (2020-03-29)
 
-* fix support for JMap<dynamic, Jsonable>
-* change readme add example for write Jsonable "lean" mode
-*  ( Breaking change )remove jOnce function 
+- fix support for JMap<dynamic, Jsonable>
+- change readme add example for write Jsonable "lean" mode
+- ( Breaking change )remove jOnce function
 
 ### 0.1.3 (2020-03-15)
 
-* fix JList methos
-  * indexOf
-  * removeAt
-  * indexWhere
-  * setAll
+- fix JList methos
+  - indexOf
+  - removeAt
+  - indexWhere
+  - setAll
 
 ### 0.1.2 (2020-02-26)
- + updating the Jlist <Jsonable> does not produce different values, but updates the current ones without recreating with the constructor
+
+- updating the Jlist <Jsonable> does not produce different values, but updates the current ones without recreating with the constructor
 
 ### 0.1.1+3 (2020-01-02)
-  * fix hints indicate of pub.dev
+
+- fix hints indicate of pub.dev
 
 ### 0.1.1+2 (2020-01-02)
-  * fix hints indicate of pub.dev
-  
-### 0.1.1
-* `JNum` add support to logic operator and arithmetic operator
-* `JString` add support to logic operator and arithmetic operator
-* `JList` add support to logic operator and arithmetic operator
-* `update(Map)` new method (call always pre-existent `fromMap` method)
 
+- fix hints indicate of pub.dev
+
+### 0.1.1
+
+- `JNum` add support to logic operator and arithmetic operator
+- `JString` add support to logic operator and arithmetic operator
+- `JList` add support to logic operator and arithmetic operator
+- `update(Map)` new method (call always pre-existent `fromMap` method)
 
 ### 0.1.0
-* `add`  add support for `JMap` for `Map\<dynamic, dyanmic\>` and Map of Jsonable: `Map<String, Jsoanble>`
 
-    ```dart
-    class Person with Jsonable {
-      JMap tags;
-      JMap<String, Contact> contacts;
-      Person() {
-        this.tags = jMap("tags");
-        this.contacts = jMap<String, Contact>("contacts", builder: () => Contact());
-      }
+- `add` add support for `JMap` for `Map\<dynamic, dyanmic\>` and Map of Jsonable: `Map<String, Jsoanble>`
+
+  ```dart
+  class Person with Jsonable {
+    JMap tags;
+    JMap<String, Contact> contacts;
+    Person() {
+      this.tags = jMap("tags");
+      this.contacts = jMap<String, Contact>("contacts", builder: () => Contact());
     }
-    
-    class Contact with Jsonable {
-      JString name;
-      JString number;
-      Contact() {
-        name = jString("name");
-        number = jString("number");
-      }
+  }
+
+  class Contact with Jsonable {
+    JString name;
+    JString number;
+    Contact() {
+      name = jString("name");
+      number = jString("number");
     }
-    ```
+  }
+  ```
 
-    
+- `add` jDynamic new JType for dynamic
 
-* `add` jDynamic new JType for dynamic
+- **New** add support for validation field of Jsonable object (see readme)
 
-* **New** add support for validation field of Jsonable object (see readme)
+- **Breaking change** delete support Jsonable with reflection use [dson](https://pub.dev/packages/dson)
 
-* **Breaking change** delete support Jsonable with reflection use [dson](https://pub.dev/packages/dson)
-
-* *`add`* setter and getter value 
-    
-    * void setValue(E value) - set value within JType
-* E getValue; -  get value in JType
-    
-* `add`every JType has access to "value" even in a more specific way
-    
-    * setString(String value) / String getString()
-    * setNum(num value) / num getNum()
-    * setBool(bool value) / bool getBool()
-    * 
-    
-* **Breaking Change** removed (experimental) operator "<<" and operator ">>"
-
+- _`add`_ setter and getter value
+  - void setValue(E value) - set value within JType
+- E getValue; - get value in JType
+- `add`every JType has access to "value" even in a more specific way
+  - setString(String value) / String getString()
+  - setNum(num value) / num getNum()
+  - setBool(bool value) / bool getBool()
+  -
+- **Breaking Change** removed (experimental) operator "<<" and operator ">>"
 
 ### 0.0.2+2
 
-* (experimental) add JType  operator "<<" for set value internal Jtype  and operator ">>" for get value internal Jtype
-* add Jsonable operator "[]" 
-* performance improvement 
-* deprecation old Jsonable reflect if you use reflection use this pack: [dson](https://pub.dev/packages/dson)
-* start of experiments with flutter and auto-form (soon with a new flutter package)
-* add example for benchmark
+- (experimental) add JType operator "<<" for set value internal Jtype and operator ">>" for get value internal Jtype
+- add Jsonable operator "[]"
+- performance improvement
+- deprecation old Jsonable reflect if you use reflection use this pack: [dson](https://pub.dev/packages/dson)
+- start of experiments with flutter and auto-form (soon with a new flutter package)
+- add example for benchmark
 
 ### 0.0.2
+
 Breaking change.
 
 With the 0.0.1 management I started development with the reflection of Dart. This resulted in problems with AOT and consequently also with flutter.
@@ -95,5 +97,6 @@ I set out to remove the generation of dart code from my projects, it's a practic
 
 For more information read [here](https://github.com/SpinaNico/jsonable).
 
-### 0.0.1 
-* frist publication. read: Readme.md
+### 0.0.1
+
+- frist publication. read: Readme.md

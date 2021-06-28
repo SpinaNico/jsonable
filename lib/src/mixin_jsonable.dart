@@ -13,7 +13,7 @@ import 'package:jsonable/src/typing/CJnum.dart';
 import 'package:jsonable/src/validator/rules.dart';
 
 import './typing/CJstring.dart';
-import './typing/_Typezer.dart';
+import 'typing/typezer.dart';
 
 mixin Jsonable {
   final Typer _typer = Typer();
@@ -58,7 +58,9 @@ mixin Jsonable {
     List<Rule>? rules,
   }) {
     CJclass v = CJclass<E>(this, keyName,
-        initialValue: initialValue, builder: constructor as E Function()?, rules: rules);
+        initialValue: initialValue,
+        builder: constructor as E Function()?,
+        rules: rules);
     var t = registerType<JClass>(keyName, v);
     return t as JClass<E>;
   }
