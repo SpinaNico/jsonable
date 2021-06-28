@@ -2,15 +2,15 @@ import 'package:jsonable/jsonable.dart';
 import './exceptions.dart';
 
 abstract class Rule {
-  bool Function(JType) function;
+  bool? Function(JType) function;
   Rule(this.function);
-  RuleException Function(JType) exceptionBuilder;
-  bool test(JType value) {
+  RuleException Function(JType)? exceptionBuilder;
+  bool? test(JType value) {
     return function(value);
   }
 }
 
-bool _isEmpitJType(JType value) {
+bool _isEmpitJType(JType? value) {
   if (value == null) return true;
   if (value.value == null || (value is JString && value.value == '')) {
     return true;
@@ -20,13 +20,13 @@ bool _isEmpitJType(JType value) {
 
 class RuleJtype implements Rule {
   @override
-  bool Function(JType) function;
+  bool? Function(JType) function;
   @override
-  RuleException Function(JType) exceptionBuilder;
+  RuleException Function(JType)? exceptionBuilder;
 
   RuleJtype(this.function, {this.exceptionBuilder});
   @override
-  bool test(JType value) {
+  bool? test(JType value) {
     return function(value);
   }
 }
@@ -47,7 +47,7 @@ abstract class Rules {
   /// * it is a `JString` check the length of the characters are greater than the minimum.
   /// * `JNum` it behaves like `Rules.lt`: check that the value is not below min
   /// * `JList` check the number of items
-  static Rule min(int min, {String message}) {
+  static Rule min(int min, {String? message}) {
     return RuleJtype(
       (v) {
         if (v.value != null) {
@@ -55,7 +55,7 @@ abstract class Rules {
             return v.value.length < min;
           }
           if (v is JNum) {
-            return v.value < min;
+            return v.value! < min;
           }
         }
         return false;
@@ -65,7 +65,7 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JString, JNum, JList`
-  static Rule max(int max, {String message}) {
+  static Rule max(int max, {String? message}) {
     return RuleJtype(
       (v) {
         if (v.value != null) {
@@ -73,7 +73,7 @@ abstract class Rules {
             return v.value.length > max;
           }
           if (v is JNum) {
-            return v.value > max;
+            return v.value! > max;
           }
         }
         return false;
@@ -84,7 +84,7 @@ abstract class Rules {
 
   /// ///This rule works with the following types: `JString, JList`
   /// check the length of a JList or JString
-  static Rule len(int len, {String message}) {
+  static Rule len(int len, {String? message}) {
     return RuleJtype((v) {
       if (v.value != null) {
         if (v is JString || v is JList) {
@@ -103,7 +103,7 @@ abstract class Rules {
 
   /// This rule works with the following types: `JString, JNum, JList, JBool`
   ///
-  static Rule equal(dynamic value, {String message}) {
+  static Rule equal(dynamic value, {String? message}) {
     return RuleJtype((v) {
       if (v.value != null) {
         if (v is JString && value is String ||
@@ -130,7 +130,7 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JString, JNum, JList, JBool, JDynamic, JType`
-  static Rule oneOf(List elements, {String message}) {
+  static Rule oneOf(List elements, {String? message}) {
     return RuleJtype((v) {
       for (var e in elements) {
         if (e == v.value) {
@@ -143,7 +143,7 @@ abstract class Rules {
 
   /// This rule works with the following types: `JString, JBool, JList`
   ///Check that a field is not null, reporting the error with validate
-  static Rule required({String message}) {
+  static Rule required({String? message}) {
     return RuleJtype((v) {
       if (v is JBool) {
         if (v.value == false)
@@ -163,12 +163,12 @@ abstract class Rules {
   /// if it is not null / void all the fields indicated in
   /// fields that are not empty / void will be checked
   /// if it fails return in validate method; RequiredWithRuleExcpetion
-  static Rule requiredWith(List<String> fields, {String message}) {
+  static Rule requiredWith(List<String> fields, {String? message}) {
     return RuleJtype(
       (v) {
         if (_isEmpitJType(v) == false) {
           return fields
-              .map<bool>((element) => _isEmpitJType(v.parent[element]))
+              .map<bool>((element) => _isEmpitJType(v.parent?[element]))
               .toList()
               .any((ele) => ele == true);
         }
@@ -184,7 +184,7 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `ALL`
-  static Rule requiredWithout(List<String> fields, {String message}) {
+  static Rule requiredWithout(List<String> fields, {String? message}) {
     return RuleJtype((v) {
       if (_isEmpitJType(v)) {
         return fields
@@ -203,7 +203,7 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JString, JNum, JList, JBool`
-  static Rule notEqual(dynamic value, {String message}) {
+  static Rule notEqual(dynamic value, {String? message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num)) {
         return v.value != value;
@@ -235,10 +235,10 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JNum`
-  static Rule gte(num value, {String message}) {
+  static Rule gte(num value, {String? message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num)) {
-        return v.value >= value;
+        return v.value! >= value;
       }
       return true;
     }, exceptionBuilder: (v) {
@@ -248,10 +248,10 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JNum`
-  static Rule lte(num value, {String message}) {
+  static Rule lte(num value, {String? message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num)) {
-        return v.value <= value;
+        return v.value! <= value;
       }
       return true;
     }, exceptionBuilder: (v) {
@@ -261,10 +261,10 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JNum`
-  static Rule lt(num value, {String message}) {
+  static Rule lt(num value, {String? message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num)) {
-        return v.value < value;
+        return v.value! < value;
       }
       return true;
     }, exceptionBuilder: (v) {
@@ -274,10 +274,10 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JNum`
-  static Rule gt(num value, {String message}) {
+  static Rule gt(num value, {String? message}) {
     return RuleJtype((v) {
       if (v is JNum && (value is int || value is double || value is num)) {
-        return v.value > value;
+        return v.value! > value;
       }
       return true;
     }, exceptionBuilder: (v) {
@@ -287,11 +287,11 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JString`
-  static Rule isEmail({String message}) {
+  static Rule isEmail({String? message}) {
     return RuleJtype((v) {
       if (v is JString) {
         var r = RegExp(r"^[A-z0-9\.\+_-]+@[A-z0-9\._-]+\.[A-z]{2,6}$");
-        var q = r.allMatches(v.value);
+        var q = r.allMatches(v.value!);
         return q.isEmpty;
       }
 
@@ -303,11 +303,11 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JString`
-  static Rule isNumber({String message}) {
+  static Rule isNumber({String? message}) {
     return RuleJtype((v) {
       if (v is JString) {
         if (!_isEmpitJType(v)) {
-          var e = num.tryParse(v.value);
+          var e = num.tryParse(v.value!);
           if (e != null) {
             return false;
           }
@@ -323,11 +323,11 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JString`
-  static Rule isInt({String message}) {
+  static Rule isInt({String? message}) {
     return RuleJtype((v) {
       if (v is JString) {
         if (!_isEmpitJType(v)) {
-          var e = int.tryParse(v.value);
+          var e = int.tryParse(v.value!);
           if (e == null) {
             return true;
           }
@@ -345,11 +345,11 @@ abstract class Rules {
   ///This rule works with the following types: `JString`
   /// This rule checks if the string contained in JString is a valid double.
   ///The rule makes no distinction between "." (dot) or "," (comma).
-  static Rule isDouble({String message}) {
+  static Rule isDouble({String? message}) {
     return RuleJtype((v) {
       if (v is JString) {
         if (!_isEmpitJType(v)) {
-          var e = double.tryParse(v.value.replaceAll(".", ","));
+          var e = double.tryParse(v.value!.replaceAll(".", ","));
           if (e != null) {
             return true;
           }
@@ -365,10 +365,10 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JString`
-  static Rule isDateTime({String message}) {
+  static Rule isDateTime({String? message}) {
     return RuleJtype((v) {
       if (v is JString && !_isEmpitJType(v)) {
-        var d = DateTime.tryParse(v.value);
+        var d = DateTime.tryParse(v.value!);
         if (d != null) {
           return false;
         }
@@ -383,10 +383,10 @@ abstract class Rules {
   }
 
   ///This rule works with the following types: `JString`
-  static Rule regex(RegExp regex, {String message}) {
+  static Rule regex(RegExp regex, {String? message}) {
     return RuleJtype((v) {
       if (v is JString) {
-        var m = regex.allMatches(v.value);
+        var m = regex.allMatches(v.value!);
         if (m.isEmpty) {
           return false;
         }

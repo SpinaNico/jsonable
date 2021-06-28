@@ -9,7 +9,7 @@ class Typer {
   E registerType<E extends JType>(String keyname, JType value) {
     _rules(value);
     schema[keyname] = value;
-    return value;
+    return value as E;
   }
 }
 

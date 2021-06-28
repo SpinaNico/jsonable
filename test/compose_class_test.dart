@@ -27,17 +27,17 @@ main() {
     test(
         "test permisions",
         () =>
-            expect(p.permissions.value.runtimeType, Permisions().runtimeType));
+            expect(p.permissions.value!.runtimeType, Permisions().runtimeType));
     test("test permisions role",
-        () => expect(p.permissions.value.role.value, "CTO"));
+        () => expect(p.permissions.value!.role.value, "CTO"));
     test("test permision length", () {
-      expect(p.permissions.value.permisions.value.length, 1);
+      expect(p.permissions.value!.permisions.value!.length, 1);
     });
     test("test permision type is admin", () {
-      expect(p.permissions.value.permisions.value[0].type.value, "admin");
+      expect(p.permissions.value!.permisions.value![0]!.type.value, "admin");
     });
     test("test permision description ", () {
-      expect(p.permissions.value.permisions.value[0].description.value,
+      expect(p.permissions.value!.permisions.value![0]!.description.value,
           "complete controll");
     });
 

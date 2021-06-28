@@ -1,10 +1,10 @@
 import 'package:jsonable/jsonable.dart';
 
 class Form with Jsonable {
-  JString email;
-  JString number;
-  JString float;
-  JString date;
+  late JString email;
+  late JString number;
+  late JString float;
+  late JString date;
 
   Form() {
     email = jString("email", rules: [

@@ -1,10 +1,10 @@
 import 'package:jsonable/jsonable.dart';
 
 class Camp with Jsonable {
-  JNum number;
-  JString message;
-  JList elements;
-  JBool boolean;
+  late JNum number;
+  late JString message;
+  late JList elements;
+  late JBool boolean;
 
   Camp() {
     elements = jList("elements", rules: [

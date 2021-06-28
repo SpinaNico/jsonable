@@ -1,11 +1,11 @@
 import 'package:jsonable/jsonable.dart';
 
 class SingUp with Jsonable {
-  JString name;
-  JString surname;
-  JString denomination;
-  JBool privacy;
-  JBool cookie;
+  late JString name;
+  late JString surname;
+  late JString denomination;
+  late JBool privacy;
+  late JBool cookie;
 
   SingUp() {
     name = jString("name", rules: [
