@@ -32,18 +32,9 @@ class RuleJtype implements Rule {
   }
 }
 
-/// future implementation
-// class RuleJsonable extends Rule {
-//   @override
-//   bool Function(Jsonable) function;
-//   RuleJsonable(this.function, {this.exceptionBuilder});
-
-//   bool test(Jsonable value) {
-//     return this.function(value);
-//   }
-// }
-
 abstract class Rules {
+  Rules._();
+
   ///This rule works with the following types: `JString, JNum, JList`
   /// * it is a `JString` check the length of the characters are greater than the minimum.
   /// * `JNum` it behaves like `Rules.lt`: check that the value is not below min
